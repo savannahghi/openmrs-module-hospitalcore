@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="org.openmrs.module.hospitalcore.model">
+
+	<class name="TriagePatientData" table="triage_patient_data" batch-size="500">
+
+		<id name="id" type="int" column="id" unsaved-value="0">
+				<generator class="native" />
+		</id>
+		<many-to-one name="triageLogId" column="triage_log_id"  class="org.openmrs.module.hospitalcore.model.TriagePatientQueueLog"/>
+		<property name="weight" column="weight" />
+		<property name="height" column="height" />
+		<property name="BMI" column="BMI" />
+		<property name="mua" column="mua" />
+		<property name="chest" column="chest" />
+		<property name="abdominal" column="abdominal" />
+		<property name="temperature" column="temperature" />
+		<property name="systolic" column="systolic" />
+		<property name="daistolic" column="daistolic" />
+		<property name="respiratoryRate" column="respiratory_rate" />
+		<property name="pulsRate" column="pulse_rate" />
+		<property name="bloodGroup" column="blood_group" />
+		<property name="lastMenstrualDate" column="last_menstrual" />
+        <property name="oxygenSaturation" column="oxygen_saturation" />
+		<property name="rhesusFactor" column="rhesus_factor" />
+		<property name="pitct" column="pitct" />
+		<property name="createdOn" column="created_on" />
+		<property name="encounterOpd" column="encounter_opd" />
+		<many-to-one name="patient" column="patient_id"  class="org.openmrs.Patient"/>
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,1678 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+
+    <changeSet id="hospital-core:2020-07-21-15:33" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>creating the billing_ambulance table</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `billing_ambulance` (
+            `ambulance_id` int(11) NOT NULL AUTO_INCREMENT,
+            `name` varchar(255) DEFAULT NULL,
+            `description` varchar(255) DEFAULT NULL,
+            `created_date` datetime DEFAULT NULL,
+            `retired` bit(1) DEFAULT NULL,
+            `retired_date` datetime DEFAULT NULL,
+            PRIMARY KEY (`ambulance_id`)
+            ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+    <changeSet id="hospital-core:2020-07-21-15:38" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>creating the billing_driver table</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `billing_driver` (
+            `driver_id` int(11) NOT NULL AUTO_INCREMENT,
+            `name` varchar(255) DEFAULT NULL,
+            `address` varchar(255) DEFAULT NULL,
+            `description` varchar(255) DEFAULT NULL,
+            `phone` varchar(20) DEFAULT NULL,
+            `created_date` datetime DEFAULT NULL,
+            `retired` bit(1) DEFAULT NULL,
+            `retired_date` datetime DEFAULT NULL,
+            PRIMARY KEY (`driver_id`)
+            ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+    <changeSet id="hospital-core:2020-07-21-15:43" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>creating the billing_receipt table</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `billing_receipt` (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `paid_date` datetime DEFAULT NULL,
+            PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB AUTO_INCREMENT=315 DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+    <changeSet id="hospital-core:2020-07-21-15:47" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>creating the billing_ambulance_bill table</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `billing_ambulance_bill` (
+            `ambulance__bill_id` int(11) NOT NULL AUTO_INCREMENT,
+            `description` varchar(255) DEFAULT NULL,
+            `creator` int(11) DEFAULT NULL,
+            `amount` decimal(19,2) DEFAULT NULL,
+            `printed` bit(1) DEFAULT NULL,
+            `created_date` datetime DEFAULT NULL,
+            `voided` bit(1) DEFAULT NULL,
+            `voided_date` datetime DEFAULT NULL,
+            `driver_id` int(11) DEFAULT NULL,
+            `receipt_id` int(11) DEFAULT NULL,
+            PRIMARY KEY (`ambulance__bill_id`),
+            KEY `fk_ambulancebill_driver` (`driver_id`),
+            KEY `fk_ambulancebill_user` (`creator`),
+            KEY `fk_ambulance_receipt` (`receipt_id`),
+            CONSTRAINT `fk_ambulancebill_driver` FOREIGN KEY (`driver_id`) REFERENCES `billing_driver` (`driver_id`),
+            CONSTRAINT `fk_ambulancebill_user` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`),
+            CONSTRAINT `fk_ambulance_receipt` FOREIGN KEY (`receipt_id`) REFERENCES `billing_receipt` (`id`)
+            ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+
+    <changeSet id="hospital-core:2020-07-21-15:51" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>creating the billing_ambulance_bill_item table</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `billing_ambulance_bill_item` (
+            `ambulance__bill_item_id` int(11) NOT NULL AUTO_INCREMENT,
+            `ambulance_id` int(11) DEFAULT NULL,
+            `ambulance_bill_id` int(11) DEFAULT NULL,
+            `number_of_trip` int(11) DEFAULT NULL,
+            `amount` decimal(19,2) DEFAULT NULL,
+            `name` varchar(255) DEFAULT NULL,
+            `created_date` datetime DEFAULT NULL,
+            `voided` bit(1) DEFAULT NULL,
+            `voided_date` datetime DEFAULT NULL,
+            `patient_name` varchar(50) DEFAULT NULL,
+            `receipt_number` varchar(13) DEFAULT NULL,
+            `origin` varchar(20) DEFAULT NULL,
+            `destination` varchar(20) DEFAULT NULL,
+            PRIMARY KEY (`ambulance__bill_item_id`),
+            KEY `fk_ambulancebillitem_ambulancebill` (`ambulance_bill_id`),
+            KEY `fk_ambulancebillitem_ambulance` (`ambulance_id`),
+            CONSTRAINT `fk_ambulancebillitem_ambulance` FOREIGN KEY (`ambulance_id`) REFERENCES `billing_ambulance` (`ambulance_id`),
+            CONSTRAINT `fk_ambulancebillitem_ambulancebill` FOREIGN KEY (`ambulance_bill_id`) REFERENCES `billing_ambulance_bill` (`ambulance__bill_id`)
+            ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+    <changeSet id="hospital-core:2020-07-21-15:59" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>creating the answer table</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `answer` (
+            `answer_id` int(11) NOT NULL AUTO_INCREMENT,
+            `question_id` int(11) DEFAULT NULL,
+            `answer_concept` int(11) DEFAULT NULL,
+            `free_text` varchar(50) DEFAULT NULL,
+            PRIMARY KEY (`answer_id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+    <changeSet id="hospital-core:2020-07-21-16:05" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>creating the billing_billable_service table</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS  `billing_billable_service` (
+            `service_id` int(11) NOT NULL AUTO_INCREMENT,
+            `concept_id` int(11) DEFAULT NULL,
+            `name` varchar(255) DEFAULT NULL,
+            `short_name` varchar(255) DEFAULT NULL,
+            `price` decimal(19,2) DEFAULT NULL,
+            `disable` bit(1) DEFAULT NULL,
+            `category` int(11) DEFAULT NULL,
+            PRIMARY KEY (`service_id`)
+            ) ENGINE=InnoDB AUTO_INCREMENT=479 DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+    <changeSet id="hospital-core:2020-07-21-16:06" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>creating the billing_receipt table</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `billing_receipt` (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `paid_date` datetime DEFAULT NULL,
+            PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB AUTO_INCREMENT=315 DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+    <changeSet id="hospital-core:2020-07-21-16:11" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>creating the billing_company table</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `billing_company` (
+            `company_id` int(11) NOT NULL AUTO_INCREMENT,
+            `name` varchar(255) DEFAULT NULL,
+            `address` varchar(255) DEFAULT NULL,
+            `description` varchar(255) DEFAULT NULL,
+            `phone` varchar(20) DEFAULT NULL,
+            `created_date` datetime DEFAULT NULL,
+            `retired` bit(1) DEFAULT NULL,
+            `retired_date` datetime DEFAULT NULL,
+            PRIMARY KEY (`company_id`)
+            ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+    <changeSet id="hospital-core:2020-07-21-16:15" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>creating the core_form table</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `core_form` (
+            `core_form_id` int(11) NOT NULL AUTO_INCREMENT,
+            `name` varchar(120) DEFAULT NULL,
+            `description` varchar(300) NOT NULL DEFAULT '',
+            `content` varchar(20480) NOT NULL DEFAULT '',
+            `created_on` datetime DEFAULT NULL,
+            `created_by` int(11) DEFAULT NULL,
+            `after_submit` varchar(300) DEFAULT NULL,
+            PRIMARY KEY (`core_form_id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+    <changeSet id="hospital-core:2020-07-21-16:20" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Add table department</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `department` (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `name` varchar(255) DEFAULT NULL,
+            `retired` bit(1) DEFAULT NULL,
+            `created_on` datetime DEFAULT NULL,
+            `created_by` varchar(255) DEFAULT NULL,
+            PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+    <changeSet id="hospital-core:2020-07-21-16:48" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Add table department_concept</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `department_concept` (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `department_id` int(11) DEFAULT NULL,
+            `concept_id` int(11) DEFAULT NULL,
+            `type_concept` int(11) DEFAULT NULL,
+            `created_on` datetime DEFAULT NULL,
+            `created_by` varchar(255) DEFAULT NULL,
+            PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB AUTO_INCREMENT=161 DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+
+    <changeSet id="hospital-core:2020-07-21-16:53" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Add table dms_opdunit</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `dms_opdunit` (
+            `unit_id` int(11) NOT NULL AUTO_INCREMENT,
+            `unit_no` int(11) DEFAULT NULL,
+            `opd_concept_id` int(11) DEFAULT NULL,
+            `opd_day` int(11) DEFAULT NULL,
+            `start_time` datetime DEFAULT NULL,
+            `end_time` datetime DEFAULT NULL,
+            `active_date` datetime DEFAULT NULL,
+            `deactive_date` datetime DEFAULT NULL,
+            `creator` varchar(255) DEFAULT NULL,
+            PRIMARY KEY (`unit_id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+
+    <changeSet id="hospital-core:2020-07-21-17:03" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Add table billing_driver</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `billing_driver` (
+            `driver_id` int(11) NOT NULL AUTO_INCREMENT,
+            `name` varchar(255) DEFAULT NULL,
+            `address` varchar(255) DEFAULT NULL,
+            `description` varchar(255) DEFAULT NULL,
+            `phone` varchar(20) DEFAULT NULL,
+            `created_date` datetime DEFAULT NULL,
+            `retired` bit(1) DEFAULT NULL,
+            `retired_date` datetime DEFAULT NULL,
+            PRIMARY KEY (`driver_id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+
+    <changeSet id="hospital-core:2020-07-21-17:06" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Add table examination</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `examination` (
+            `exam_id` int(11) NOT NULL AUTO_INCREMENT,
+            `encounter` int(11) DEFAULT NULL,
+            `exam_concept` int(11) DEFAULT NULL,
+            `created_date` datetime DEFAULT NULL,
+            `creator` int(11) DEFAULT NULL,
+            PRIMARY KEY (`exam_id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+
+    <changeSet id="hospital-core:2020-07-21-17:16" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Add table indoor_patient_service_bill</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `indoor_patient_service_bill` (
+            `indoor_patient_service_bill_id` int(11) NOT NULL AUTO_INCREMENT,
+            `creator` int(11) DEFAULT NULL,
+            `amount` decimal(19,2) DEFAULT NULL,
+            `created_date` datetime DEFAULT NULL,
+            `patient_id` int(11) DEFAULT NULL,
+            `actual_amount` decimal(19,2) DEFAULT NULL,
+            `encounter_id` int(11) DEFAULT NULL,
+            `selected_category` int(11) DEFAULT '0',
+            `comment` varchar(225) DEFAULT NULL,
+            `waiver_amount` decimal(19,2) DEFAULT NULL,
+            `payment_mode` varchar(50) DEFAULT NULL,
+            PRIMARY KEY (`indoor_patient_service_bill_id`),
+            KEY `fk_indoorpatientservicebill_patient` (`patient_id`),
+            KEY `fk_indoorpatientservicebill_user` (`creator`),
+            KEY `fk_indoorpatientservicebill_encounter` (`encounter_id`),
+            CONSTRAINT `fk_indoorpatientservicebill_encounter` FOREIGN KEY (`encounter_id`) REFERENCES `encounter` (`encounter_id`),
+            CONSTRAINT `fk_indoorpatientservicebill_patient` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`patient_id`),
+            CONSTRAINT `fk_indoorpatientservicebill_user` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+
+    <changeSet id="hospital-core:2020-07-21-17:17" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Add table indoor_patient_service_bill_item</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `indoor_patient_service_bill_item` (
+            `indoor_patient_service_bill_item_id` int(11) NOT NULL AUTO_INCREMENT,
+            `service_id` int(11) DEFAULT NULL,
+            `indoor_patient_service_bill_id` int(11) DEFAULT NULL,
+            `unitPrice` decimal(19,2) DEFAULT NULL,
+            `amount` decimal(19,2) DEFAULT NULL,
+            `quantity` int(11) DEFAULT NULL,
+            `name` varchar(255) DEFAULT NULL,
+            `created_date` datetime DEFAULT NULL,
+            `order_id` int(11) DEFAULT NULL,
+            `actual_amount` decimal(19,2) DEFAULT NULL,
+            `order_type` varchar(50) DEFAULT NULL,
+            `voided` bit(1) DEFAULT NULL,
+            `voided_date` datetime DEFAULT NULL,
+            `voided_by` varchar(255) DEFAULT NULL,
+            PRIMARY KEY (`indoor_patient_service_bill_item_id`),
+            KEY `fk_indoorpatientservicebillitem_billableservice` (`service_id`),
+            KEY `fk_indoorpatientservicebillitem_patientservicebill` (`indoor_patient_service_bill_id`),
+            KEY `fk_indoorpatientservicebillitem_order` (`order_id`),
+            CONSTRAINT `fk_indoorpatientservicebillitem_billableservice` FOREIGN KEY (`service_id`) REFERENCES `billing_billable_service` (`service_id`),
+            CONSTRAINT `fk_indoorpatientservicebillitem_order` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`),
+            CONSTRAINT `fk_indoorpatientservicebillitem_patientservicebill` FOREIGN KEY (`indoor_patient_service_bill_id`) REFERENCES `indoor_patient_service_bill` (`indoor_patient_service_bill_id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+
+    <changeSet id="hospital-core:2020-07-21-17:24" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Add table inventory_drug</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `inventory_drug` (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `name` varchar(255) DEFAULT NULL,
+            `unit_id` int(11) DEFAULT NULL,
+            `category_id` int(11) DEFAULT NULL,
+            `drug_id` int(11) DEFAULT NULL,
+            `attribute` int(11) DEFAULT NULL,
+            `consumption` int(11) DEFAULT NULL,
+            `reorder_qty` int(11) DEFAULT NULL,
+            `created_on` datetime DEFAULT NULL,
+            `created_by` varchar(255) DEFAULT NULL,
+            PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+    <changeSet id="hospital-core:2020-07-21-17:25" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Add table inventory_drug_category</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `inventory_drug_category` (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `name` varchar(255) DEFAULT NULL,
+            `description` varchar(500) DEFAULT NULL,
+            `created_on` datetime DEFAULT NULL,
+            `created_by` varchar(255) DEFAULT NULL,
+            PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+    <changeSet id="hospital-core:2020-07-21-17:27" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Add table inventory_drug_formulation</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `inventory_drug_formulation` (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `name` varchar(255) DEFAULT NULL,
+            `dozage` varchar(255) DEFAULT NULL,
+            `description` varchar(500) DEFAULT NULL,
+            `created_on` datetime DEFAULT NULL,
+            `created_by` varchar(255) DEFAULT NULL,
+            PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+    <changeSet id="hospital-core:2020-07-21-17:30" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Add table inventory_drug_unit</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `inventory_drug_unit` (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `name` varchar(255) DEFAULT NULL,
+            `description` varchar(500) DEFAULT NULL,
+            `created_on` datetime DEFAULT NULL,
+            `created_by` varchar(255) DEFAULT NULL,
+            PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+    <changeSet id="hospital-core:2020-07-21-17:58" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Add table inventory_store</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `inventory_store` (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `name` varchar(255) DEFAULT NULL,
+            `created_on` datetime DEFAULT NULL,
+            `created_by` varchar(255) DEFAULT NULL,
+            `role` varchar(255) DEFAULT NULL,
+            `retired` bit(1) DEFAULT NULL,
+            `code` varchar(255) DEFAULT NULL,
+            `is_drug` int(11) DEFAULT NULL,
+            `parent_id` int(11) DEFAULT NULL,
+            PRIMARY KEY (`id`),
+            KEY `fk_inventorystore_user` (`role`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+    <changeSet id="hospital-core:2020-07-21-17:59" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Add table inventory_store_drug_indent</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `inventory_store_drug_indent` (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `store_id` int(11) DEFAULT NULL,
+            `transaction_id` int(11) DEFAULT NULL,
+            `name` varchar(255) DEFAULT NULL,
+            `created_on` datetime DEFAULT NULL,
+            `sub_store_status` int(11) DEFAULT NULL,
+            `main_store_status` int(11) DEFAULT NULL,
+            `mainstore_id` int(11) DEFAULT NULL,
+            PRIMARY KEY (`id`),
+            KEY `fk_inventorystore_mainstore` (`mainstore_id`),
+            CONSTRAINT `fk_inventorystore_mainstore` FOREIGN KEY (`mainstore_id`) REFERENCES `inventory_store` (`id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+
+    <changeSet id="hospital-core:2020-07-21-18:02" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Add table inventory_store_drug_patient</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `inventory_store_drug_patient` (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `store_id` int(11) DEFAULT NULL,
+            `patient_id` int(11) DEFAULT NULL,
+            `name` varchar(255) DEFAULT NULL,
+            `prescription` varchar(255) DEFAULT NULL,
+            `identifier` varchar(255) DEFAULT NULL,
+            `created_by` varchar(255) DEFAULT NULL,
+            `created_on` datetime DEFAULT NULL,
+            `value_id` int(11) DEFAULT NULL,
+            `status_id` int(11) DEFAULT NULL,
+            `comment` varchar(225) DEFAULT NULL,
+            `waiver_amount` decimal(19,2) DEFAULT NULL,
+            `prescriber` int(11) DEFAULT '0',
+            PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+
+    <changeSet id="hospital-core:2020-07-21-18:04" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Add table inventory_store_drug_patient_detail</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `inventory_store_drug_patient_detail` (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `store_drug_patient_id` int(11) DEFAULT NULL,
+            `transaction_detail_id` int(11) DEFAULT NULL,
+            `issue_count` int(11) DEFAULT '0',
+            `quantity` int(11) DEFAULT NULL,
+            PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+    <changeSet id="hospital-core:2020-07-21-18:06" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Add table inventory_store_drug_transaction</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `inventory_store_drug_transaction` (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `store_id` int(11) DEFAULT NULL,
+            `type_transaction` int(11) DEFAULT NULL,
+            `status` int(11) DEFAULT NULL,
+            `description` varchar(500) DEFAULT NULL,
+            `created_on` datetime DEFAULT NULL,
+            `created_by` varchar(255) DEFAULT NULL,
+            `payment_mode` varchar(50) DEFAULT NULL,
+            `patient_category` varchar(255) DEFAULT NULL,
+            PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+
+    <changeSet id="hospital-core:2020-07-21-18:09" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Add table inventory_store_drug_transaction_detail</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `inventory_store_drug_transaction_detail` (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `transaction_id` int(11) DEFAULT NULL,
+            `drug_id` int(11) DEFAULT NULL,
+            `formulation_id` int(11) DEFAULT NULL,
+            `quantity` int(11) DEFAULT NULL,
+            `current_quantity` int(11) DEFAULT NULL,
+            `issue_quantity` int(11) DEFAULT NULL,
+            `unit_price` decimal(19,2) DEFAULT NULL,
+            `VAT` decimal(19,2) DEFAULT NULL,
+            `total_price` decimal(19,2) DEFAULT NULL,
+            `batch_no` varchar(255) DEFAULT NULL,
+            `company_name` varchar(255) DEFAULT NULL,
+            `date_manufacture` datetime DEFAULT NULL,
+            `date_expiry` datetime DEFAULT NULL,
+            `receipt_date` datetime DEFAULT NULL,
+            `created_on` datetime DEFAULT NULL,
+            `opening_balance` bigint(20) DEFAULT NULL,
+            `closing_balance` bigint(20) DEFAULT NULL,
+            `parent_id` int(11) DEFAULT NULL,
+            `patient_type` varchar(10) DEFAULT NULL,
+            `encounter_id` int(11) DEFAULT NULL,
+            `frequency_concept_id` int(11) DEFAULT NULL,
+            `no_of_days` int(11) DEFAULT NULL,
+            `comments` varchar(200) DEFAULT NULL,
+            `cost_to_patient` decimal(19,2) DEFAULT NULL,
+            `attribute` varchar(10) DEFAULT NULL,
+            `reorder_point` int(11) DEFAULT NULL,
+            `receipt_from` varchar(255) DEFAULT NULL,
+            `flag` int(11) DEFAULT NULL,
+            PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+    <changeSet id="hospital-core:2020-07-21-18:11" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Add table inventory_store_role_relation</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `inventory_store_role_relation` (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `inventory_store_id` int(11) NOT NULL,
+            `inventory_store_role` varchar(50) NOT NULL,
+            PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+    <changeSet id="hospital-core:2020-07-22-08:43" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Add table ipd_patient_admission_log</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `ipd_patient_admission_log` (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `patient_id` int(11) DEFAULT NULL,
+            `admission_ward_id` int(11) DEFAULT NULL,
+            `opd_log_id` int(11) DEFAULT NULL,
+            `opd_admitted_user_id` int(11) DEFAULT NULL,
+            `admission_date` datetime DEFAULT NULL,
+            `patient_name` varchar(255) DEFAULT NULL,
+            `birth_date` datetime DEFAULT NULL,
+            `patient_identifier` varchar(255) DEFAULT NULL,
+            `gender` varchar(255) DEFAULT NULL,
+            `status` varchar(255) DEFAULT NULL,
+            `opd_obs_group_id` int(11) DEFAULT NULL,
+            `ipd_encounter_id` int(11) DEFAULT NULL,
+            `indoor_status` smallint(1) NOT NULL DEFAULT '0',
+            `request_discharge_status` smallint(1) NOT NULL DEFAULT '0',
+            `billing_status` smallint(1) NOT NULL DEFAULT '0',
+            `absconded` varchar(5) DEFAULT NULL,
+            PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+    <changeSet id="hospital-core:2020-07-22-08:44" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Add table ipd_patient_admission</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `ipd_patient_admission` (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `patient_id` int(11) DEFAULT NULL,
+            `admission_ward_id` int(11) DEFAULT NULL,
+            `opd_log_id` int(11) DEFAULT NULL,
+            `opd_admitted_user_id` int(11) DEFAULT NULL,
+            `admission_date` datetime DEFAULT NULL,
+            `patient_name` varchar(255) DEFAULT NULL,
+            `patient_identifier` varchar(255) DEFAULT NULL,
+            `birth_date` datetime DEFAULT NULL,
+            `gender` varchar(255) DEFAULT NULL,
+            `status` varchar(255) DEFAULT NULL,
+            `accept_status` smallint(1) NOT NULL DEFAULT '0',
+            `initial_deposit_status` smallint(1) NOT NULL DEFAULT '0',
+            `ipd_encounter_id` int(11) DEFAULT NULL,
+            PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+    <changeSet id="hospital-core:2020-07-22-08:50" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Add table ipd_patient_admitted</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `ipd_patient_admitted` (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `patient_id` int(11) DEFAULT NULL,
+            `admitted_ward_id` int(11) DEFAULT NULL,
+            `patient_admission_log_id` int(11) DEFAULT NULL,
+            `patient_amitted_log_id_transfer_from` int(11) DEFAULT NULL,
+            `user_id` int(11) DEFAULT NULL,
+            `ipd_admitted_user_id` int(11) DEFAULT NULL,
+            `admission_date` datetime DEFAULT NULL,
+            `patient_name` varchar(255) DEFAULT NULL,
+            `birth_date` datetime DEFAULT NULL,
+            `gender` varchar(255) DEFAULT NULL,
+            `monthly_income` decimal(19,2) DEFAULT NULL,
+            `patient_identifier` varchar(255) DEFAULT NULL,
+            `basic_pay` varchar(255) DEFAULT NULL,
+            `caste` varchar(255) DEFAULT NULL,
+            `status` varchar(255) DEFAULT NULL,
+            `patient_address` varchar(255) DEFAULT NULL,
+            `bed` varchar(255) DEFAULT NULL,
+            `father_name` varchar(255) DEFAULT NULL,
+            `admission_outcome` varchar(255) DEFAULT NULL,
+            `comments` varchar(100) DEFAULT NULL,
+            `request_discharge_status` smallint(1) NOT NULL DEFAULT '0',
+            `billing_status` smallint(1) NOT NULL DEFAULT '0',
+            `chief` varchar(50) DEFAULT NULL,
+            `sub_chief` varchar(50) DEFAULT NULL,
+            `religion` varchar(20) DEFAULT NULL,
+            `absconded` varchar(5) DEFAULT NULL,
+            `absconded_date` datetime DEFAULT NULL,
+            PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+    <changeSet id="hospital-core:2020-07-22-08:56" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Add table ipd_patient_admitted_log</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `ipd_patient_admitted_log` (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `patient_id` int(11) DEFAULT NULL,
+            `admitted_ward_id` int(11) DEFAULT NULL,
+            `patient_admission_log_id` int(11) DEFAULT NULL,
+            `patient_amitted_log_id_transfer_from` int(11) DEFAULT NULL,
+            `user_id` int(11) DEFAULT NULL,
+            `ipd_admitted_user_id` int(11) DEFAULT NULL,
+            `transfer_discharge_date` datetime DEFAULT NULL,
+            `patient_name` varchar(255) DEFAULT NULL,
+            `birth_date` datetime DEFAULT NULL,
+            `gender` varchar(255) DEFAULT NULL,
+            `monthly_income` decimal(19,2) DEFAULT NULL,
+            `patient_identifier` varchar(255) DEFAULT NULL,
+            `basic_pay` varchar(255) DEFAULT NULL,
+            `caste` varchar(255) DEFAULT NULL,
+            `status` varchar(255) DEFAULT NULL,
+            `patient_address` varchar(255) DEFAULT NULL,
+            `bed` varchar(255) DEFAULT NULL,
+            `father_name` varchar(255) DEFAULT NULL,
+            `admission_outcome` varchar(255) DEFAULT NULL,
+            `other_instructions` varchar(250) DEFAULT NULL,
+            `comments` varchar(100) DEFAULT NULL,
+            `chief` varchar(50) DEFAULT NULL,
+            `sub_chief` varchar(50) DEFAULT NULL,
+            `religion` varchar(20) DEFAULT NULL,
+            `absconded_date` datetime DEFAULT NULL,
+            PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+    <changeSet id="hospital-core:2020-07-22-08:58" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Add table ipd_vital_statistics</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `ipd_vital_statistics` (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `patient_id` int(11) NOT NULL,
+            `ipd_patientadmissionlog_id` int(11) NOT NULL,
+            `blood_pressure` varchar(11) DEFAULT NULL,
+            `pulse_rate` varchar(11) DEFAULT NULL,
+            `temperature` varchar(11) DEFAULT NULL,
+            `diet_advised` varchar(50) DEFAULT NULL,
+            `note` varchar(200) DEFAULT NULL,
+            `created_by` int(11) NOT NULL,
+            `created_on` datetime NOT NULL,
+            PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+    <changeSet id="hospital-core:2020-07-22-09:07" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Add table simplelabentry_lab</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `simplelabentry_lab` (
+            `lab_id` int(11) NOT NULL AUTO_INCREMENT,
+            `name` varchar(255) DEFAULT NULL,
+            `description` varchar(255) DEFAULT NULL,
+            `order_type_id` int(11) DEFAULT NULL,
+            `encounter_type_id` int(11) DEFAULT NULL,
+            `role` varchar(255) DEFAULT NULL,
+            `patient_identifier_type_id` int(11) DEFAULT NULL,
+            `retired` bit(1) DEFAULT NULL,
+            `retired_date` datetime DEFAULT NULL,
+            PRIMARY KEY (`lab_id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+    <changeSet id="hospital-core:2020-07-22-09:11" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Add table simplelabentry_labtest</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `simplelabentry_labtest` (
+            `labtest_id` int(11) NOT NULL AUTO_INCREMENT,
+            `accept_date` datetime DEFAULT NULL,
+            `sampleNumber` varchar(255) DEFAULT NULL,
+            `order_id` int(11) DEFAULT NULL,
+            `lab_id` int(11) DEFAULT NULL,
+            `labtest_status` tinyint(4) DEFAULT '0',
+            `patient_id` int(11) DEFAULT NULL,
+            `concept_id` int(11) DEFAULT NULL,
+            `status` varchar(30) DEFAULT NULL,
+            `creator` int(11) DEFAULT NULL,
+            `encounter_id` int(11) DEFAULT NULL,
+            PRIMARY KEY (`labtest_id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+    <changeSet id="hospital-core:2020-07-22-09:15" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Add table billing_miscellaneous_service</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `billing_miscellaneous_service` (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `name` varchar(255) DEFAULT NULL,
+            `description` varchar(255) DEFAULT NULL,
+            `price` decimal(19,2) DEFAULT NULL,
+            `retired` bit(1) DEFAULT NULL,
+            `retired_date` datetime DEFAULT NULL,
+            `creator` int(11) DEFAULT NULL,
+            `created_date` datetime DEFAULT NULL,
+            PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+    <changeSet id="hospital-core:2020-07-22-09:17" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Add table billing_miscellaneous_service_bill</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `billing_miscellaneous_service_bill` (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `liable_name` varchar(255) DEFAULT NULL,
+            `description` varchar(255) DEFAULT NULL,
+            `amount` decimal(19,2) DEFAULT NULL,
+            `printed` bit(1) DEFAULT NULL,
+            `creator` int(11) DEFAULT NULL,
+            `created_date` datetime DEFAULT NULL,
+            `voided` bit(1) DEFAULT NULL,
+            `voided_date` datetime DEFAULT NULL,
+            `service_id` int(11) DEFAULT NULL,
+            `receipt_id` int(11) DEFAULT NULL,
+            `quantity` int(11) NOT NULL,
+            PRIMARY KEY (`id`),
+            KEY `fk_miscellaneous_service_bill_miscellaneous_service_service` (`service_id`),
+            KEY `fk_miscellaneous_receipt` (`receipt_id`),
+            CONSTRAINT `fk_miscellaneous_receipt` FOREIGN KEY (`receipt_id`) REFERENCES `billing_receipt` (`id`),
+            CONSTRAINT `fk_miscellaneous_service_bill_miscellaneous_service_service` FOREIGN KEY (`service_id`) REFERENCES `billing_miscellaneous_service` (`id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+    <changeSet id="hospital-core:2020-07-22-09:22" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Add table opd_drug_order</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `opd_drug_order` (
+            `opd_drug_order_id` int(11) NOT NULL AUTO_INCREMENT,
+            `patient_id` int(11) NOT NULL,
+            `encounter_id` int(11) NOT NULL,
+            `inventory_drug_id` int(11) NOT NULL,
+            `formulation_id` int(11) DEFAULT NULL,
+            `frequency_concept_id` int(11) DEFAULT NULL,
+            `no_of_days` int(11) DEFAULT NULL,
+            `comments` varchar(200) DEFAULT NULL,
+            `created_by` int(11) NOT NULL,
+            `created_on` datetime NOT NULL,
+            `order_status` smallint(1) NOT NULL DEFAULT '0',
+            `cancel_status` smallint(1) NOT NULL DEFAULT '0',
+            `referral_ward_name` varchar(100) DEFAULT NULL,
+            `dosage` varchar(100) DEFAULT NULL,
+            `dosage_unit` int(11) DEFAULT NULL,
+            PRIMARY KEY (`opd_drug_order_id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+    <changeSet id="hospital-core:2020-07-22-09:23" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Add table opd_patient_queue</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `opd_patient_queue` (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `user` int(11) DEFAULT NULL,
+            `patient_id` int(11) DEFAULT NULL,
+            `referral_concept_id` int(11) DEFAULT NULL,
+            `opd_concept_id` int(11) DEFAULT NULL,
+            `created_on` datetime DEFAULT NULL,
+            `opd_concept_name` varchar(255) DEFAULT NULL,
+            `patient_name` varchar(255) DEFAULT NULL,
+            `referral_concept_name` varchar(255) DEFAULT NULL,
+            `sex` varchar(255) DEFAULT NULL,
+            `status` varchar(255) DEFAULT NULL,
+            `patient_identifier` varchar(50) DEFAULT NULL,
+            `birth_date` datetime DEFAULT NULL,
+            `triage_data_id` int(11) DEFAULT NULL,
+            `category` varchar(21) DEFAULT NULL,
+            `visit_status` varchar(21) DEFAULT NULL,
+            PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+    <changeSet id="hospital-core:2020-07-22-09:28" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Add table opd_patient_queue_log</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `opd_patient_queue_log` (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `user` int(11) DEFAULT NULL,
+            `patient_id` int(11) DEFAULT NULL,
+            `referral_concept_id` int(11) DEFAULT NULL,
+            `opd_concept_id` int(11) DEFAULT NULL,
+            `created_on` datetime DEFAULT NULL,
+            `opd_concept_name` varchar(255) DEFAULT NULL,
+            `patient_name` varchar(255) DEFAULT NULL,
+            `referral_concept_name` varchar(255) DEFAULT NULL,
+            `sex` varchar(255) DEFAULT NULL,
+            `status` varchar(255) DEFAULT NULL,
+            `patient_identifier` varchar(50) DEFAULT NULL,
+            `birth_date` datetime DEFAULT NULL,
+            `encounter_id` int(11) DEFAULT '0',
+            `triage_data_id` int(11) DEFAULT NULL,
+            `visit_outcome` varchar(21) DEFAULT NULL,
+            `category` varchar(21) DEFAULT NULL,
+            `visit_status` varchar(21) DEFAULT NULL,
+            PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+    <changeSet id="hospital-core:2020-07-22-09:29" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Add table opd_test_order</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `opd_test_order` (
+            `opd_order_id` int(11) NOT NULL AUTO_INCREMENT,
+            `patient_id` int(11) NOT NULL,
+            `encounter_id` int(11) NOT NULL,
+            `concept_id` int(11) NOT NULL,
+            `type_concept` int(11) NOT NULL,
+            `value_coded` int(11) DEFAULT NULL,
+            `created_by` int(11) NOT NULL,
+            `created_on` datetime NOT NULL,
+            `billing_status` smallint(1) NOT NULL DEFAULT '0',
+            `cancel_status` smallint(1) NOT NULL DEFAULT '0',
+            `billable_service_id` int(11) DEFAULT NULL,
+            `schedule_date` datetime DEFAULT NULL,
+            `indoor_status` smallint(1) NOT NULL DEFAULT '0',
+            `referral_ward_name` varchar(100) DEFAULT NULL,
+            PRIMARY KEY (`opd_order_id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+    <changeSet id="hospital-core:2020-07-22-09:34" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Add table patient_drug_history</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `patient_drug_history` (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `triage_log_id` int(11) DEFAULT NULL,
+            `patient_id` int(11) DEFAULT NULL,
+            `current_medication` varchar(10) DEFAULT NULL,
+            `medication_name` varchar(100) DEFAULT NULL,
+            `medication_period` varchar(100) DEFAULT NULL,
+            `medication_reason` varchar(100) DEFAULT NULL,
+            `medication_record` varchar(100) DEFAULT NULL,
+            `sensitive_medication` varchar(10) DEFAULT NULL,
+            `sensitive_medication_name` varchar(100) DEFAULT NULL,
+            `sensitive_medication_symptom` varchar(100) DEFAULT NULL,
+            `invasive_contraception` varchar(10) DEFAULT NULL,
+            `invasive_contraception_name` varchar(100) DEFAULT NULL,
+            `created_on` datetime DEFAULT NULL,
+            PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+    <changeSet id="hospital-core:2020-07-22-09:36" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Add table patient_family_history</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `patient_family_history` (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `triage_log_id` int(11) DEFAULT NULL,
+            `patient_id` int(11) DEFAULT NULL,
+            `father_status` varchar(100) DEFAULT NULL,
+            `father_death_cause` varchar(100) DEFAULT NULL,
+            `father_death_age` varchar(100) DEFAULT NULL,
+            `sibling_status` varchar(100) DEFAULT NULL,
+            `sibling_death_cause` varchar(100) DEFAULT NULL,
+            `sibling_death_age` varchar(100) DEFAULT NULL,
+            `family_illness_history` varchar(100) DEFAULT NULL,
+            `created_on` datetime DEFAULT NULL,
+            `mother_status` varchar(100) DEFAULT NULL,
+            `mother_death_cause` varchar(100) DEFAULT NULL,
+            `mother_death_age` varchar(100) DEFAULT NULL,
+            PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+    <changeSet id="hospital-core:2020-07-22-09:40" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Add table patient_medical_history</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `patient_medical_history` (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `triage_log_id` int(11) DEFAULT NULL,
+            `patient_id` int(11) DEFAULT NULL,
+            `illness_existing` varchar(10) DEFAULT NULL,
+            `illness_problem` varchar(100) DEFAULT NULL,
+            `illness_long` varchar(100) DEFAULT NULL,
+            `illness_progress` varchar(100) DEFAULT NULL,
+            `illness_record` varchar(100) DEFAULT NULL,
+            `chronic_illness` varchar(10) DEFAULT NULL,
+            `chronic_illness_problem` varchar(100) DEFAULT NULL,
+            `chronic_illness_occure` varchar(100) DEFAULT NULL,
+            `chronic_illness_outcome` varchar(100) DEFAULT NULL,
+            `chronic_illness_record` varchar(100) DEFAULT NULL,
+            `previous_admission` varchar(10) DEFAULT NULL,
+            `previous_adm_when` varchar(100) DEFAULT NULL,
+            `previous_adm_problem` varchar(100) DEFAULT NULL,
+            `previous_adm_outcome` varchar(100) DEFAULT NULL,
+            `previous_adm_record` varchar(100) DEFAULT NULL,
+            `previous_investigation` varchar(10) DEFAULT NULL,
+            `previous_invest_when` varchar(100) DEFAULT NULL,
+            `previous_invest_problem` varchar(100) DEFAULT NULL,
+            `previous_invest_outcome` varchar(100) DEFAULT NULL,
+            `previous_invest_record` varchar(100) DEFAULT NULL,
+            `bcg` varchar(20) DEFAULT NULL,
+            `polio` varchar(20) DEFAULT NULL,
+            `dpt` varchar(20) DEFAULT NULL,
+            `measles` varchar(20) DEFAULT NULL,
+            `pneumococcal` varchar(20) DEFAULT NULL,
+            `yellow_fever` varchar(20) DEFAULT NULL,
+            `tetanus_male` varchar(20) DEFAULT NULL,
+            `tetanus_female` varchar(20) DEFAULT NULL,
+            `other_vaccinations` varchar(250) DEFAULT NULL,
+            `created_on` datetime DEFAULT NULL,
+            PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+    <changeSet id="hospital-core:2020-07-22-09:43" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Add table patient_personal_history</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `patient_personal_history` (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `triage_log_id` int(11) DEFAULT NULL,
+            `patient_id` int(11) DEFAULT NULL,
+            `smoke` varchar(10) DEFAULT NULL,
+            `smoke_item` varchar(100) DEFAULT NULL,
+            `smoke_average` varchar(100) DEFAULT NULL,
+            `alcohol` varchar(10) DEFAULT NULL,
+            `alcohol_item` varchar(100) DEFAULT NULL,
+            `alcohol_average` varchar(100) DEFAULT NULL,
+            `drug` varchar(10) DEFAULT NULL,
+            `drug_item` varchar(100) DEFAULT NULL,
+            `drug_average` varchar(100) DEFAULT NULL,
+            `hiv_status` varchar(10) DEFAULT NULL,
+            `exposed_hiv` varchar(10) DEFAULT NULL,
+            `exposed_hiv_factor` varchar(100) DEFAULT NULL,
+            `family_help` varchar(10) DEFAULT NULL,
+            `other_help` varchar(100) DEFAULT NULL,
+            `income_source` varchar(10) DEFAULT NULL,
+            `created_on` datetime DEFAULT NULL,
+            PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+    <changeSet id="hospital-core:2020-07-22-09:45" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Add table patient_search</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `patient_search` (
+            `patient_id` int(11) NOT NULL,
+            `identifier` varchar(30) DEFAULT NULL,
+            `fullname` varchar(200) DEFAULT NULL,
+            `given_name` varchar(60) DEFAULT NULL,
+            `middle_name` varchar(60) DEFAULT NULL,
+            `family_name` varchar(60) DEFAULT NULL,
+            `gender` varchar(10) DEFAULT NULL,
+            `birthdate` datetime DEFAULT NULL,
+            `age` int(11) DEFAULT NULL,
+            `person_name_id` int(11) DEFAULT NULL,
+            `dead` smallint(6) DEFAULT '0',
+            `admitted` smallint(6) DEFAULT '0',
+            PRIMARY KEY (`patient_id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+    <changeSet id="hospital-core:2020-07-22-09:48" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Add table billing_patient_service_bill</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `billing_patient_service_bill` (
+            `patient_service_bill_id` int(11) NOT NULL AUTO_INCREMENT,
+            `description` varchar(255) DEFAULT NULL,
+            `creator` int(11) DEFAULT NULL,
+            `amount` decimal(19,2) DEFAULT NULL,
+            `printed` bit(1) DEFAULT NULL,
+            `created_date` datetime DEFAULT NULL,
+            `voided` bit(1) DEFAULT NULL,
+            `voided_date` datetime DEFAULT NULL,
+            `patient_id` int(11) DEFAULT NULL,
+            `receipt_id` int(11) DEFAULT NULL,
+            `comment` varchar(50) DEFAULT NULL,
+            `free_bill` int(1) DEFAULT NULL,
+            `actual_amount` decimal(19,2) DEFAULT NULL,
+            `waiver_amount` decimal(19,2) DEFAULT NULL,
+            `payment_mode` varchar(50) DEFAULT NULL,
+            `encounter` int(11) DEFAULT NULL,
+            `discharge_status` int(1) DEFAULT '0',
+            `admitted_days` int(11) DEFAULT NULL,
+            `patient_category` varchar(100) DEFAULT NULL,
+            `rebate_amount` decimal(19,2) DEFAULT NULL,
+            `category_number` varchar(100) DEFAULT NULL,
+            `patient_subcategory` varchar(100) DEFAULT NULL,
+            PRIMARY KEY (`patient_service_bill_id`),
+            KEY `fk_patientservicebill_patient` (`patient_id`),
+            KEY `fk_patientservicebill_user` (`creator`),
+            KEY `fk_patientservicebill_receipt` (`receipt_id`),
+            CONSTRAINT `fk_patientservicebill_patient` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`patient_id`),
+            CONSTRAINT `fk_patientservicebill_receipt` FOREIGN KEY (`receipt_id`) REFERENCES `billing_receipt` (`id`),
+            CONSTRAINT `fk_patientservicebill_user` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+    <changeSet id="hospital-core:2020-07-22-09:56" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Add table billing_patient_service_bill_item</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `billing_patient_service_bill_item` (
+            `patient_service_bill_item_id` int(11) NOT NULL AUTO_INCREMENT,
+            `service_id` int(11) DEFAULT NULL,
+            `patient_service_bill_id` int(11) DEFAULT NULL,
+            `unitPrice` decimal(19,2) DEFAULT NULL,
+            `amount` decimal(19,2) DEFAULT NULL,
+            `quantity` int(11) DEFAULT NULL,
+            `name` varchar(255) DEFAULT NULL,
+            `created_date` datetime DEFAULT NULL,
+            `voided` bit(1) DEFAULT NULL,
+            `voided_date` datetime DEFAULT NULL,
+            `order_id` int(11) DEFAULT NULL,
+            `actual_amount` decimal(19,2) DEFAULT NULL,
+            `voided_by` varchar(255) DEFAULT NULL,
+            PRIMARY KEY (`patient_service_bill_item_id`),
+            KEY `fk_patientservicebillitem_service` (`service_id`),
+            KEY `fk_patientservicebillitem_patientservicebill` (`patient_service_bill_id`),
+            KEY `fk_patientservicebillitem_order` (`order_id`),
+            CONSTRAINT `fk_patientservicebillitem_billableservice` FOREIGN KEY (`service_id`) REFERENCES `billing_billable_service` (`service_id`),
+            CONSTRAINT `fk_patientservicebillitem_order` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`),
+            CONSTRAINT `fk_patientservicebillitem_patientservicebill` FOREIGN KEY (`patient_service_bill_id`) REFERENCES `billing_patient_service_bill` (`patient_service_bill_id`)
+            ) ENGINE=InnoDB CHARSET=utf8;
+        </sql>
+    </changeSet>
+    <changeSet id="hospital-core:2020-07-22-10:09" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Add table question</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `question` (
+            `question_id` int(11) NOT NULL AUTO_INCREMENT,
+            `symptom_id` int(11) DEFAULT NULL,
+            `question_concept` int(11) DEFAULT NULL,
+            `exam_id` int(11) DEFAULT NULL,
+            PRIMARY KEY (`question_id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+    <changeSet id="hospital-core:2020-07-22-10:27" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Add table radiology_department</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `radiology_department` (
+            `department_id` int(11) NOT NULL AUTO_INCREMENT,
+            `name` varchar(30) NOT NULL DEFAULT '',
+            `description` varchar(255) NOT NULL DEFAULT '',
+            `role` varchar(50) NOT NULL DEFAULT '',
+            PRIMARY KEY (`department_id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+    <changeSet id="hospital-core:2020-07-22-10:28" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Add table radiology_form</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `radiology_form` (
+            `form_id` int(11) NOT NULL AUTO_INCREMENT,
+            `name` varchar(120) DEFAULT NULL,
+            `description` varchar(300) NOT NULL DEFAULT '',
+            `content` varchar(20480) NOT NULL DEFAULT '',
+            `concept_id` int(11) DEFAULT NULL,
+            `concept_name` varchar(300) DEFAULT NULL,
+            PRIMARY KEY (`form_id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+    <changeSet id="hospital-core:2020-07-22-10:29" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Add table radiology_template</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `radiology_template` (
+            `template_id` int(11) NOT NULL AUTO_INCREMENT,
+            `name` varchar(200) DEFAULT NULL,
+            `description` varchar(300) DEFAULT NULL,
+            `content` varchar(10240) DEFAULT NULL,
+            PRIMARY KEY (`template_id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+    <changeSet id="hospital-core:2020-07-22-10:31" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Add table radiology_test</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `radiology_test` (
+            `test_id` int(11) NOT NULL AUTO_INCREMENT,
+            `encounter_id` int(11) DEFAULT NULL,
+            `patient_id` int(11) DEFAULT NULL,
+            `order_id` int(11) DEFAULT NULL,
+            `concept_id` int(11) DEFAULT NULL,
+            `status` varchar(30) DEFAULT NULL,
+            `date` datetime DEFAULT NULL,
+            `creator` int(11) DEFAULT NULL,
+            `form_id` int(11) DEFAULT NULL,
+            PRIMARY KEY (`test_id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+    <changeSet id="hospital-core:2020-07-22-10:34" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Add table symptom</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `symptom` (
+            `symptom_id` int(11) NOT NULL AUTO_INCREMENT,
+            `encounter` int(11) DEFAULT NULL,
+            `symptom_concept` int(11) DEFAULT NULL,
+            `created_date` datetime DEFAULT NULL,
+            `creator` int(11) DEFAULT NULL,
+            PRIMARY KEY (`symptom_id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+    <changeSet id="hospital-core:2020-07-22-10:37" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Add table billing_tender</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `billing_tender` (
+            `tender_id` int(11) NOT NULL AUTO_INCREMENT,
+            `number` int(11) DEFAULT NULL,
+            `name` varchar(255) DEFAULT NULL,
+            `description` varchar(255) DEFAULT NULL,
+            `price` decimal(19,2) DEFAULT NULL,
+            `opening_date` datetime DEFAULT NULL,
+            `closing_date` datetime DEFAULT NULL,
+            `created_date` datetime DEFAULT NULL,
+            `retired` bit(1) DEFAULT NULL,
+            `retired_date` datetime DEFAULT NULL,
+            PRIMARY KEY (`tender_id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+    <changeSet id="hospital-core:2020-07-22-10:39" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Add table billing_tender_bill</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `billing_tender_bill` (
+            `tender_bill_id` int(11) NOT NULL AUTO_INCREMENT,
+            `description` varchar(255) DEFAULT NULL,
+            `creator` int(11) DEFAULT NULL,
+            `amount` decimal(19,2) DEFAULT NULL,
+            `printed` bit(1) DEFAULT NULL,
+            `created_date` datetime DEFAULT NULL,
+            `voided` bit(1) DEFAULT NULL,
+            `voided_date` datetime DEFAULT NULL,
+            `company_id` int(11) DEFAULT NULL,
+            `receipt_id` int(11) DEFAULT NULL,
+            PRIMARY KEY (`tender_bill_id`),
+            KEY `fk_tenderbill_company` (`company_id`),
+            KEY `fk_tenderbill_user` (`creator`),
+            KEY `fk_tender_receipt` (`receipt_id`),
+            CONSTRAINT `fk_tenderbill_company` FOREIGN KEY (`company_id`) REFERENCES `billing_company` (`company_id`),
+            CONSTRAINT `fk_tenderbill_user` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`),
+            CONSTRAINT `fk_tender_receipt` FOREIGN KEY (`receipt_id`) REFERENCES `billing_receipt` (`id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+    <changeSet id="hospital-core:2020-07-22-10:47" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Add table billing_tender_bill_item</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `billing_tender_bill_item` (
+            `tender_bill_item_id` int(11) NOT NULL AUTO_INCREMENT,
+            `name` varchar(255) DEFAULT NULL,
+            `amount` decimal(19,2) DEFAULT NULL,
+            `unit_price` decimal(19,2) DEFAULT NULL,
+            `quantity` int(11) DEFAULT NULL,
+            `created_date` datetime DEFAULT NULL,
+            `voided` bit(1) DEFAULT NULL,
+            `voided_date` datetime DEFAULT NULL,
+            `tender_id` int(11) DEFAULT NULL,
+            `tender_bill_id` int(11) DEFAULT NULL,
+            PRIMARY KEY (`tender_bill_item_id`),
+            KEY `fk_tenderbillitem_tenderbill` (`tender_bill_id`),
+            KEY `fk_tenderbillitem_tender` (`tender_id`),
+            CONSTRAINT `fk_tenderbillitem_tender` FOREIGN KEY (`tender_id`) REFERENCES `billing_tender` (`tender_id`),
+            CONSTRAINT `fk_tenderbillitem_tenderbill` FOREIGN KEY (`tender_bill_id`) REFERENCES `billing_tender_bill` (`tender_bill_id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+    <changeSet id="hospital-core:2020-07-22-12:11" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Add table triage_patient_data</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `triage_patient_data` (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `triage_log_id` int(11) DEFAULT NULL,
+            `weight` decimal(5,2) DEFAULT NULL,
+            `height` decimal(5,2) DEFAULT NULL,
+            `temperature` decimal(5,2) DEFAULT NULL,
+            `systolic` int(5) DEFAULT NULL,
+            `daistolic` int(5) DEFAULT NULL,
+            `respiratory_rate` int(5) DEFAULT NULL,
+            `pulse_rate` int(5) DEFAULT NULL,
+            `blood_group` varchar(10) DEFAULT NULL,
+            `last_menstrual` datetime DEFAULT NULL,
+            `rhesus_factor` varchar(12) DEFAULT NULL,
+            `pitct` varchar(255) DEFAULT NULL,
+            `created_on` datetime DEFAULT NULL,
+            `mua` decimal(5,2) DEFAULT NULL,
+            `chest` decimal(5,2) DEFAULT NULL,
+            `abdominal` decimal(5,2) DEFAULT NULL,
+            `encounter_opd` int(11) DEFAULT NULL,
+            `BMI` decimal(5,2) DEFAULT NULL,
+            `oxygen_saturation` double DEFAULT NULL,
+            `patient_id` int(11) DEFAULT '0',
+            PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+    <changeSet id="hospital-core:2020-07-22-13:23" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Add table triage_patient_queue</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `triage_patient_queue` (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `user` int(11) DEFAULT NULL,
+            `patient_id` int(11) DEFAULT NULL,
+            `referral_concept_id` int(11) DEFAULT NULL,
+            `triage_concept_id` int(11) DEFAULT NULL,
+            `created_on` datetime DEFAULT NULL,
+            `triage_concept_name` varchar(255) DEFAULT NULL,
+            `patient_name` varchar(255) DEFAULT NULL,
+            `referral_concept_name` varchar(255) DEFAULT NULL,
+            `sex` varchar(255) DEFAULT NULL,
+            `status` varchar(255) DEFAULT NULL,
+            `patient_identifier` varchar(50) DEFAULT NULL,
+            `birth_date` datetime DEFAULT NULL,
+            `category` varchar(21) DEFAULT NULL,
+            `visit_status` varchar(21) DEFAULT NULL,
+            PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+    <changeSet id="hospital-core:2020-07-22-13:24" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Add table triage_patient_queue_log</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `triage_patient_queue_log` (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `user` int(11) DEFAULT NULL,
+            `patient_id` int(11) DEFAULT NULL,
+            `referral_concept_id` int(11) DEFAULT NULL,
+            `triage_concept_id` int(11) DEFAULT NULL,
+            `created_on` datetime DEFAULT NULL,
+            `triage_concept_name` varchar(255) DEFAULT NULL,
+            `patient_name` varchar(255) DEFAULT NULL,
+            `referral_concept_name` varchar(255) DEFAULT NULL,
+            `sex` varchar(255) DEFAULT NULL,
+            `status` varchar(255) DEFAULT NULL,
+            `patient_identifier` varchar(50) DEFAULT NULL,
+            `birth_date` datetime DEFAULT NULL,
+            `encounter_id` int(11) DEFAULT '0',
+            `category` varchar(21) DEFAULT NULL,
+            `visit_status` varchar(21) DEFAULT NULL,
+            PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+    <changeSet id="hospital-core:2020-07-22-13:59" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Add table ward_bed_strength</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `ward_bed_strength` (
+            `ward_bed_strength_id` int(11) NOT NULL AUTO_INCREMENT,
+            `concept_id` int(11) NOT NULL,
+            `bed_strength` int(11) DEFAULT NULL,
+            `created_by` int(11) NOT NULL,
+            `created_on` datetime NOT NULL,
+            PRIMARY KEY (`ward_bed_strength_id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+     <changeSet id="hospital-core:2021-03-23-10:23" author="karimkkanji">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Add Systolic Blood Pressure columns to ipd_vital_statistics</comment>
+        <sql>
+            ALTER TABLE  ipd_vital_statistics
+            ADD COLUMN `systolic_blood_pressure` varchar(11) DEFAULT NULL;
+        </sql>
+    </changeSet>
+    <changeSet id="hospital-core:2021-03-23-10:50" author="karimkkanji">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Add Diastolic Blood Pressure columns to ipd_vital_statistics</comment>
+        <sql>
+            ALTER TABLE  ipd_vital_statistics
+            ADD COLUMN `diastolic_blood_pressure` varchar(11) DEFAULT NULL;
+        </sql>
+    </changeSet>
+
+    <changeSet id="mchapp:20201-09-16-13:25" author="injiri">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>creating the immunization_store_transaction_type table</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `immunization_store_transaction_type` (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `transaction_type` varchar(255) DEFAULT NULL,
+            PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB CHARSET=utf8;
+        </sql>
+    </changeSet>
+
+    <changeSet id="mchapp:2021-03-16-13:42" author="injiri">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>creating the immunization_store_drug table</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `immunization_store_drug` (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `inventory_drug_id` int(11) NOT NULL,
+            `batch_no` varchar(45) NOT NULL,
+            `current_quantity` int(11) NOT NULL,
+            `created_on` datetime DEFAULT NULL,
+            `expiry_date` datetime NOT NULL,
+            `created_by` int(11) NOT NULL,
+            PRIMARY KEY (`id`),
+            UNIQUE KEY `batch_no_UNIQUE` (`batch_no`),
+            KEY `fk_immunization_store_drug_person1_idx` (`created_by`),
+            KEY `fk_immunization_store_drug_inventory_drug1_idx` (`inventory_drug_id`),
+            CONSTRAINT `fk_immunization_store_drug_inventory_drug1` FOREIGN KEY (`inventory_drug_id`) REFERENCES
+            `inventory_drug` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+            CONSTRAINT `fk_immunization_store_drug_person1` FOREIGN KEY (`created_by`) REFERENCES `person` (`person_id`)
+            ON DELETE NO ACTION ON UPDATE NO ACTION
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+
+    <changeSet id="mchapp:2021-03-16-12:20" author="injiri">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>creating the immunization_store_drug_transaction_detail table</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `immunization_store_drug_transaction_detail` (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `patient_id` int(11) DEFAULT NULL,
+            `transaction_type` int(11) NOT NULL,
+            `transaction_account` varchar(150) DEFAULT NULL,
+            `immunization_store_drug_id` int(11) NOT NULL,
+            `vvm_stage` int(11) NOT NULL DEFAULT '0',
+            `quantity` int(11) DEFAULT NULL,
+            `openning_balance` int(11) DEFAULT NULL,
+            `closing_balance` int(11) DEFAULT NULL,
+            `created_on` datetime DEFAULT NULL,
+            `created_by` int(11) NOT NULL,
+            `remark` varchar(150) DEFAULT NULL,
+            PRIMARY KEY (`id`),
+            KEY `fk_immunization_store_drug_transaction_detail_immunization__idx` (`transaction_type`),
+            KEY `fk_immunization_store_drug_transaction_detail_person1_idx` (`created_by`),
+            KEY `fk_immunization_store_drug_transaction_detail_patient1_idx` (`patient_id`),
+            KEY `fk_immunization_store_drug_transaction_detail_immunization__idx1` (`immunization_store_drug_id`),
+            CONSTRAINT `fk_immunization_store_drug_transaction_detail_immunization_st1` FOREIGN KEY (`transaction_type`)
+            REFERENCES `immunization_store_transaction_type` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+            CONSTRAINT `fk_immunization_store_drug_transaction_detail_immunization_st2` FOREIGN KEY
+            (`immunization_store_drug_id`) REFERENCES `immunization_store_drug` (`id`) ON DELETE NO ACTION ON UPDATE NO
+            ACTION,
+            CONSTRAINT `fk_immunization_store_drug_transaction_detail_patient1` FOREIGN KEY (`patient_id`) REFERENCES
+            `patient` (`patient_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+            CONSTRAINT `fk_immunization_store_drug_transaction_detail_person1` FOREIGN KEY (`created_by`) REFERENCES
+            `person` (`person_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+    <changeSet id="radiology:2021-07-28-16:52" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Creating radiology_department_investigations table to manage tests and departiments</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `radiology_department_investigations` (
+            `department_id` int(11) NOT NULL DEFAULT '0',
+            `concept_id` int(11) NOT NULL DEFAULT '0',
+            PRIMARY KEY (`department_id`,`concept_id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+
+    <changeSet id="hospital-core:2021-10-03-15:10" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Add voided column to inventory_drug table</comment>
+        <sql>
+            ALTER TABLE  inventory_drug
+            ADD COLUMN `voided` int(11) DEFAULT NULL;
+        </sql>
+    </changeSet>
+    <changeSet id="F519341D-889B-434A-9A2D-8E301A5BF284" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Adding patient_category_details table</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `patient_category_details` (
+            `patient_category_id` int(11) NOT NULL AUTO_INCREMENT,
+            `patient_id` int(11) DEFAULT NULL,
+            `patient_category` varchar(50) DEFAULT NULL,
+            `paying_category` varchar(100) DEFAULT NULL,
+            `insurance_details` varchar(100) DEFAULT NULL,
+            `waiver_number` varchar(50) DEFAULT NULL,
+            `student_number` varchar(50) DEFAULT NULL,
+            `nhif_number` varchar(50) DEFAULT NULL,
+            `visit_type` varchar(100) DEFAULT NULL,
+            `visited_room` varchar(100) DEFAULT NULL,
+            `room_type_visited` varchar(100) DEFAULT NULL,
+            `file_number` varchar(100) DEFAULT NULL,
+            `legal_case` varchar(100) DEFAULT NULL,
+            `creator` int(11) NOT NULL DEFAULT '0',
+            `date_created` datetime NOT NULL,
+            `created_on` datetime NOT NULL,
+            `retired` tinyint(1) NOT NULL DEFAULT '0',
+            `retired_by` int(11) DEFAULT NULL,
+            `date_retired` datetime DEFAULT NULL,
+            `retire_reason` varchar(255) DEFAULT NULL,
+            `uuid` char(38) NOT NULL,
+            UNIQUE KEY `patient_category_uuid_index` (`uuid`),
+            KEY `patient_category_retired_status` (`retired`),
+            KEY `user_who_created_patient_category` (`creator`),
+            KEY `user_who_retired_patient_category` (`retired_by`),
+            PRIMARY KEY (`patient_category_id`),
+            CONSTRAINT `user_who_created_patient_category` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`),
+            CONSTRAINT `user_who_retired_patient_category` FOREIGN KEY (`retired_by`) REFERENCES `users` (`user_id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+    <changeSet id="49188028-1763-41E8-BE50-B3BC4A2C9B8A" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Adding patient_category_detail changed_by and when changed</comment>
+        <sql>
+            ALTER TABLE  patient_category_details
+            ADD COLUMN `changed_by` int(11) DEFAULT NULL;
+
+            ALTER TABLE  patient_category_details
+            ADD COLUMN `date_changed` int(11) DEFAULT NULL;
+
+            ALTER TABLE patient_category_details
+            ADD FOREIGN KEY (`changed_by`) REFERENCES `users` (`user_id`);
+        </sql>
+    </changeSet>
+    <changeSet id="9E1DEAA2-9F8C-42D8-8686-409123018D62" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>creating ehr_department table</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `ehr_department` (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `name` varchar(255) DEFAULT NULL,
+            `retired` bit(1) DEFAULT NULL,
+            `created_on` datetime DEFAULT NULL,
+            `created_by` varchar(255) DEFAULT NULL,
+            PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+
+    <changeSet id="D66549BE-0FDE-4D81-842E-446685BCC1CB" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Adding department column on the billing_patient_service_bill_item table</comment>
+        <sql>
+            ALTER TABLE  billing_patient_service_bill_item
+            ADD COLUMN `department_id` int(11) DEFAULT NULL;
+
+            ALTER TABLE billing_patient_service_bill_item
+            ADD FOREIGN KEY (`department_id`) REFERENCES `ehr_department` (`id`);
+        </sql>
+    </changeSet>
+    <changeSet id="81347759-704A-48BF-814C-20845948D727" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Adding columns to the ehr department table</comment>
+        <sqlFile path="sql/department.sql" />
+    </changeSet>
+    <changeSet id="51B74E4E-0465-4A61-A511-3AB3B89DC82D" author="ningosi" dbms="mysql">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                SELECT COUNT(*) FROM scheduler_task_config
+                WHERE schedulable_class = 'org.openmrs.module.hospitalcore.task.UpdateBillableItems'
+                And name = 'Update the billable items'
+            </sqlCheck>
+        </preConditions>
+        <comment>Updating the billable items</comment>
+        <insert tableName="scheduler_task_config">
+            <column name="name" value="Update the billable items" />
+            <column name="description" value="Update the billable items" />
+            <column name="schedulable_class" value="org.openmrs.module.hospitalcore.task.UpdateBillableItems" />
+            <column name="start_time_pattern" value="MM/dd/yyyy HH:mm:ss" />
+            <column name="start_time" valueDate="2018-01-20T23:59:59" />
+            <column name="repeat_interval" value="120" />
+            <column name="start_on_startup" value="1" />
+            <column name="date_created" valueDate="CURRENT_TIMESTAMP" />
+            <column name="created_by" value="1" />
+            <column name="uuid" value="95A4BE03-60E9-4D5F-958C-89E0E1FBB27F" />
+        </insert>
+    </changeSet>
+    <changeSet id="100249EB-68B6-4C57-9BBD-DB546C578200" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>creating ehr_hospital_waiver table</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `ehr_hospital_waiver` (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `patient_id` int(11) DEFAULT NULL,
+            `gender` varchar(50) DEFAULT '',
+            `birthdate` date DEFAULT NULL,
+            `name` varchar(255) DEFAULT NULL,
+            `status` tinyint(1) NOT NULL DEFAULT '0',
+            `creator` int(11) NOT NULL DEFAULT '0',
+            `date_created` datetime NOT NULL,
+            `retired` tinyint(1) NOT NULL DEFAULT '0',
+            `retired_by` int(11) DEFAULT NULL,
+            `date_retired` datetime DEFAULT NULL,
+            `retire_reason` varchar(255) DEFAULT NULL,
+            `uuid` char(38) NOT NULL,
+            `changed_by` int(11) DEFAULT NULL,
+            `date_changed` int(11) DEFAULT NULL,
+            UNIQUE KEY `patient_waiver_uuid_index` (`uuid`),
+            KEY `patient_waiver_retired_status` (`retired`),
+            KEY `user_who_created_patient_waiver` (`creator`),
+            KEY `user_who_retired_patient_waiver` (`retired_by`),
+            PRIMARY KEY (`id`),
+            CONSTRAINT `user_who_created_patient_waiver` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`),
+            CONSTRAINT `user_who_retired_patient_waiver` FOREIGN KEY (`retired_by`) REFERENCES `users` (`user_id`),
+            CONSTRAINT `patient_changed_waiver` FOREIGN KEY (`changed_by`) REFERENCES `users` (`user_id`)
+            ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+</databaseChangeLog>

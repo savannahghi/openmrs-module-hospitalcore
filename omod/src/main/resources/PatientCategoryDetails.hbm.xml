@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="org.openmrs.module.hospitalcore.model">
+    <class name="PatientCategoryDetails" table="patient_category_details" batch-size="500">
+        <id name="patientCategoryId" type="int" column="patient_category_id"
+            unsaved-value="0">
+            <generator class="native" />
+        </id>
+        <many-to-one name="patient" column="patient_id" class="org.openmrs.Patient" />
+        <property name="patientCategory" column="patient_category" />
+        <property name="payingCategory" column="paying_category" />
+        <property name="insuranceDetails" column="insurance_details" />
+        <property name="waiverNumber" column="waiver_number" />
+        <property name="studentNumber" column="student_number" />
+        <property name="nhifNumber" column="nhif_number" />
+        <property name="visitType" column="visit_type" />
+        <property name="visitedRoom" column="visited_room" />
+        <property name="roomTypeVisited" column="room_type_visited" />
+        <property name="fileNumber" column="file_number" />
+        <property name="legalCase" column="legal_case" />
+        <property name="dateCreated" type="java.util.Date" column="date_created" not-null="true" length="19" />
+        <property name="createdOn" column="created_on" type="java.util.Date" not-null="true" length="19" />
+        <many-to-one name="creator" class="org.openmrs.User" not-null="true" />
+        <property name="uuid" type="java.lang.String" column="uuid" length="38" unique="true" />
+        <many-to-one name="retiredBy" class="org.openmrs.User"  column="retired_by" />
+        <property name="dateRetired" type="java.util.Date" column="date_retired" length="19" />
+        <property name="retireReason" type="java.lang.String" column="retire_reason" length="255" />
+        <property name="retired" type="boolean"  length="1" not-null="true" />
+        <many-to-one name="changedBy" class="org.openmrs.User" column="changed_by" />
+        <property name="dateChanged" type="java.util.Date" column="date_changed" not-null="false" length="19" />
+    </class>
+</hibernate-mapping>

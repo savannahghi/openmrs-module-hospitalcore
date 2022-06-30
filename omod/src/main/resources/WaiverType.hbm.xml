@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="org.openmrs.module.hospitalcore.model">
+
+    <class name="WaiverType" table="waiver_type" batch-size="500">
+
+        <id name="id" type="int" column="waiver_id"
+            unsaved-value="0">
+            <generator class="native"/>
+        </id>
+        <property name="name" column="name"/>
+        <property name="description" type="java.lang.String" column="description" length="255"/>
+        <property name="createdDate"  type="java.util.Date" column="created_date" length="25"/>
+        <!--
+                multiple child records in one table table can refer to one single record in parent table(role table).
+        -->
+        <many-to-one name="userRole" column="role" class="org.openmrs.Role" foreign-key="waive_role_definitions"/>
+        <property name="retired" column="retired"/>
+        <property name="retiredDate"  type="java.util.Date" column="retired_date"/>
+    </class>
+</hibernate-mapping>

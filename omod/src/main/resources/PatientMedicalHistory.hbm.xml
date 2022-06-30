@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="org.openmrs.module.hospitalcore.model">
+
+	<class name="PatientMedicalHistory" table="patient_medical_history" batch-size="500">
+
+		<id name="id" type="int" column="id" unsaved-value="0">
+				<generator class="native" />
+		</id>
+		<many-to-one name="triageLogId" column="triage_log_id"  class="org.openmrs.module.hospitalcore.model.TriagePatientQueueLog"/>
+		
+		<property name="patientId" column="patient_id" />
+		<property name="illnessExisting" column="illness_existing" />
+		<property name="illnessProblem" column="illness_problem" />
+		<property name="illnessLong" column="illness_long" />
+		<property name="illnessProgress" column="illness_progress" />
+		<property name="illnessRecord" column="illness_record" />
+
+		<property name="chronicIllness" column="chronic_illness" />
+		<property name="chronicIllnessProblem" column="chronic_illness_problem" />
+		<property name="chronicIllnessOccure" column="chronic_illness_occure" />
+		<property name="chronicIllnessOutcome" column="chronic_illness_outcome" />
+		<property name="chronicIllnessRecord" column="chronic_illness_record" />
+		<property name="previousAdmission" column="previous_admission" />
+		<property name="previousAdmissionWhen" column="previous_adm_when" />
+		<property name="previousAdmissionProblem" column="previous_adm_problem" />
+		<property name="previousAdmissionOutcome" column="previous_adm_outcome" />
+		<property name="previousAdmissionRecord" column="previous_adm_record" />
+		<property name="previousInvestigation" column="previous_investigation" />
+		<property name="previousInvestigationWhen" column="previous_invest_when" />
+		<property name="previousInvestigationProblem" column="previous_invest_problem" />
+		<property name="previousInvestigationOutcome" column="previous_invest_outcome" />
+		<property name="previousInvestigationRecord" column="previous_invest_record" />
+		<property name="bcg" column="bcg" />
+		<property name="polio" column="polio" />
+		<property name="dpt" column="dpt" />
+		<property name="measles" column="measles" />
+		<property name="pneumococcal" column="pneumococcal" />
+		<property name="yellowFever" column="yellow_fever" />
+		<property name="tetanusMale" column="tetanus_male" />
+		<property name="tetanusFemale" column="tetanus_female" />
+		<property name="otherVaccinations" column="other_vaccinations" />
+
+		<property name="createdOn" column="created_on" />
+	</class>
+</hibernate-mapping>

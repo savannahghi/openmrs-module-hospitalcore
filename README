@@ -1,0 +1,11 @@
+[![Build Status](https://travis-ci.org/uonafya/hospitalcoreopenmrs.svg?branch=master)]
+This is the hospitalcore module for use with OpenMRS 1.12.
+
+It is released by HISP India under the terms of the GPLv3, a copy of which accompanies this file.
+
+Modified by HealthIT A USAID funded project for KenyaEMR scale-up
+
+University of Nairobi Enterprise and Services Limited
+George Bush Odhiambo
+EMR Developer
+Under Supervision of Nicholas Ingosi Magaja, Lead EMR Developer.

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="org.openmrs.module.hospitalcore.model">
+    <class name="WaiverTypeRole" table="waiver_type_role" batch-size="500">
+        <id name="waiverTypeId" type="int" column="waiver_id"/>
+
+        <many-to-one class="org.openmrs.module.hospitalcore.model.WaiverType"
+                     name="waiverRoleName" column="role" foreign-key="waiver_type_role_to_waiver_type" cascade="all" />
+    </class>
+</hibernate-mapping>

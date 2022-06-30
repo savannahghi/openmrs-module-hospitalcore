@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="org.openmrs.module.hospitalcore.model">
+
+<class name="DmsOpdUnit" table="dms_opdunit" batch-size="500">
+
+		<id name="id" type="int" column="unit_id"
+			unsaved-value="0">
+				<generator class="native"/>
+		</id>
+		<property name="unitNo" column="unit_no" />
+		<many-to-one name="opdConceptId" column="opd_concept_id" class="org.openmrs.Concept"/>
+		<property name="opdWorkingDay" column="opd_day" />
+		<property name="startTime" column="start_time" />
+		<property name="endTime" column="end_time" />
+		<property name="unitActiveDate" column="active_date" />
+		<property name="unitDeactiveDate" column="deactive_date" />
+		<property name="creator" column="creator" />
+	</class>
+
+</hibernate-mapping>
