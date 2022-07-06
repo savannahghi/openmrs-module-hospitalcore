@@ -148,8 +148,7 @@ public class HibernateRadiologyDAO implements RadiologyDAO {
 				"yyyy-MM-dd hh:mm:ss");
 			String startDate = sdf.format(orderStartDate) + " 00:00:00";
 			String endDate = sdf.format(orderStartDate) + " 23:59:59";
-			criteria.add((Restrictions.ge("dateActivated",dateTimeFormatter.parse(startDate))));
-			criteria.add((Restrictions.le("dateActivated",dateTimeFormatter.parse(endDate))));
+			criteria.add(Restrictions.between("dateActivated",dateTimeFormatter.parse(startDate),dateTimeFormatter.parse(endDate)));
 		}
 
 		if(orderType != null){
