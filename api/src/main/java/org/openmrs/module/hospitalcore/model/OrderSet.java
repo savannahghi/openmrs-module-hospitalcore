@@ -12,6 +12,8 @@ public class OrderSet implements Serializable {
     private String description ;
     private Date createdOn;
     private String createdBy;
+    private Integer cycleCount;
+    private Integer cycleLength;
     public Integer getId() {
         return id;
     }
@@ -44,5 +46,21 @@ public class OrderSet implements Serializable {
     }
     public void setCreatedBy(String createdBy) {
         this.createdBy = createdBy;
+    }
+
+    public Integer getCycleCount() {
+        return cycleCount;
+    }
+
+    public void setCycleCount(Integer cycleCount) {
+        this.cycleCount = cycleCount;
+    }
+
+    public Integer getCycleLength() {
+        return cycleLength;
+    }
+
+    public void setCycleLength(Integer cycleLength) {
+        this.cycleLength = cycleLength;
     }
 }
