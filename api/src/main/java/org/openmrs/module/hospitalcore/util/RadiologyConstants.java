@@ -42,4 +42,5 @@ public class RadiologyConstants {
 	public static final String PROPERTY_PAGESIZE = MODULE_ID + ".pagesize";	
 	public static final String PROPERTY_TEMPLATE_DEFAULT = MODULE_ID + ".template.default";
 	public static final String ULTRASOUND_ANTENATAL_CONCEPT_NAME = "ULTRASOUND ANTENATAL";
+	public static final String PROPRETY_RADIOLOGY_IMAGE_CONCEPT = MODULE_ID + ".imageConcept";
 }
