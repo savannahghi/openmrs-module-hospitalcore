@@ -1675,4 +1675,39 @@
             ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
         </sql>
     </changeSet>
+    <changeSet id="hospital-core:2022-11-06-06:24" author="vic">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Add table regimen</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `regimen` (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `name` varchar(255) DEFAULT NULL,
+            `cycle` int(11) DEFAULT NULL,
+            PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+    <changeSet id="hospital-core:2020-07-21-18:02" author="vic">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Add table patient_regimen</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `patient_regimen` (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `patient_id` int(11) DEFAULT NULL,
+            `regimen_id` int(11) DEFAULT NULL,
+            `drugs_id`  int(11)  DEFAULT NULL,
+            `cycle` int(11) DEFAULT NULL,
+            `route` varchar(255) DEFAULT NULL,
+            `tag` varchar(255) DEFAULT NULL,
+            `unit_id` int(11) DEFAULT NULL,
+            `formulation_id` int(11) DEFAULT NULL,
+            `comment` varchar(225) DEFAULT NULL,
+            PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
 </databaseChangeLog>
