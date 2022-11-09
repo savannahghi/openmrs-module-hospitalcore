@@ -22,10 +22,7 @@ import org.openmrs.api.APIException;
 import org.openmrs.api.impl.BaseOpenmrsService;
 import org.openmrs.module.hospitalcore.InventoryCommonService;
 import org.openmrs.module.hospitalcore.db.InventoryCommonDAO;
-import org.openmrs.module.hospitalcore.model.InventoryDrug;
-import org.openmrs.module.hospitalcore.model.InventoryDrugFormulation;
-import org.openmrs.module.hospitalcore.model.InventoryStoreDrugPatient;
-import org.openmrs.module.hospitalcore.model.InventoryStoreDrugPatientDetail;
+import org.openmrs.module.hospitalcore.model.*;
 
 /**
 *
@@ -57,8 +54,19 @@ public class InventoryCommonServiceImpl extends BaseOpenmrsService implements In
 	public InventoryDrug getDrugByName(String name) throws APIException {
 		return dao.getDrugByName(name);
 	}
-	
-	public List<Concept> getDrugFrequency() throws APIException {
+
+    @Override
+    public PatientRegimen getRegimenName(String name) throws APIException {
+        return dao.getRegimenName(name);
+    }
+
+
+    @Override
+    public PatientRegimen getRegimenCycle(Integer cycle) throws APIException {
+        return dao.getRegimenCycle(cycle);
+    }
+
+    public List<Concept> getDrugFrequency() throws APIException {
 		return dao.getDrugFrequency();
 	}
 	

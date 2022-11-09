@@ -31,10 +31,7 @@ import org.openmrs.Patient;
 import org.openmrs.api.context.Context;
 import org.openmrs.api.db.DAOException;
 import org.openmrs.module.hospitalcore.db.InventoryCommonDAO;
-import org.openmrs.module.hospitalcore.model.InventoryDrug;
-import org.openmrs.module.hospitalcore.model.InventoryDrugFormulation;
-import org.openmrs.module.hospitalcore.model.InventoryStoreDrugPatient;
-import org.openmrs.module.hospitalcore.model.InventoryStoreDrugPatientDetail;
+import org.openmrs.module.hospitalcore.model.*;
 
 public class HibernateInventoryCommonDAO implements InventoryCommonDAO {
 
@@ -109,6 +106,18 @@ public class HibernateInventoryCommonDAO implements InventoryCommonDAO {
 				.add(Restrictions.eq("drug.name", name));
 		return (InventoryDrug) criteria.uniqueResult();
 	}
+
+	public PatientRegimen getRegimenName(String name) throws DAOException{
+	    Criteria criteria = sessionFactory.getCurrentSession()
+                .createCriteria(Regimen.class,"regimen").add(Restrictions.eq("regimen.name",name));
+	    return (PatientRegimen) criteria.uniqueResult();
+    }
+
+    public PatientRegimen getRegimenCycle(Integer cycle) throws DAOException{
+        Criteria criteria = sessionFactory.getCurrentSession()
+                .createCriteria(Regimen.class,"cycle").add(Restrictions.eq("regimen.cycle",cycle));
+        return (PatientRegimen) criteria.uniqueResult();
+    }
 	
 	public List<Concept> getDrugFrequency() throws DAOException {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(
