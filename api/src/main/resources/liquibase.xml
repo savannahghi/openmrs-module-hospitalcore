@@ -1710,4 +1710,61 @@
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
         </sql>
     </changeSet>
+    <changeSet id="hospital-core:2022-11-10-18:02" author="vic">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Adding patient_regimen changed_by and when changed</comment>
+        <sql>
+            ALTER TABLE  patient_regimen
+            ADD COLUMN `changed_by` int(11) DEFAULT NULL;
+
+            ALTER TABLE  patient_regimen
+            ADD COLUMN `date_changed` int(11) DEFAULT NULL;
+
+            ALTER TABLE  patient_regimen
+            ADD COLUMN  `voided` tinyint(1) NOT NULL DEFAULT '0';
+
+            ALTER TABLE  patient_regimen
+            ADD COLUMN   `voided_by` int(11) DEFAULT NULL;
+
+            ALTER TABLE  patient_regimen
+            ADD COLUMN   `date_voided` datetime DEFAULT NULL;
+
+            ALTER TABLE  patient_regimen
+            ADD COLUMN   `voided_reason` varchar(255) DEFAULT NULL;
+
+            ALTER TABLE patient_regimen
+            ADD FOREIGN KEY (`changed_by`) REFERENCES `users` (`user_id`);
+        </sql>
+    </changeSet>
+
+    <changeSet id="hospital-core:2022-11-10-18:34" author="vic">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Adding regimen changed_by and when changed</comment>
+        <sql>
+            ALTER TABLE  regimen
+            ADD COLUMN `changed_by` int(11) DEFAULT NULL;
+
+            ALTER TABLE  regimen
+            ADD COLUMN `date_changed` int(11) DEFAULT NULL;
+
+            ALTER TABLE  regimen
+            ADD COLUMN  `voided` tinyint(1) NOT NULL DEFAULT '0';
+
+            ALTER TABLE  regimen
+            ADD COLUMN   `voided_by` int(11) DEFAULT NULL;
+
+            ALTER TABLE  regimen
+            ADD COLUMN   `date_voided` datetime DEFAULT NULL;
+
+            ALTER TABLE  regimen
+            ADD COLUMN   `voided_reason` varchar(255) DEFAULT NULL;
+
+            ALTER TABLE regimen
+            ADD FOREIGN KEY (`changed_by`) REFERENCES `users` (`user_id`);
+        </sql>
+    </changeSet>
 </databaseChangeLog>
