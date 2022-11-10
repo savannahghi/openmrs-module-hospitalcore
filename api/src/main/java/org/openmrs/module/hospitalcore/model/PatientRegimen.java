@@ -1,18 +1,17 @@
 package org.openmrs.module.hospitalcore.model;
 
-import org.apache.commons.lang.StringUtils;
+import org.openmrs.BaseOpenmrsData;
 import org.openmrs.Patient;
 
 import java.io.Serializable;
 import java.util.Set;
 
-public class PatientRegimen implements Serializable {
+public class PatientRegimen extends BaseOpenmrsData implements Serializable {
     private static final long serialVersionUID = 1L;
     private Integer id;
     private Patient patientId;
     private Regimen regimenId;
     private InventoryDrug drugId;
-    private String name;
     private InventoryDrugUnit unit;
     private Set<InventoryDrugFormulation> formulations;
     private Integer dose;
@@ -21,29 +20,11 @@ public class PatientRegimen implements Serializable {
     private String tag;
     private Integer cycle;
 
-    public Integer getVoided() {
-        return voided;
-    }
-
-    public void setVoided(Integer voided) {
-        this.voided = voided;
-    }
-
-    private Integer voided;
     public Integer getId() {
         return id;
     }
     public void setId(Integer id) {
         this.id = id;
-    }
-    public String getName() {
-        return name;
-    }
-    public String getNameShort() {
-        return StringUtils.isNotBlank(name) && name.length() > 30 ?name.substring(0,30)+"..." : name;
-    }
-    public void setName(String name) {
-        this.name = name;
     }
     public InventoryDrugUnit getUnit() {
         return unit;

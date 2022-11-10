@@ -107,18 +107,85 @@ public class HibernateInventoryCommonDAO implements InventoryCommonDAO {
 		return (InventoryDrug) criteria.uniqueResult();
 	}
 
-	public PatientRegimen getRegimenName(String name) throws DAOException{
-	    Criteria criteria = sessionFactory.getCurrentSession()
-                .createCriteria(Regimen.class,"regimen").add(Restrictions.eq("regimen.name",name));
-	    return (PatientRegimen) criteria.uniqueResult();
+
+    public List<Regimen> getRegimens(boolean voided) {
+        Criteria criteria = sessionFactory.getCurrentSession()
+                .createCriteria(Regimen.class,"regimen");
+        if(!voided){
+            criteria.add(Restrictions.eq("voided",voided));
+        }
+        return  criteria.list();
     }
 
-    public PatientRegimen getRegimenCycle(Integer cycle) throws DAOException{
-        Criteria criteria = sessionFactory.getCurrentSession()
-                .createCriteria(Regimen.class,"cycle").add(Restrictions.eq("regimen.cycle",cycle));
-        return (PatientRegimen) criteria.uniqueResult();
+    @Override
+    public PatientRegimen createPatientRegimen(PatientRegimen patientRegimen) {
+        if (patientRegimen == null){
+            return null;
+        }
+        sessionFactory.getCurrentSession().saveOrUpdate(patientRegimen);
+        return patientRegimen;
     }
-	
+
+    @Override
+    public PatientRegimen updatePatientRegimen(PatientRegimen patientRegimen) {
+        if (patientRegimen == null){
+            return null;
+        }
+        sessionFactory.getCurrentSession().saveOrUpdate(patientRegimen);
+        return patientRegimen;
+    }
+
+    @Override
+    public void voidPatientRegimen(PatientRegimen patientRegimen) {
+	    sessionFactory.getCurrentSession().delete(patientRegimen);
+    }
+
+    @Override
+    public Regimen createRegimen(Regimen regimen) {
+	   if (regimen == null) {
+	       return null;
+       }
+	   sessionFactory.getCurrentSession().saveOrUpdate(regimen);
+        return regimen;
+    }
+
+    @Override
+    public Regimen updateRegimen(Regimen regimen) {
+        if (regimen == null) {
+            return null;
+        }
+        sessionFactory.getCurrentSession().saveOrUpdate(regimen);
+        return regimen;
+    }
+
+    @Override
+    public void voidRegimen(Regimen regimen) {
+	    sessionFactory.getCurrentSession().delete(regimen);
+
+    }
+
+    @Override
+    public List<PatientRegimen> getPatientRegimen(Patient patient, Regimen regimen, String tag, Integer cycle) {
+	    Criteria criteria = sessionFactory.getCurrentSession().createCriteria(PatientRegimen.class);
+	    if (patient != null){
+	        criteria.add(Restrictions.eq("patientId", patient));
+        }
+        if (regimen != null){
+            criteria.add(Restrictions.eq("regimenId",regimen));
+        }
+        if (!StringUtils.isBlank("tag")) {
+            criteria.add(Restrictions.eq("tag",tag));
+
+        }
+        if (cycle != null) {
+            criteria.add(Restrictions.eq("cycle",cycle));
+
+        }
+
+        return criteria.list();
+    }
+
+
 	public List<Concept> getDrugFrequency() throws DAOException {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(
 				Concept.class, "con");
@@ -174,4 +241,5 @@ public class HibernateInventoryCommonDAO implements InventoryCommonDAO {
 
 		return inventoryStoreDrugPatients;
 	}
+
 }

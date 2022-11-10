@@ -40,15 +40,29 @@ public interface InventoryCommonService extends OpenmrsService{
 	//ghanshyam 12-june-2013 New Requirement #1635 User should be able to send pharmacy orders to issue drugs to a patient from dashboard
 	public InventoryDrug getDrugByName(String name) throws APIException;
 
-	public PatientRegimen getRegimenName(String name) throws APIException;
-
-	public PatientRegimen getRegimenCycle(Integer cycle) throws APIException;
-
     public List<Concept> getDrugFrequency() throws APIException;
 	
 	public InventoryDrugFormulation getDrugFormulationById(Integer id) throws APIException;
 
-	//get all issueings(orders whose fee has been paid for at cashpoint) on a  given date
+	public PatientRegimen createPatientRegimen(PatientRegimen patientRegimen) throws APIException;
+
+    public PatientRegimen updatePatientRegimen(PatientRegimen patientRegimen) throws APIException;
+
+    public void voidPatientRegimen(PatientRegimen patientRegimen) throws APIException;
+
+
+    public Regimen createRegimen(Regimen regimen) throws APIException;
+
+    public Regimen updateRegimen(Regimen regimen) throws APIException;
+
+    public void voidRegimen(Regimen regimen) throws APIException;
+
+
+
+
+
+
+    //get all issueings(orders whose fee has been paid for at cashpoint) on a  given date
 	public List<InventoryStoreDrugPatient> getAllIssueByDateRange(String startDate, String endDate) throws APIException;
 	//get transactionDetails for each of the iss apiuings done => getDrugDetailOfPatient
 

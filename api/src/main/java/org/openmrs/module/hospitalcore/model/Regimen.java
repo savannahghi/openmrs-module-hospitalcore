@@ -1,8 +1,10 @@
 package org.openmrs.module.hospitalcore.model;
 
+import org.openmrs.BaseOpenmrsData;
+
 import java.io.Serializable;
 
-public class Regimen implements Serializable {
+public class Regimen extends BaseOpenmrsData implements Serializable {
     private static final long serialVersionUID = 1L;
     private Integer id;
     private String  name;

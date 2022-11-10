@@ -55,17 +55,6 @@ public class InventoryCommonServiceImpl extends BaseOpenmrsService implements In
 		return dao.getDrugByName(name);
 	}
 
-    @Override
-    public PatientRegimen getRegimenName(String name) throws APIException {
-        return dao.getRegimenName(name);
-    }
-
-
-    @Override
-    public PatientRegimen getRegimenCycle(Integer cycle) throws APIException {
-        return dao.getRegimenCycle(cycle);
-    }
-
     public List<Concept> getDrugFrequency() throws APIException {
 		return dao.getDrugFrequency();
 	}
@@ -74,7 +63,38 @@ public class InventoryCommonServiceImpl extends BaseOpenmrsService implements In
 		return dao.getDrugFormulationById(id);
 	}
 
-	@Override
+    @Override
+    public PatientRegimen createPatientRegimen(PatientRegimen patientRegimen) throws APIException {
+        return dao.createPatientRegimen(patientRegimen);
+    }
+
+    @Override
+    public PatientRegimen updatePatientRegimen(PatientRegimen patientRegimen) throws APIException {
+        return dao.updatePatientRegimen(patientRegimen);
+    }
+
+    @Override
+    public void voidPatientRegimen(PatientRegimen patientRegimen) throws APIException {
+         dao.voidPatientRegimen(patientRegimen);
+    }
+
+    @Override
+    public Regimen createRegimen(Regimen regimen) throws APIException {
+        return dao.createRegimen(regimen);
+    }
+
+    @Override
+    public Regimen updateRegimen(Regimen regimen) throws APIException {
+        return dao.updateRegimen(regimen);
+    }
+
+    @Override
+    public void voidRegimen(Regimen regimen) throws APIException {
+	    dao.voidRegimen(regimen);
+
+    }
+
+    @Override
 	public List<InventoryStoreDrugPatient> getAllIssueByDateRange(String startDate, String endDate) throws APIException {
 		return dao.getAllIssueByDateRange(startDate,endDate);
 	}
