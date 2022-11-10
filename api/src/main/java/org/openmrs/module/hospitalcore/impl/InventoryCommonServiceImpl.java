@@ -22,10 +22,7 @@ import org.openmrs.api.APIException;
 import org.openmrs.api.impl.BaseOpenmrsService;
 import org.openmrs.module.hospitalcore.InventoryCommonService;
 import org.openmrs.module.hospitalcore.db.InventoryCommonDAO;
-import org.openmrs.module.hospitalcore.model.InventoryDrug;
-import org.openmrs.module.hospitalcore.model.InventoryDrugFormulation;
-import org.openmrs.module.hospitalcore.model.InventoryStoreDrugPatient;
-import org.openmrs.module.hospitalcore.model.InventoryStoreDrugPatientDetail;
+import org.openmrs.module.hospitalcore.model.*;
 
 /**
 *
@@ -57,13 +54,54 @@ public class InventoryCommonServiceImpl extends BaseOpenmrsService implements In
 	public InventoryDrug getDrugByName(String name) throws APIException {
 		return dao.getDrugByName(name);
 	}
-	
-	public List<Concept> getDrugFrequency() throws APIException {
+
+    public List<Concept> getDrugFrequency() throws APIException {
 		return dao.getDrugFrequency();
 	}
 	
 	public InventoryDrugFormulation getDrugFormulationById(Integer id) throws APIException {
 		return dao.getDrugFormulationById(id);
+	}
+
+    @Override
+    public PatientRegimen createPatientRegimen(PatientRegimen patientRegimen) throws APIException {
+        return dao.createPatientRegimen(patientRegimen);
+    }
+
+    @Override
+    public PatientRegimen updatePatientRegimen(PatientRegimen patientRegimen) throws APIException {
+        return dao.updatePatientRegimen(patientRegimen);
+    }
+
+    @Override
+    public void voidPatientRegimen(PatientRegimen patientRegimen) throws APIException {
+         dao.voidPatientRegimen(patientRegimen);
+    }
+
+	@Override
+	public List<PatientRegimen> getPatientRegimen(Patient patient, Regimen regimen, String tag, Integer cycle) {
+		return dao.getPatientRegimen(patient,regimen,tag,cycle);
+	}
+
+	@Override
+    public Regimen createRegimen(Regimen regimen) throws APIException {
+        return dao.createRegimen(regimen);
+    }
+
+    @Override
+    public Regimen updateRegimen(Regimen regimen) throws APIException {
+        return dao.updateRegimen(regimen);
+    }
+
+    @Override
+    public void voidRegimen(Regimen regimen) throws APIException {
+	    dao.voidRegimen(regimen);
+
+    }
+
+	@Override
+	public List<Regimen> getRegimens(boolean voided) {
+		return dao.getRegimens(voided);
 	}
 
 	@Override
