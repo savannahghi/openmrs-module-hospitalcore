@@ -1613,7 +1613,7 @@
             ADD FOREIGN KEY (`department_id`) REFERENCES `ehr_department` (`id`);
         </sql>
     </changeSet>
-    <changeSet id="81347759-704A-48BF-814C-20845948D727" author="ningosi">
+    <changeSet id="6cc9fba25bb17d51a438ea2ff045cdbc" author="ningosi">
         <preConditions onFail="MARK_RAN" onError="WARN">
             <dbms type="mysql"/>
         </preConditions>
@@ -1765,6 +1765,55 @@
 
             ALTER TABLE regimen
             ADD FOREIGN KEY (`changed_by`) REFERENCES `users` (`user_id`);
+        </sql>
+    </changeSet>
+
+    <changeSet id="hospital-core:2022-11-10-20:34" author="vic">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Adding regimen</comment>
+        <sql>
+            INSERT INTO regimen
+            (name, `cycle`, changed_by, date_changed, voided, voided_by, date_voided, voided_reason)
+            VALUES('AC/Docetaxel', 6, 2, 2022-11-10, 0, NULL, '2022-11-10 00:00:00', NULL);
+
+            INSERT INTO regimen
+            (name, `cycle`, changed_by, date_changed, voided, voided_by, date_voided, voided_reason)
+            VALUES('FAC', 6, 2, 2022-11-10, 0, NULL, '2022-11-10 00:00:00', NULL);
+
+            INSERT INTO regimen
+            (name, `cycle`, changed_by, date_changed, voided, voided_by, date_voided, voided_reason)
+            VALUES('Carboplatin/Docetaxel', 6, 2, 2022-11-10, 0, NULL, '2022-11-10 00:00:00', NULL);
+
+            INSERT INTO regimen
+            (name, `cycle`, changed_by, date_changed, voided, voided_by, date_voided, voided_reason)
+            VALUES('Docetaxel', 6, 2, 2022-11-10, 0, NULL, '2022-11-10 00:00:00', NULL);
+
+            INSERT INTO regimen
+            (name, `cycle`, changed_by, date_changed, voided, voided_by, date_voided, voided_reason)
+            VALUES('Doxorubicin/Docetaxel', 6, 2, 2022-11-10, 0, NULL, '2022-11-10 00:00:00', NULL);
+
+            INSERT INTO regimen
+            (id, name, `cycle`, changed_by, date_changed, voided, voided_by, date_voided, voided_reason)
+            VALUES('para', 6, 2, 2022-11-10, 0, NULL, '2022-11-10 00:00:00', NULL);
+
+            INSERT INTO regimen
+            (name, `cycle`, changed_by, date_changed, voided, voided_by, date_voided, voided_reason)
+            VALUES('Docetaxel', 6, 2, 2022-11-10, 0, NULL, '2022-11-10 00:00:00', NULL);
+
+            INSERT INTO regimen
+            (name, `cycle`, changed_by, date_changed, voided, voided_by, date_voided, voided_reason)
+            VALUES('Prednisolone/IT MTX', 6, 2, 2022-11-10, 0, NULL, '2022-11-10 00:00:00', NULL);
+
+            INSERT INTO regimen
+            (name, `cycle`, changed_by, date_changed, voided, voided_by, date_voided, voided_reason)
+            VALUES('Dexa/Vinc/Doxo/ASPA/Cyclo/Cytarabine/6-MP/IT MTX', 6, 2, 2022-11-10, 0, NULL, '2022-11-10 00:00:00', NULL);
+
+            INSERT INTO regimen
+            (name, `cycle`, changed_by, date_changed, voided, voided_by, date_voided, voided_reason)
+            VALUES('Filgrastim', 6, 2, 2022-11-10, 0, NULL, '2022-11-10 00:00:00', NULL);
+
         </sql>
     </changeSet>
 </databaseChangeLog>
