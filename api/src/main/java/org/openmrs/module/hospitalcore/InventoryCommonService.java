@@ -57,6 +57,13 @@ public interface InventoryCommonService extends OpenmrsService{
 
     public void voidRegimen(Regimen regimen) throws APIException;
 
+    public void createCycle(Cycle cycle) throws  APIException;
+
+    public void updateCycle(Cycle cycle) throws APIException;
+
+
+
+
 
 
 

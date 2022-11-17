@@ -55,4 +55,7 @@ public interface InventoryCommonDAO {
     Regimen createRegimen(Regimen regimen);
     Regimen updateRegimen(Regimen regimen);
     void voidRegimen(Regimen regimen);
+
+    Cycle createCycle(Cycle cycle);
+    Cycle updateCycle(Cycle cycle);
 }

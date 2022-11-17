@@ -18,7 +18,7 @@ public class PatientRegimen extends BaseOpenmrsData implements Serializable {
     private String route;
     private String comment;
     private String tag;
-    private Integer cycle;
+    private Cycle cycleId;
 
     public Integer getId() {
         return id;
@@ -95,11 +95,11 @@ public class PatientRegimen extends BaseOpenmrsData implements Serializable {
         this.tag = tag;
     }
 
-    public Integer getCycle() {
-        return cycle;
+    public Cycle getCycleId() {
+        return cycleId;
     }
 
-    public void setCycle(Integer cycle) {
-        this.cycle = cycle;
+    public void setCycleId(Cycle cycleId) {
+        this.cycleId = cycleId;
     }
 }

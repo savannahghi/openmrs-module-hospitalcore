@@ -165,6 +165,24 @@ public class HibernateInventoryCommonDAO implements InventoryCommonDAO {
     }
 
     @Override
+    public Cycle createCycle(Cycle cycle) {
+        if(cycle == null){
+            return null;
+        }
+        sessionFactory.getCurrentSession().saveOrUpdate(cycle);
+        return cycle;
+    }
+
+    @Override
+    public Cycle updateCycle(Cycle cycle) {
+        if(cycle == null){
+            return null;
+        }
+        sessionFactory.getCurrentSession().saveOrUpdate(cycle);
+        return cycle;
+    }
+
+    @Override
     public List<PatientRegimen> getPatientRegimen(Patient patient, Regimen regimen, String tag, Integer cycle) {
 	    Criteria criteria = sessionFactory.getCurrentSession().createCriteria(PatientRegimen.class);
 	    if (patient != null){

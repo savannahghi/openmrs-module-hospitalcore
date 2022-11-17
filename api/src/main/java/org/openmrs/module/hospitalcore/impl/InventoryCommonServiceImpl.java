@@ -95,6 +95,18 @@ public class InventoryCommonServiceImpl extends BaseOpenmrsService implements In
     }
 
     @Override
+    public void createCycle(Cycle cycle) throws APIException {
+        dao.createCycle(cycle);
+
+    }
+
+    @Override
+    public void updateCycle(Cycle cycle) throws APIException {
+        dao.updateCycle(cycle);
+
+    }
+
+    @Override
 	public List<InventoryStoreDrugPatient> getAllIssueByDateRange(String startDate, String endDate) throws APIException {
 		return dao.getAllIssueByDateRange(startDate,endDate);
 	}
