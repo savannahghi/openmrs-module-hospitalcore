@@ -28,6 +28,7 @@ import org.hibernate.criterion.Restrictions;
 import org.openmrs.Concept;
 import org.openmrs.ConceptClass;
 import org.openmrs.Patient;
+import org.openmrs.api.APIException;
 import org.openmrs.api.context.Context;
 import org.openmrs.api.db.DAOException;
 import org.openmrs.module.hospitalcore.db.InventoryCommonDAO;
@@ -161,6 +162,11 @@ public class HibernateInventoryCommonDAO implements InventoryCommonDAO {
     @Override
     public void voidRegimen(Regimen regimen) {
 	    sessionFactory.getCurrentSession().delete(regimen);
+
+    }
+
+    @Override
+    public void voidCycle(Cycle cycle) throws APIException {
 
     }
 
