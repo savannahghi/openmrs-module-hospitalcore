@@ -35,7 +35,7 @@ public interface InventoryCommonDAO {
 	//ghanshyam 12-june-2013 New Requirement #1635 User should be able to send pharmacy orders to issue drugs to a patient from dashboard
 	public InventoryDrug getDrugByName(String name) throws DAOException;
 
-	public List<PatientRegimen> getPatientRegimen(Patient patient, Regimen regimen, String tag, Integer cycle);
+	public List<PatientRegimen> getPatientRegimen(Patient patient, String tag, Integer cycle);
 
 	public List<Concept> getDrugFrequency() throws DAOException;
 	
