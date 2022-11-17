@@ -183,14 +183,12 @@ public class HibernateInventoryCommonDAO implements InventoryCommonDAO {
     }
 
     @Override
-    public List<PatientRegimen> getPatientRegimen(Patient patient, Regimen regimen, String tag, Integer cycle) {
+    public List<PatientRegimen> getPatientRegimen(Patient patient, String tag, Integer cycle) {
 	    Criteria criteria = sessionFactory.getCurrentSession().createCriteria(PatientRegimen.class);
 	    if (patient != null){
 	        criteria.add(Restrictions.eq("patientId", patient));
         }
-        if (regimen != null){
-            criteria.add(Restrictions.eq("regimenId",regimen));
-        }
+
         if (!StringUtils.isBlank("tag")) {
             criteria.add(Restrictions.eq("tag",tag));
 
