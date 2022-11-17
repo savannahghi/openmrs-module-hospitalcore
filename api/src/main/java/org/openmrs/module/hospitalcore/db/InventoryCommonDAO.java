@@ -55,7 +55,7 @@ public interface InventoryCommonDAO {
     Regimen createRegimen(Regimen regimen);
     Regimen updateRegimen(Regimen regimen);
     void voidRegimen(Regimen regimen);
-
+void voidCycle(Cycle cycle) throws APIException;
     Cycle createCycle(Cycle cycle);
     Cycle updateCycle(Cycle cycle);
 }
