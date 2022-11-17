@@ -1,6 +1,7 @@
 package org.openmrs.module.hospitalcore.model;
 
 import org.openmrs.BaseOpenmrsData;
+import org.openmrs.Patient;
 
 import java.io.Serializable;
 
@@ -11,6 +12,7 @@ public class Cycle extends BaseOpenmrsData implements Serializable {
     private String outcome;
     private Regimen regimenId;
     private Boolean active;
+    private Patient patientId;
 
 
     @Override
@@ -53,5 +55,13 @@ public class Cycle extends BaseOpenmrsData implements Serializable {
 
     public void setActive(Boolean active) {
         this.active = active;
+    }
+
+    public Patient getPatientId() {
+        return patientId;
+    }
+
+    public void setPatientId(Patient patientId) {
+        this.patientId = patientId;
     }
 }

@@ -1837,6 +1837,7 @@
         <comment>update table patient_regimen</comment>
         <sql>
             ALTER TABLE patient_regimen DROP COLUMN regimen_id;
+
         </sql>
     </changeSet>
 
@@ -1854,13 +1855,58 @@
     </sql>
     </changeSet>
 
-    <changeSet id="hospital-core:2022-11-19-16:02" author="vic">
+    <changeSet id="hospital-core:2022-11-20-16:02" author="vic">
         <preConditions onFail="MARK_RAN" onError="WARN">
             <dbms type="mysql"/>
         </preConditions>
-        <comment>Adding cycle_id column on the patient_regimen</comment>
+        <comment>remove patient_id from patientregimen </comment>
         <sql>
-            ALTER TABLE patient_regimen ADD CONSTRAINT `patient_ids` FOREIGN KEY (`patient_id`) REFERENCES `patient`(`patient_id`);
+            ALTER TABLE patient_regimen DROP COLUMN patient_id;
         </sql>
     </changeSet>
+
+    <changeSet id="hospital-core:2022-11-17-20:04" author="vic">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Adding patient_id to table cycle</comment>
+        <sql>
+            ALTER TABLE cycle
+            ADD COLUMN `patient_id` int(11) DEFAULT NULL;
+
+            ALTER TABLE cycle ADD CONSTRAINT `patient_ids` FOREIGN KEY (`patient_id`) REFERENCES `patient`(`patient_id`);
+
+        </sql>
+    </changeSet>
+
+    <changeSet id="hospital-core:2022-11-14-22:14" author="vic">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Adding cycle changed_by and when changed</comment>
+        <sql>
+            ALTER TABLE  cycle
+            ADD COLUMN `changed_by` int(11) DEFAULT NULL;
+
+            ALTER TABLE  cycle
+            ADD COLUMN `date_changed` int(11) DEFAULT NULL;
+
+            ALTER TABLE  cycle
+            ADD COLUMN  `voided` tinyint(1) NOT NULL DEFAULT '0';
+
+            ALTER TABLE  cycle
+            ADD COLUMN   `voided_by` int(11) DEFAULT NULL;
+
+            ALTER TABLE  cycle
+            ADD COLUMN   `date_voided` datetime DEFAULT NULL;
+
+            ALTER TABLE  cycle
+            ADD COLUMN   `voided_reason` varchar(255) DEFAULT NULL;
+
+            ALTER TABLE cycle
+            ADD FOREIGN KEY (`changed_by`) REFERENCES `users` (`user_id`);
+        </sql>
+    </changeSet>
+
+
 </databaseChangeLog>

@@ -79,8 +79,8 @@ public class InventoryCommonServiceImpl extends BaseOpenmrsService implements In
     }
 
 	@Override
-	public List<PatientRegimen> getPatientRegimen(Patient patient,  String tag, Integer cycle) {
-		return dao.getPatientRegimen(patient,tag,cycle);
+	public List<PatientRegimen> getPatientRegimen(  String tag, Integer cycle,boolean voided) {
+		return dao.getPatientRegimen(tag,cycle,voided);
 	}
 
 	@Override
@@ -115,6 +115,17 @@ public class InventoryCommonServiceImpl extends BaseOpenmrsService implements In
         dao.updateCycle(cycle);
 
     }
+
+    @Override
+    public List<Cycle> getCycle(Patient patient, boolean voided) {
+        return dao.getCycles(patient,voided);    }
+
+    @Override
+    public void voidCycle(Cycle cycle) throws APIException{
+	    dao.voidCycle(cycle);
+    }
+
+
 
     @Override
 	public List<InventoryStoreDrugPatient> getAllIssueByDateRange(String startDate, String endDate) throws APIException {
