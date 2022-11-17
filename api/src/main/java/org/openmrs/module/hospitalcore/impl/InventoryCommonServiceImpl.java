@@ -79,8 +79,8 @@ public class InventoryCommonServiceImpl extends BaseOpenmrsService implements In
     }
 
 	@Override
-	public List<PatientRegimen> getPatientRegimen(Patient patient, Regimen regimen, String tag, Integer cycle) {
-		return dao.getPatientRegimen(patient,regimen,tag,cycle);
+	public List<PatientRegimen> getPatientRegimen(Patient patient,  String tag, Integer cycle) {
+		return dao.getPatientRegimen(patient,tag,cycle);
 	}
 
 	@Override

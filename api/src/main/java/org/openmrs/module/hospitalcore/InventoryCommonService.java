@@ -50,7 +50,7 @@ public interface InventoryCommonService extends OpenmrsService{
 
     public void voidPatientRegimen(PatientRegimen patientRegimen) throws APIException;
 
-	List<PatientRegimen> getPatientRegimen(Patient patient, Regimen regimen, String tag, Integer cycle);
+	List<PatientRegimen> getPatientRegimen(Patient patient,String tag, Integer cycle);
 
 
     public Regimen createRegimen(Regimen regimen) throws APIException;
