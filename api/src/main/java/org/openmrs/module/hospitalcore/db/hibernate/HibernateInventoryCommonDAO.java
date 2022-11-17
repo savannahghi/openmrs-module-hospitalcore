@@ -28,6 +28,7 @@ import org.hibernate.criterion.Restrictions;
 import org.openmrs.Concept;
 import org.openmrs.ConceptClass;
 import org.openmrs.Patient;
+import org.openmrs.api.APIException;
 import org.openmrs.api.context.Context;
 import org.openmrs.api.db.DAOException;
 import org.openmrs.module.hospitalcore.db.InventoryCommonDAO;
@@ -137,7 +138,8 @@ public class HibernateInventoryCommonDAO implements InventoryCommonDAO {
 
     @Override
     public void voidPatientRegimen(PatientRegimen patientRegimen) {
-	    sessionFactory.getCurrentSession().delete(patientRegimen);
+	    patientRegimen.setVoided(true);
+	    sessionFactory.getCurrentSession().saveOrUpdate(patientRegimen);
     }
 
     @Override
@@ -160,24 +162,58 @@ public class HibernateInventoryCommonDAO implements InventoryCommonDAO {
 
     @Override
     public void voidRegimen(Regimen regimen) {
-	    sessionFactory.getCurrentSession().delete(regimen);
+	    regimen.setVoided(true);
+	    sessionFactory.getCurrentSession().saveOrUpdate(regimen);
 
     }
 
     @Override
-    public List<PatientRegimen> getPatientRegimen(Patient patient, String tag, Integer cycle) {
-	    Criteria criteria = sessionFactory.getCurrentSession().createCriteria(PatientRegimen.class);
-	    if (patient != null){
-	        criteria.add(Restrictions.eq("patientId", patient));
+    public List<Cycle> getCycles(Patient patient,boolean voided) {
+        Criteria criteria = sessionFactory.getCurrentSession()
+                .createCriteria(Cycle.class,"cycle");
+        if(!voided){
+            criteria.add(Restrictions.eq("voided",voided));
         }
+        return  criteria.list();
+    }
+
+    @Override
+    public void voidCycle(Cycle cycle) throws APIException {
+	    cycle.setVoided(true);
+	    sessionFactory.getCurrentSession().saveOrUpdate(cycle);
+    }
+
+    @Override
+    public Cycle createCycle(Cycle cycle) {
+        if(cycle == null){
+            return null;
+        }
+        sessionFactory.getCurrentSession().saveOrUpdate(cycle);
+        return cycle;
+    }
+
+    @Override
+    public Cycle updateCycle(Cycle cycle) {
+        if(cycle == null){
+            return null;
+        }
+        sessionFactory.getCurrentSession().saveOrUpdate(cycle);
+        return cycle;
+    }
+
+    @Override
+    public List<PatientRegimen> getPatientRegimen(String tag, Integer cycleId,boolean voided) {
+	    Criteria criteria = sessionFactory.getCurrentSession().createCriteria(PatientRegimen.class);
 
         if (!StringUtils.isBlank("tag")) {
             criteria.add(Restrictions.eq("tag",tag));
 
         }
-        if (cycle != null) {
-            criteria.add(Restrictions.eq("cycle",cycle));
-
+        if (cycleId != null) {
+            criteria.add(Restrictions.eq("cycleId",cycleId));
+        }
+        if (voided){
+            criteria.add(Restrictions.eq("voided",voided));
         }
 
         return criteria.list();

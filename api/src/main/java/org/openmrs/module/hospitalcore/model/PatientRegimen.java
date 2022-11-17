@@ -1,7 +1,6 @@
 package org.openmrs.module.hospitalcore.model;
 
 import org.openmrs.BaseOpenmrsData;
-import org.openmrs.Patient;
 
 import java.io.Serializable;
 import java.util.Set;
@@ -9,8 +8,6 @@ import java.util.Set;
 public class PatientRegimen extends BaseOpenmrsData implements Serializable {
     private static final long serialVersionUID = 1L;
     private Integer id;
-    private Patient patientId;
-    private Regimen regimenId;
     private InventoryDrug drugId;
     private InventoryDrugUnit unit;
     private Set<InventoryDrugFormulation> formulations;
@@ -18,7 +15,7 @@ public class PatientRegimen extends BaseOpenmrsData implements Serializable {
     private String route;
     private String comment;
     private String tag;
-    private Integer cycle;
+    private Cycle cycleId;
 
     public Integer getId() {
         return id;
@@ -55,22 +52,6 @@ public class PatientRegimen extends BaseOpenmrsData implements Serializable {
         this.route = route;
     }
 
-    public Patient getPatientId() {
-        return patientId;
-    }
-
-    public void setPatientId(Patient patientId) {
-        this.patientId = patientId;
-    }
-
-    public Regimen getRegimenId() {
-        return regimenId;
-    }
-
-    public void setRegimenId(Regimen regimenId) {
-        this.regimenId = regimenId;
-    }
-
     public InventoryDrug getDrugId() {
         return drugId;
     }
@@ -95,11 +76,11 @@ public class PatientRegimen extends BaseOpenmrsData implements Serializable {
         this.tag = tag;
     }
 
-    public Integer getCycle() {
-        return cycle;
+    public Cycle getCycleId() {
+        return cycleId;
     }
 
-    public void setCycle(Integer cycle) {
-        this.cycle = cycle;
+    public void setCycleId(Cycle cycleId) {
+        this.cycleId = cycleId;
     }
 }

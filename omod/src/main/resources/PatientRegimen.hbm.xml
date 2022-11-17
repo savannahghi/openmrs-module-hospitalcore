@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="org.openmrs.module.hospitalcore.model">
+
+    <class name="PatientRegimen" table="patient_regimen" batch-size="500">
+
+        <id name="id" type="int" column="id"
+            unsaved-value="0">
+            <generator class="native" />
+        </id>
+        <many-to-one name="drugId" column="drugs_id" class="org.openmrs.module.hospitalcore.model.InventoryDrug"
+                     cascade="none" lazy="false"/>
+        <many-to-one name="cycleId" column="cycle_id" class="org.openmrs.module.hospitalcore.model.Cycle"
+        cascade="none" lazy="false"/>
+        <property name="route" column="route"/>
+        <property name="tag" column="tag"/>
+        <many-to-one name="formulations" column="formulation_id" class="org.openmrs.module.hospitalcore.model.InventoryDrugFormulation" />
+        <property name="comment" column="comments" />
+        <many-to-one name="changedBy" column="changed_by" class="org.openmrs.User" />
+        <property name="dateChanged" type="java.util.Date" column="data_changed"
+                  not-null="false" length="19" />
+        <property name="voided" column="voided"/>
+        <property name="voidedBy" column="voided_by"/>
+        <property name="dateVoided" type="java.util.Date" column="date_voided"/>
+        <property name="voidReason" column="voided_reason"/>
+        <many-to-one name="unit" column="unit_id" class="org.openmrs.Concept" />
+
+
+    </class>
+</hibernate-mapping>
