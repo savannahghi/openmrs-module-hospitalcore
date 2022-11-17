@@ -95,7 +95,8 @@ public class InventoryCommonServiceImpl extends BaseOpenmrsService implements In
 
     @Override
     public List<Regimen> getRegimens(boolean voided) {
-        return null;
+
+        return dao.getRegimens(voided);
     }
 
     @Override
