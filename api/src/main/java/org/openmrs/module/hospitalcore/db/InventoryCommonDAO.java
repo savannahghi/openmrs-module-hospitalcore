@@ -44,7 +44,7 @@ public interface InventoryCommonDAO {
     List<InventoryStoreDrugPatient> getAllIssueByDateRange(String startDate, String endDate);
 
 
-    public List<PatientRegimen> getPatientRegimen(String tag, Integer cycle,boolean voided);
+    public List<PatientRegimen> getPatientRegimen(String tag, Cycle cycle,boolean voided);
 
     PatientRegimen createPatientRegimen(PatientRegimen patientRegimen);
 
@@ -67,4 +67,6 @@ public interface InventoryCommonDAO {
     Cycle createCycle(Cycle cycle);
 
     Cycle updateCycle(Cycle cycle);
+
+    Cycle getCycleById(Integer cycleId);
 }

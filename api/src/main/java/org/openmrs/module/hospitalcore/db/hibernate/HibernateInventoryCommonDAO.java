@@ -201,16 +201,21 @@ public class HibernateInventoryCommonDAO implements InventoryCommonDAO {
         return cycle;
     }
 
-    @Override
-    public List<PatientRegimen> getPatientRegimen(String tag, Integer cycleId,boolean voided) {
+	@Override
+	public Cycle getCycleById(Integer cycleId) {
+		return (Cycle) sessionFactory.getCurrentSession().get(Cycle.class,cycleId);
+	}
+
+	@Override
+    public List<PatientRegimen> getPatientRegimen(String tag, Cycle cycle,boolean voided) {
 	    Criteria criteria = sessionFactory.getCurrentSession().createCriteria(PatientRegimen.class);
 
         if (!StringUtils.isBlank("tag")) {
             criteria.add(Restrictions.eq("tag",tag));
 
         }
-        if (cycleId != null) {
-            criteria.add(Restrictions.eq("cycleId",cycleId));
+        if (cycle != null) {
+            criteria.add(Restrictions.eq("cycleId",cycle));
         }
         if (voided){
             criteria.add(Restrictions.eq("voided",voided));

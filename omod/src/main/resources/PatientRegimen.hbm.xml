@@ -18,9 +18,9 @@
         <property name="route" column="route"/>
         <property name="tag" column="tag"/>
         <many-to-one name="formulations" column="formulation_id" class="org.openmrs.module.hospitalcore.model.InventoryDrugFormulation" />
-        <property name="comment" column="comments" />
+        <property name="comment" column="comment" />
         <many-to-one name="changedBy" column="changed_by" class="org.openmrs.User" />
-        <property name="dateChanged" type="java.util.Date" column="data_changed"
+        <property name="dateChanged" type="java.util.Date" column="date_changed"
                   not-null="false" length="19" />
         <property name="voided" column="voided"/>
         <property name="voidedBy" column="voided_by"/>

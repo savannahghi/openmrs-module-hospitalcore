@@ -17,7 +17,7 @@
         <many-to-one name="regimenId" column="regimen_id" class="org.openmrs.module.hospitalcore.model.Regimen" />
         <many-to-one name="patientId" column="patient_id" class="org.openmrs.Patient" />
         <many-to-one name="changedBy" column="changed_by" class="org.openmrs.User" />
-        <property name="dateChanged" type="java.util.Date" column="data_changed"
+        <property name="dateChanged" type="java.util.Date" column="date_changed"
                   not-null="false" length="19" />
         <property name="voided" column="voided"/>
         <property name="voidedBy" column="voided_by"/>

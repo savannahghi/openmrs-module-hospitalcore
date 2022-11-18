@@ -79,7 +79,7 @@ public class InventoryCommonServiceImpl extends BaseOpenmrsService implements In
     }
 
 	@Override
-	public List<PatientRegimen> getPatientRegimen(  String tag, Integer cycle,boolean voided) {
+	public List<PatientRegimen> getPatientRegimen(  String tag, Cycle cycle,boolean voided) {
 		return dao.getPatientRegimen(tag,cycle,voided);
 	}
 
@@ -95,7 +95,8 @@ public class InventoryCommonServiceImpl extends BaseOpenmrsService implements In
 
     @Override
     public List<Regimen> getRegimens(boolean voided) {
-        return null;
+
+        return dao.getRegimens(voided);
     }
 
     @Override
@@ -125,6 +126,10 @@ public class InventoryCommonServiceImpl extends BaseOpenmrsService implements In
 	    dao.voidCycle(cycle);
     }
 
+    @Override
+    public Cycle getCycleById(Integer cycleId) {
+        return dao.getCycleById(cycleId);
+    }
 
 
     @Override
