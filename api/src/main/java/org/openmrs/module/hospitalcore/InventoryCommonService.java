@@ -57,7 +57,7 @@ public interface InventoryCommonService extends OpenmrsService {
 
     public Regimen updateRegimen(Regimen regimen) throws APIException;
 
-    List<Regimen> getRegimens(boolean voided);
+    List<Regimen> getRegimens(Patient patient, RegimenType regimenType, boolean voided);
 
     public void voidRegimen(Regimen regimen) throws APIException;
 
@@ -66,7 +66,7 @@ public interface InventoryCommonService extends OpenmrsService {
 
     public void updateCycle(Cycle cycle) throws APIException;
 
-    List<Cycle> getCycle(Patient patient,boolean voided);
+    List<Cycle> getCycles(boolean voided);
 
     void voidCycle(Cycle cycle) throws APIException;
 
@@ -78,5 +78,15 @@ public interface InventoryCommonService extends OpenmrsService {
     //get all issueings(orders whose fee has been paid for at cashpoint) on a  given date
     public List<InventoryStoreDrugPatient> getAllIssueByDateRange(String startDate, String endDate) throws APIException;
     //get transactionDetails for each of the iss apiuings done => getDrugDetailOfPatient
+
+
+    //    Regimen Type
+    List<RegimenType> getRegimenTypes(boolean voided);
+
+    void voidRegimenType(RegimenType regimenType) throws APIException;
+
+    RegimenType createRegimenType(RegimenType regimenType);
+
+    RegimenType updateRegimenType(RegimenType regimenType);
 
 }

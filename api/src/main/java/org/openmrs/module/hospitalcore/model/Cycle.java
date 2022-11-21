@@ -10,9 +10,11 @@ public class Cycle extends BaseOpenmrsData implements Serializable {
     private Integer id;
     private String summaryNotes;
     private String outcome;
+    private String name;
+    private String icon;
     private Regimen regimenId;
     private Boolean active;
-    private Patient patientId;
+
 
 
     @Override
@@ -57,11 +59,28 @@ public class Cycle extends BaseOpenmrsData implements Serializable {
         this.active = active;
     }
 
-    public Patient getPatientId() {
-        return patientId;
+    public String getName() {
+        return name;
     }
 
-    public void setPatientId(Patient patientId) {
-        this.patientId = patientId;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
+    @Override
+    public String toString() {
+        return "Cycle{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", icon='" + icon + '\'' +
+                '}';
     }
 }

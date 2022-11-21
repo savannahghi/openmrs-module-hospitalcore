@@ -36,91 +36,97 @@ import org.openmrs.module.hospitalcore.model.*;
 
 public class HibernateInventoryCommonDAO implements InventoryCommonDAO {
 
-	SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
-	SimpleDateFormat formatterExt = new SimpleDateFormat("dd/MM/yyyy");
+    SimpleDateFormat formatterExt = new SimpleDateFormat("dd/MM/yyyy");
 
-	protected final Log log = LogFactory.getLog(getClass());
+    protected final Log log = LogFactory.getLog(getClass());
 
-	/**
-	 * Hibernate session factory
-	 */
-	private SessionFactory sessionFactory;
+    /**
+     * Hibernate session factory
+     */
+    private SessionFactory sessionFactory;
 
-	/**
-	 * Set session factory
-	 * 
-	 * @param sessionFactory
-	 */
-	public void setSessionFactory(SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
-	}
+    /**
+     * Set session factory
+     *
+     * @param sessionFactory
+     */
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
 
-	@SuppressWarnings("unchecked")
-	public List<InventoryStoreDrugPatient> getAllIssueDateByPatientId(
-			Patient patient) throws DAOException {
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(
-				InventoryStoreDrugPatient.class);
-		criteria.add(Restrictions.eq("patient", patient));
+    @SuppressWarnings("unchecked")
+    public List<InventoryStoreDrugPatient> getAllIssueDateByPatientId(
+            Patient patient) throws DAOException {
+        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(
+                InventoryStoreDrugPatient.class);
+        criteria.add(Restrictions.eq("patient", patient));
 
-		return criteria.list();
-	}
+        return criteria.list();
+    }
 
-	@SuppressWarnings("unchecked")
-	public List<InventoryStoreDrugPatient> getDeatilOfInventoryStoreDrugPatient(
-			Patient patient, String date) throws DAOException {
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(
-				InventoryStoreDrugPatient.class);
-		criteria.add(Restrictions.eq("patient", patient));
-		if (!date.equals("all")) {
-			String startDate = date + " 00:00:00";
-			String endDate = date + " 23:59:59";
-			try {
-				criteria.add(Restrictions.and(Restrictions.ge("createdOn",
-						formatter.parse(startDate)), Restrictions.le(
-						"createdOn", formatter.parse(endDate))));
-			} catch (Exception e) {
-				// TODO: handle exception
-				e.printStackTrace();
-			}
-		}
-
-		return criteria.list();
-	}
-
-	@SuppressWarnings("unchecked")
-	public List<InventoryStoreDrugPatientDetail> getDrugDetailOfPatient(
-			InventoryStoreDrugPatient isdpd) throws DAOException {
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(
-				InventoryStoreDrugPatientDetail.class);
-		if(isdpd != null) {
-			criteria.add(Restrictions.eq("storeDrugPatient", isdpd));
-		}
-
-		return criteria.list();
-	}
-
-	// ghanshyam 12-june-2013 New Requirement #1635 User should be able to send pharmacy orders to issue drugs to a patient from dashboard
-	public InventoryDrug getDrugByName(String name) throws DAOException {
-		Criteria criteria = sessionFactory.getCurrentSession()
-				.createCriteria(InventoryDrug.class, "drug")
-				.add(Restrictions.eq("drug.name", name));
-		return (InventoryDrug) criteria.uniqueResult();
-	}
-
-
-    public List<Regimen> getRegimens(boolean voided) {
-        Criteria criteria = sessionFactory.getCurrentSession()
-                .createCriteria(Regimen.class,"regimen");
-        if(!voided){
-            criteria.add(Restrictions.eq("voided",voided));
+    @SuppressWarnings("unchecked")
+    public List<InventoryStoreDrugPatient> getDeatilOfInventoryStoreDrugPatient(
+            Patient patient, String date) throws DAOException {
+        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(
+                InventoryStoreDrugPatient.class);
+        criteria.add(Restrictions.eq("patient", patient));
+        if (!date.equals("all")) {
+            String startDate = date + " 00:00:00";
+            String endDate = date + " 23:59:59";
+            try {
+                criteria.add(Restrictions.and(Restrictions.ge("createdOn",
+                        formatter.parse(startDate)), Restrictions.le(
+                        "createdOn", formatter.parse(endDate))));
+            } catch (Exception e) {
+                // TODO: handle exception
+                e.printStackTrace();
+            }
         }
-        return  criteria.list();
+
+        return criteria.list();
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<InventoryStoreDrugPatientDetail> getDrugDetailOfPatient(
+            InventoryStoreDrugPatient isdpd) throws DAOException {
+        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(
+                InventoryStoreDrugPatientDetail.class);
+        if (isdpd != null) {
+            criteria.add(Restrictions.eq("storeDrugPatient", isdpd));
+        }
+
+        return criteria.list();
+    }
+
+    // ghanshyam 12-june-2013 New Requirement #1635 User should be able to send pharmacy orders to issue drugs to a patient from dashboard
+    public InventoryDrug getDrugByName(String name) throws DAOException {
+        Criteria criteria = sessionFactory.getCurrentSession()
+                .createCriteria(InventoryDrug.class, "drug")
+                .add(Restrictions.eq("drug.name", name));
+        return (InventoryDrug) criteria.uniqueResult();
+    }
+
+
+    public List<Regimen> getRegimens(Patient patient, RegimenType regimenType, boolean voided) {
+        Criteria criteria = sessionFactory.getCurrentSession()
+                .createCriteria(Regimen.class, "regimen");
+        if (patient != null) {
+            criteria.add(Restrictions.eq("patient", patient));
+        }
+        if (regimenType != null) {
+            criteria.add(Restrictions.eq("regimenType", regimenType));
+        }
+        if (!voided) {
+            criteria.add(Restrictions.eq("voided", voided));
+        }
+        return criteria.list();
     }
 
     @Override
     public PatientRegimen createPatientRegimen(PatientRegimen patientRegimen) {
-        if (patientRegimen == null){
+        if (patientRegimen == null) {
             return null;
         }
         sessionFactory.getCurrentSession().saveOrUpdate(patientRegimen);
@@ -129,7 +135,7 @@ public class HibernateInventoryCommonDAO implements InventoryCommonDAO {
 
     @Override
     public PatientRegimen updatePatientRegimen(PatientRegimen patientRegimen) {
-        if (patientRegimen == null){
+        if (patientRegimen == null) {
             return null;
         }
         sessionFactory.getCurrentSession().saveOrUpdate(patientRegimen);
@@ -138,16 +144,16 @@ public class HibernateInventoryCommonDAO implements InventoryCommonDAO {
 
     @Override
     public void voidPatientRegimen(PatientRegimen patientRegimen) {
-	    patientRegimen.setVoided(true);
-	    sessionFactory.getCurrentSession().saveOrUpdate(patientRegimen);
+        patientRegimen.setVoided(true);
+        sessionFactory.getCurrentSession().saveOrUpdate(patientRegimen);
     }
 
     @Override
     public Regimen createRegimen(Regimen regimen) {
-	   if (regimen == null) {
-	       return null;
-       }
-	   sessionFactory.getCurrentSession().saveOrUpdate(regimen);
+        if (regimen == null) {
+            return null;
+        }
+        sessionFactory.getCurrentSession().saveOrUpdate(regimen);
         return regimen;
     }
 
@@ -162,30 +168,30 @@ public class HibernateInventoryCommonDAO implements InventoryCommonDAO {
 
     @Override
     public void voidRegimen(Regimen regimen) {
-	    regimen.setVoided(true);
-	    sessionFactory.getCurrentSession().saveOrUpdate(regimen);
+        regimen.setVoided(true);
+        sessionFactory.getCurrentSession().saveOrUpdate(regimen);
 
     }
 
     @Override
-    public List<Cycle> getCycles(Patient patient,boolean voided) {
+    public List<Cycle> getCycles(boolean voided) {
         Criteria criteria = sessionFactory.getCurrentSession()
-                .createCriteria(Cycle.class,"cycle");
-        if(!voided){
-            criteria.add(Restrictions.eq("voided",voided));
+                .createCriteria(Cycle.class, "cycle");
+        if (!voided) {
+            criteria.add(Restrictions.eq("voided", voided));
         }
-        return  criteria.list();
+        return criteria.list();
     }
 
     @Override
     public void voidCycle(Cycle cycle) throws APIException {
-	    cycle.setVoided(true);
-	    sessionFactory.getCurrentSession().saveOrUpdate(cycle);
+        cycle.setVoided(true);
+        sessionFactory.getCurrentSession().saveOrUpdate(cycle);
     }
 
     @Override
     public Cycle createCycle(Cycle cycle) {
-        if(cycle == null){
+        if (cycle == null) {
             return null;
         }
         sessionFactory.getCurrentSession().saveOrUpdate(cycle);
@@ -194,91 +200,125 @@ public class HibernateInventoryCommonDAO implements InventoryCommonDAO {
 
     @Override
     public Cycle updateCycle(Cycle cycle) {
-        if(cycle == null){
+        if (cycle == null) {
             return null;
         }
         sessionFactory.getCurrentSession().saveOrUpdate(cycle);
         return cycle;
     }
 
-	@Override
-	public Cycle getCycleById(Integer cycleId) {
-		return (Cycle) sessionFactory.getCurrentSession().get(Cycle.class,cycleId);
-	}
+    @Override
+    public Cycle getCycleById(Integer cycleId) {
+        return (Cycle) sessionFactory.getCurrentSession().get(Cycle.class, cycleId);
+    }
 
-	@Override
-    public List<PatientRegimen> getPatientRegimen(String tag, Cycle cycle,boolean voided) {
-	    Criteria criteria = sessionFactory.getCurrentSession().createCriteria(PatientRegimen.class);
+    @Override
+    public List<RegimenType> getRegimenTypes(boolean voided) {
+        Criteria criteria = sessionFactory.getCurrentSession()
+                .createCriteria(RegimenType.class, "regimenType");
+        if (!voided) {
+            criteria.add(Restrictions.eq("voided", voided));
+        }
+        return criteria.list();
+    }
+
+    @Override
+    public void voidRegimenType(RegimenType regimenType) throws APIException {
+        regimenType.setVoided(true);
+        regimenType.setDateVoided(new Date());
+        sessionFactory.getCurrentSession().saveOrUpdate(regimenType);
+    }
+
+    @Override
+    public RegimenType createRegimenType(RegimenType regimenType) {
+        if (regimenType == null) {
+            return null;
+        }
+        sessionFactory.getCurrentSession().saveOrUpdate(regimenType);
+        return regimenType;
+    }
+
+    @Override
+    public RegimenType updateRegimenType(RegimenType regimenType) {
+        if (regimenType == null) {
+            return null;
+        }
+        sessionFactory.getCurrentSession().saveOrUpdate(regimenType);
+        return regimenType;
+    }
+
+    @Override
+    public List<PatientRegimen> getPatientRegimen(String tag, Cycle cycle, boolean voided) {
+        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(PatientRegimen.class);
 
         if (!StringUtils.isBlank("tag")) {
-            criteria.add(Restrictions.eq("tag",tag));
+            criteria.add(Restrictions.eq("tag", tag));
 
         }
         if (cycle != null) {
-            criteria.add(Restrictions.eq("cycleId",cycle));
+            criteria.add(Restrictions.eq("cycleId", cycle));
         }
-        if (voided){
-            criteria.add(Restrictions.eq("voided",voided));
+        if (voided) {
+            criteria.add(Restrictions.eq("voided", voided));
         }
 
         return criteria.list();
     }
 
 
-	public List<Concept> getDrugFrequency() throws DAOException {
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(
-				Concept.class, "con");
-		ConceptClass conClass = Context.getConceptService()
-				.getConceptClassByName("Frequency");
-		criteria.add(Restrictions.eq("con.conceptClass", conClass));
-		return criteria.list();
-	}
-	
-	public InventoryDrugFormulation getDrugFormulationById(Integer id) throws DAOException {
-		Criteria criteria = sessionFactory.getCurrentSession()
-		        .createCriteria(InventoryDrugFormulation.class, "drugFormulation")
-		        .add(Restrictions.eq("drugFormulation.id", id));
-		return (InventoryDrugFormulation) criteria.uniqueResult();
-	}
+    public List<Concept> getDrugFrequency() throws DAOException {
+        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(
+                Concept.class, "con");
+        ConceptClass conClass = Context.getConceptService()
+                .getConceptClassByName("Frequency");
+        criteria.add(Restrictions.eq("con.conceptClass", conClass));
+        return criteria.list();
+    }
 
-	public List<InventoryStoreDrugPatient> getAllIssueByDateRange(String startDate, String endDate) {
-		List<InventoryStoreDrugPatient> inventoryStoreDrugPatients= new ArrayList<InventoryStoreDrugPatient>();
-		Criteria criteria = sessionFactory.getCurrentSession()
-				.createCriteria(InventoryStoreDrugPatient.class);
+    public InventoryDrugFormulation getDrugFormulationById(Integer id) throws DAOException {
+        Criteria criteria = sessionFactory.getCurrentSession()
+                .createCriteria(InventoryDrugFormulation.class, "drugFormulation")
+                .add(Restrictions.eq("drugFormulation.id", id));
+        return (InventoryDrugFormulation) criteria.uniqueResult();
+    }
 
-		String today = formatterExt.format(new Date());
+    public List<InventoryStoreDrugPatient> getAllIssueByDateRange(String startDate, String endDate) {
+        List<InventoryStoreDrugPatient> inventoryStoreDrugPatients = new ArrayList<InventoryStoreDrugPatient>();
+        Criteria criteria = sessionFactory.getCurrentSession()
+                .createCriteria(InventoryStoreDrugPatient.class);
 
-		if (!StringUtils.isBlank(startDate) && !StringUtils.isBlank(endDate)){
-			String startFromDate = startDate + " 00:00:00";
-			String endAtDate = endDate + " 23:59:59";
-			try {
-				criteria.add(Restrictions.and(
-						Restrictions.ge("createdOn",formatter.parse(startFromDate)),
-						Restrictions.le("createdOn",formatter.parse(endAtDate))
-				));
-				inventoryStoreDrugPatients.addAll(criteria.list());
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}else {
+        String today = formatterExt.format(new Date());
 
-			String startFromDate = today + " 00:00:00";
-			String endAtDate = today + " 23:59:59";
-			try {
-				criteria.add(Restrictions.and(
-						Restrictions.ge("createdOn",formatter.parse(startFromDate)),
-						Restrictions.le("createdOn",formatter.parse(endAtDate))
-				));
-				inventoryStoreDrugPatients.addAll(criteria.list());
+        if (!StringUtils.isBlank(startDate) && !StringUtils.isBlank(endDate)) {
+            String startFromDate = startDate + " 00:00:00";
+            String endAtDate = endDate + " 23:59:59";
+            try {
+                criteria.add(Restrictions.and(
+                        Restrictions.ge("createdOn", formatter.parse(startFromDate)),
+                        Restrictions.le("createdOn", formatter.parse(endAtDate))
+                ));
+                inventoryStoreDrugPatients.addAll(criteria.list());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
 
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
+            String startFromDate = today + " 00:00:00";
+            String endAtDate = today + " 23:59:59";
+            try {
+                criteria.add(Restrictions.and(
+                        Restrictions.ge("createdOn", formatter.parse(startFromDate)),
+                        Restrictions.le("createdOn", formatter.parse(endAtDate))
+                ));
+                inventoryStoreDrugPatients.addAll(criteria.list());
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 
 
-
-		return inventoryStoreDrugPatients;
-	}
+        return inventoryStoreDrugPatients;
+    }
 
 }
