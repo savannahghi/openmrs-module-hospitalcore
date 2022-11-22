@@ -179,6 +179,7 @@
         PatientRegimen.hbm.xml
         Cycle.hbm.xml
         Regimen.hbm.xml
+        RegimenType.hbm.xml
 
 
     </mappingFiles>

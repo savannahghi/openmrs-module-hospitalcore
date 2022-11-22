@@ -5,28 +5,22 @@
 
 <hibernate-mapping package="org.openmrs.module.hospitalcore.model">
 
-    <class name="Cycle" table="cycle" batch-size="500">
+    <class name="RegimenType" table="regimen_type" batch-size="500">
 
         <id name="id" type="int" column="id"
             unsaved-value="0">
             <generator class="native" />
         </id>
-        <property name="summaryNotes" column="summary_notes" />
-        <property name="active" column="active"/>
-        <property name="outcome" column="outcome"/>
-        <property name="name" column="name"/>
-        <property name="icon" column="icon"/>
-        <many-to-one name="creator" class="org.openmrs.User" not-null="true" />
-        <property name="dateCreated" type="java.util.Date" column="date_created"/>
-        <many-to-one name="regimenId" column="regimen_id" class="org.openmrs.module.hospitalcore.model.Regimen" />
+        <property name="name" column="name" />
+        <property name="cycles" column="cycles"/>
         <many-to-one name="changedBy" column="changed_by" class="org.openmrs.User" />
         <property name="dateChanged" type="java.util.Date" column="date_changed"
                   not-null="false" length="19" />
         <property name="voided" column="voided"/>
         <property name="voidedBy" column="voided_by"/>
         <property name="dateVoided" type="java.util.Date" column="date_voided"/>
+        <property name="dateCreated" type="java.util.Date" column="date_created"/>
+        <many-to-one name="creator" class="org.openmrs.User" not-null="true" />
         <property name="voidReason" column="voided_reason"/>
-
-
     </class>
 </hibernate-mapping>

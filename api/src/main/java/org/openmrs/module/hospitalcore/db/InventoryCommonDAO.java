@@ -44,7 +44,7 @@ public interface InventoryCommonDAO {
     List<InventoryStoreDrugPatient> getAllIssueByDateRange(String startDate, String endDate);
 
 
-    public List<PatientRegimen> getPatientRegimen(String tag, Cycle cycle,boolean voided);
+    public List<PatientRegimen> getPatientRegimen(String tag, Cycle cycle, boolean voided);
 
     PatientRegimen createPatientRegimen(PatientRegimen patientRegimen);
 
@@ -52,7 +52,7 @@ public interface InventoryCommonDAO {
 
     void voidPatientRegimen(PatientRegimen patientRegimen);
 
-    public List<Regimen> getRegimens(boolean voided);
+    public List<Regimen> getRegimens(Patient patient, RegimenType regimenType, boolean voided);
 
     Regimen createRegimen(Regimen regimen);
 
@@ -60,7 +60,7 @@ public interface InventoryCommonDAO {
 
     void voidRegimen(Regimen regimen);
 
-    List<Cycle> getCycles(Patient patient,boolean voided);
+    List<Cycle> getCycles(boolean voided);
 
     void voidCycle(Cycle cycle) throws APIException;
 
@@ -69,4 +69,13 @@ public interface InventoryCommonDAO {
     Cycle updateCycle(Cycle cycle);
 
     Cycle getCycleById(Integer cycleId);
+
+    //    Regimen Type
+    List<RegimenType> getRegimenTypes(boolean voided);
+
+    void voidRegimenType(RegimenType regimenType) throws APIException;
+
+    RegimenType createRegimenType(RegimenType regimenType);
+
+    RegimenType updateRegimenType(RegimenType regimenType);
 }
