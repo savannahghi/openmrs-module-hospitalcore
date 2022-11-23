@@ -1695,8 +1695,8 @@
             `voided_reason` varchar(255) DEFAULT NULL,
             PRIMARY KEY (`id`),
             CONSTRAINT `user_who_created_regimen_type` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`),
-            CONSTRAINT `user_who_changed_regimen` FOREIGN KEY (`changed_by`) REFERENCES `users` (`user_id`),
-            CONSTRAINT `user_who_voided_regimen` FOREIGN KEY (`voided_by`) REFERENCES `users` (`user_id`)
+            CONSTRAINT `user_who_changed_regimen_type` FOREIGN KEY (`changed_by`) REFERENCES `users` (`user_id`),
+            CONSTRAINT `user_who_voided_regimen_type` FOREIGN KEY (`voided_by`) REFERENCES `users` (`user_id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -1747,7 +1747,7 @@
             `id` int(11) NOT NULL AUTO_INCREMENT,
             `patient_id` int(11) DEFAULT NULL,
             `regimen_type` int(11) DEFAULT NULL,
-            `creator` int(11) NOT NULL DEFAULT NULL,
+            `creator` int(11) NOT NULL DEFAULT '0',
             `date_created` datetime DEFAULT NULL,
             `changed_by` int(11) DEFAULT NULL,
             `date_changed` datetime DEFAULT NULL,
@@ -1809,7 +1809,7 @@
             `route` varchar(255) DEFAULT NULL,
             `tag` varchar(255) DEFAULT NULL,
             `comment` varchar(225) DEFAULT NULL,
-            `creator` int(11) NOT NULL DEFAULT NULL,
+            `creator` int(11) NOT NULL DEFAULT '0',
             `date_created` datetime DEFAULT NULL,
             `changed_by` int(11) DEFAULT NULL,
             `date_changed` datetime DEFAULT NULL,
@@ -1819,9 +1819,9 @@
             `voided_reason` varchar(255) DEFAULT NULL,
             PRIMARY KEY (`id`),
             CONSTRAINT `patient_regimen_cycle` FOREIGN KEY (`cycle_id`) REFERENCES `cycle` (`id`),
-            CONSTRAINT `user_who_created_regimen` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`),
-            CONSTRAINT `user_who_changed_regimen` FOREIGN KEY (`changed_by`) REFERENCES `users` (`user_id`),
-            CONSTRAINT `user_who_voided_regimen` FOREIGN KEY (`voided_by`) REFERENCES `users` (`user_id`)
+            CONSTRAINT `user_who_created_patient_regimen` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`),
+            CONSTRAINT `user_who_changed_patient_regimen` FOREIGN KEY (`changed_by`) REFERENCES `users` (`user_id`),
+            CONSTRAINT `user_who_voided_patient_regimen` FOREIGN KEY (`voided_by`) REFERENCES `users` (`user_id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
         </sql>
     </changeSet>
