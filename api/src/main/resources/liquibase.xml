@@ -1675,94 +1675,7 @@
             ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
         </sql>
     </changeSet>
-    <changeSet id="hospital-core:2022-11-06-06:24" author="vic">
-        <preConditions onFail="MARK_RAN" onError="WARN">
-            <dbms type="mysql"/>
-        </preConditions>
-        <comment>Add table regimen</comment>
-        <sql>
-            CREATE TABLE IF NOT EXISTS `regimen` (
-            `id` int(11) NOT NULL AUTO_INCREMENT,
-            `cycle` int(11) DEFAULT NULL,
-            `creator` int(11) NOT NULL DEFAULT '0',
-            `changed_by` int(11) DEFAULT NULL,
-            `date_changed` datetime DEFAULT NULL,
-            `voided` tinyint(1) NOT NULL DEFAULT '0',
-            `voided_by` int(11) DEFAULT NULL,
-            `date_voided` datetime DEFAULT NULL,
-            `voided_reason` varchar(255) DEFAULT NULL,
-            PRIMARY KEY (`id`),
-            CONSTRAINT `user_who_changed_patient` FOREIGN KEY (`changed_by`) REFERENCES `users` (`user_id`)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-        </sql>
-    </changeSet>
-    <changeSet id="hospital-core:2020-07-21-18:02" author="vic">
-        <preConditions onFail="MARK_RAN" onError="WARN">
-            <dbms type="mysql"/>
-        </preConditions>
-        <comment>Add table patient_regimen</comment>
-        <sql>
-            CREATE TABLE IF NOT EXISTS `patient_regimen` (
-            `id` int(11) NOT NULL AUTO_INCREMENT,
-            `medication` varchar(255) DEFAULT NULL,
-            `dose` varchar(255) DEFAULT NULL,
-            `dosing_unit` varchar(255) DEFAULT NULL,
-            `drugs_id`  int(11)  DEFAULT NULL,
-            `route` varchar(255) DEFAULT NULL,
-            `tag` varchar(255) DEFAULT NULL,
-            `comment` varchar(225) DEFAULT NULL,
-            `changed_by` int(11) DEFAULT NULL,
-            `date_changed` datetime DEFAULT NULL,
-            `voided` tinyint(1) NOT NULL DEFAULT '0',
-            `voided_by` int(11) DEFAULT NULL,
-            `date_voided` datetime DEFAULT NULL,
-            `voided_reason` varchar(255) DEFAULT NULL,
-            PRIMARY KEY (`id`),
-            CONSTRAINT `user_who_changed_patient_category` FOREIGN KEY (`changed_by`) REFERENCES `users` (`user_id`)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-        </sql>
-    </changeSet>
-
-    <changeSet id="hospital-core:2022-12-21-18:02" author="vic">
-        <preConditions onFail="MARK_RAN" onError="WARN">
-            <dbms type="mysql"/>
-        </preConditions>
-        <comment>Add table cycle</comment>
-        <sql>
-            CREATE TABLE IF NOT EXISTS `cycle` (
-            `id` int(11) NOT NULL AUTO_INCREMENT,
-            `summary_notes` varchar(255) DEFAULT NULL,
-            `active` tinyint(1) NOT NULL DEFAULT '0',
-            `outcome` varchar(225) DEFAULT NULL,
-            `regimen_id` int(11) DEFAULT NULL,
-            `creator` int(11) NOT NULL DEFAULT '0',
-            `changed_by` int(11) DEFAULT NULL,
-            `date_changed` datetime DEFAULT NULL,
-            `voided` tinyint(1) NOT NULL DEFAULT '0',
-            `voided_by` int(11) DEFAULT NULL,
-            `date_voided` datetime DEFAULT NULL,
-            `voided_reason` varchar(255) DEFAULT NULL,
-            PRIMARY KEY (`id`),
-            CONSTRAINT `user_who_changed_patient_cycle` FOREIGN KEY (`changed_by`) REFERENCES `users` (`user_id`)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-        </sql>
-    </changeSet>
-
-    <changeSet id="hospital-core:2022-11-17-18:02" author="vic">
-        <preConditions onFail="MARK_RAN" onError="WARN">
-          <dbms type="mysql"/>
-        </preConditions>
-    <comment>Adding cycle_id column on the patient_regimen</comment>
-    <sql>
-        ALTER TABLE patient_regimen
-        ADD COLUMN `cycle_id` int(11) DEFAULT NULL;
-
-        ALTER TABLE patient_regimen
-        ADD FOREIGN KEY (`cycle_id`) REFERENCES `cycle` (`id`);
-    </sql>
-    </changeSet>
-
-    <changeSet id="hospital-core:2022-11-21-11:27" author="stans">
+    <changeSet id="hospital-core:2022-11-06-05:24" author="stans">
         <preConditions onFail="MARK_RAN" onError="WARN">
             <dbms type="mysql"/>
         </preConditions>
@@ -1777,11 +1690,13 @@
             `changed_by` int(11) DEFAULT NULL,
             `date_changed` datetime DEFAULT NULL,
             `voided` tinyint(1) NOT NULL DEFAULT '0',
-            `date_voided` datetime DEFAULT NULL,
             `voided_by` int(11) DEFAULT NULL,
+            `date_voided` datetime DEFAULT NULL,
             `voided_reason` varchar(255) DEFAULT NULL,
             PRIMARY KEY (`id`),
-            CONSTRAINT `user_who_created_regimen_type` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`)
+            CONSTRAINT `user_who_created_regimen_type` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`),
+            CONSTRAINT `user_who_changed_regimen` FOREIGN KEY (`changed_by`) REFERENCES `users` (`user_id`),
+            CONSTRAINT `user_who_voided_regimen` FOREIGN KEY (`voided_by`) REFERENCES `users` (`user_id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -1822,50 +1737,92 @@
             VALUES('Filgrastim', 6, '2022-11-10 00:00:00', 2, 2, '2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL);
         </sql>
     </changeSet>
-
-    <changeSet id="hospital-core:2022-11-21-12:03" author="stans">
+    <changeSet id="hospital-core:2022-11-06-06:24" author="vic">
         <preConditions onFail="MARK_RAN" onError="WARN">
             <dbms type="mysql"/>
         </preConditions>
-        <comment>Update regimen to include patient details</comment>
+        <comment>Add table regimen</comment>
         <sql>
-            ALTER TABLE regimen ADD COLUMN `patient_id` int(11) DEFAULT NULL;
-            ALTER TABLE regimen ADD CONSTRAINT `patient_ids` FOREIGN KEY (`patient_id`) REFERENCES `patient`(`patient_id`);
-
-            ALTER TABLE regimen ADD COLUMN `regimen_type` int(11) DEFAULT NULL;
-            ALTER TABLE regimen ADD CONSTRAINT `regimen_type_ids` FOREIGN KEY (`regimen_type`) REFERENCES `regimen_type`(`id`);
+            CREATE TABLE IF NOT EXISTS `regimen` (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `patient_id` int(11) DEFAULT NULL,
+            `regimen_type` int(11) DEFAULT NULL,
+            `creator` int(11) NOT NULL DEFAULT NULL,
+            `date_created` datetime DEFAULT NULL,
+            `changed_by` int(11) DEFAULT NULL,
+            `date_changed` datetime DEFAULT NULL,
+            `voided` tinyint(1) NOT NULL DEFAULT '0',
+            `voided_by` int(11) DEFAULT NULL,
+            `date_voided` datetime DEFAULT NULL,
+            `voided_reason` varchar(255) DEFAULT NULL,
+            PRIMARY KEY (`id`),
+            CONSTRAINT `regimen_patient` FOREIGN KEY (`patient_id`) REFERENCES `patient`(`patient_id`),
+            CONSTRAINT `regimen_type_ids` FOREIGN KEY (`regimen_type`) REFERENCES `regimen_type`(`id`),
+            CONSTRAINT `user_who_created_regimen` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`),
+            CONSTRAINT `user_who_changed_regimen` FOREIGN KEY (`changed_by`) REFERENCES `users` (`user_id`),
+            CONSTRAINT `user_who_voided_regimen` FOREIGN KEY (`voided_by`) REFERENCES `users` (`user_id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
         </sql>
     </changeSet>
-
-    <changeSet id="hospital-core:2022-11-21-08:21" author="stans">
+    <changeSet id="hospital-core:2022-11-07-18:02" author="vic">
         <preConditions onFail="MARK_RAN" onError="WARN">
             <dbms type="mysql"/>
         </preConditions>
-        <comment>Update regimen table - Add creator column and associated referenctial links</comment>
+        <comment>Add table cycle</comment>
         <sql>
-            ALTER TABLE regimen ADD CONSTRAINT `user_who_created_regimen` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`);
+            CREATE TABLE IF NOT EXISTS `cycle` (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `regimen_id` int(11) DEFAULT NULL,
+            `name` varchar(255) DEFAULT NULL,
+            `icon` varchar(255) DEFAULT "icon-stethoscope",
+            `summary_notes` varchar(255) DEFAULT NULL,
+            `active` tinyint(1) NOT NULL DEFAULT '0',
+            `outcome` varchar(225) DEFAULT NULL,
+            `creator` int(11) NOT NULL DEFAULT '0',
+            `date_created` datetime DEFAULT NULL,
+            `changed_by` int(11) DEFAULT NULL,
+            `date_changed` datetime DEFAULT NULL,
+            `voided` tinyint(1) NOT NULL DEFAULT '0',
+            `voided_by` int(11) DEFAULT NULL,
+            `date_voided` datetime DEFAULT NULL,
+            `voided_reason` varchar(255) DEFAULT NULL,
+            PRIMARY KEY (`id`),
+            CONSTRAINT `cycle_regimen` FOREIGN KEY (`regimen_id`) REFERENCES `regimen` (`id`),
+            CONSTRAINT `user_who_created_patient_cycle` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`),
+            CONSTRAINT `user_who_changed_patient_cycle` FOREIGN KEY (`changed_by`) REFERENCES `users` (`user_id`),
+            CONSTRAINT `user_who_voided_patient_cycle` FOREIGN KEY (`voided_by`) REFERENCES `users` (`user_id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
         </sql>
     </changeSet>
-
-    <changeSet id="hospital-core:2022-11-21-22:01" author="stans">
+    <changeSet id="hospital-core:2022-11-21-18:02" author="vic">
         <preConditions onFail="MARK_RAN" onError="WARN">
             <dbms type="mysql"/>
         </preConditions>
-        <comment>Update cycle table - Add creator column and associated referential links</comment>
+        <comment>Add table patient_regimen</comment>
         <sql>
-            ALTER TABLE cycle ADD CONSTRAINT `user_who_created_cycle` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`);
-            ALTER TABLE  cycle ADD COLUMN `date_created` datetime DEFAULT NULL;
-        </sql>
-    </changeSet>
-    <changeSet id="hospital-core:2022-11-22-12:01" author="stans">
-        <preConditions onFail="MARK_RAN" onError="WARN">
-            <dbms type="mysql"/>
-        </preConditions>
-        <comment>Add columns to the cycle table</comment>
-        <sql>
-            ALTER TABLE cycle
-            ADD COLUMN `name` varchar(255) DEFAULT NULL,
-            ADD COLUMN `icon` varchar(255) DEFAULT "icon-stethoscope";
+            CREATE TABLE IF NOT EXISTS `patient_regimen` (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `cycle_id` int(11) DEFAULT NULL,
+            `medication` varchar(255) DEFAULT NULL,
+            `dose` varchar(255) DEFAULT NULL,
+            `dosing_unit` varchar(255) DEFAULT NULL,
+            `route` varchar(255) DEFAULT NULL,
+            `tag` varchar(255) DEFAULT NULL,
+            `comment` varchar(225) DEFAULT NULL,
+            `creator` int(11) NOT NULL DEFAULT NULL,
+            `date_created` datetime DEFAULT NULL,
+            `changed_by` int(11) DEFAULT NULL,
+            `date_changed` datetime DEFAULT NULL,
+            `voided` tinyint(1) NOT NULL DEFAULT '0',
+            `voided_by` int(11) DEFAULT NULL,
+            `date_voided` datetime DEFAULT NULL,
+            `voided_reason` varchar(255) DEFAULT NULL,
+            PRIMARY KEY (`id`),
+            CONSTRAINT `patient_regimen_cycle` FOREIGN KEY (`cycle_id`) REFERENCES `cycle` (`id`),
+            CONSTRAINT `user_who_created_regimen` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`),
+            CONSTRAINT `user_who_changed_regimen` FOREIGN KEY (`changed_by`) REFERENCES `users` (`user_id`),
+            CONSTRAINT `user_who_voided_regimen` FOREIGN KEY (`voided_by`) REFERENCES `users` (`user_id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
         </sql>
     </changeSet>
 </databaseChangeLog>

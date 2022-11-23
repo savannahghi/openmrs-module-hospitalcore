@@ -13,14 +13,14 @@
         </id>
         <property name="name" column="name" />
         <property name="cycles" column="cycles"/>
+        <many-to-one name="creator" class="org.openmrs.User" not-null="true" />
+        <property name="dateCreated" type="java.util.Date" column="date_created"/>
         <many-to-one name="changedBy" column="changed_by" class="org.openmrs.User" />
         <property name="dateChanged" type="java.util.Date" column="date_changed"
                   not-null="false" length="19" />
         <property name="voided" column="voided"/>
-        <property name="voidedBy" column="voided_by"/>
+        <many-to-one name="voidedBy" column="voided_by" class="org.openmrs.User" />
         <property name="dateVoided" type="java.util.Date" column="date_voided"/>
-        <property name="dateCreated" type="java.util.Date" column="date_created"/>
-        <many-to-one name="creator" class="org.openmrs.User" not-null="true" />
         <property name="voidReason" column="voided_reason"/>
     </class>
 </hibernate-mapping>

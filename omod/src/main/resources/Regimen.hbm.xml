@@ -11,22 +11,21 @@
             unsaved-value="0">
             <generator class="native" />
         </id>
-        <many-to-one name="creator" column="creator" class="org.openmrs.User" not-null="true" />
-        <property name="dateCreated" type="java.util.Date" column="date_created"/>
         <many-to-one name="patient" column="patient_id" class="org.openmrs.Patient" />
         <many-to-one name="regimenType" column="regimen_type" class="org.openmrs.module.hospitalcore.model.RegimenType" />
+        <many-to-one name="creator" column="creator" class="org.openmrs.User" not-null="true" />
+        <property name="dateCreated" type="java.util.Date" column="date_created"/>
         <many-to-one name="changedBy" column="changed_by" class="org.openmrs.User" />
+        <property name="dateChanged" type="java.util.Date" column="date_changed"
+                  not-null="false" length="19" />
+        <property name="voided" column="voided"/>
+        <many-to-one name="voidedBy" column="voided_by" class="org.openmrs.User" />
+        <property name="dateVoided" type="java.util.Date" column="date_voided"/>
+        <property name="voidReason" column="voided_reason"/>
         <set name="cycles" table="cycle" cascade="all" lazy="false">
             <key column="regimen_id"></key>
             <one-to-many class="org.openmrs.module.hospitalcore.model.Cycle" />
         </set>
-        <property name="dateChanged" type="java.util.Date" column="date_changed"
-                  not-null="false" length="19" />
-        <property name="voided" column="voided"/>
-        <property name="voidedBy" column="voided_by"/>
-        <property name="dateVoided" type="java.util.Date" column="date_voided"/>
-        <property name="voidReason" column="voided_reason"/>
-
 
     </class>
 </hibernate-mapping>
