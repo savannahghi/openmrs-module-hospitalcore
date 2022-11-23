@@ -11,7 +11,7 @@
             unsaved-value="0">
             <generator class="native" />
         </id>
-        <many-to-one name="creator" class="org.openmrs.User" not-null="true" />
+        <many-to-one name="creator" column="creator" class="org.openmrs.User" not-null="true" />
         <property name="dateCreated" type="java.util.Date" column="date_created"/>
         <many-to-one name="patient" column="patient_id" class="org.openmrs.Patient" />
         <many-to-one name="regimenType" column="regimen_type" class="org.openmrs.module.hospitalcore.model.RegimenType" />

@@ -11,13 +11,13 @@
             unsaved-value="0">
             <generator class="native" />
         </id>
-        <many-to-one name="drugId" column="drugs_id" class="org.openmrs.module.hospitalcore.model.InventoryDrug"
-                     cascade="none" lazy="false"/>
+        <property name="medication" column="medication" />
+        <property name="dose" column="dose"/>
+        <property name="dosingUnit" column="dosing_unit"/>
         <many-to-one name="cycleId" column="cycle_id" class="org.openmrs.module.hospitalcore.model.Cycle"
         cascade="none" lazy="false"/>
         <property name="route" column="route"/>
         <property name="tag" column="tag"/>
-        <many-to-one name="formulations" column="formulation_id" class="org.openmrs.module.hospitalcore.model.InventoryDrugFormulation" />
         <property name="comment" column="comment" />
         <many-to-one name="changedBy" column="changed_by" class="org.openmrs.User" />
         <property name="dateChanged" type="java.util.Date" column="date_changed"
@@ -26,7 +26,9 @@
         <property name="voidedBy" column="voided_by"/>
         <property name="dateVoided" type="java.util.Date" column="date_voided"/>
         <property name="voidReason" column="voided_reason"/>
-        <many-to-one name="unit" column="unit_id" class="org.openmrs.Concept" />
+        <many-to-one name="creator" column="creator" class="org.openmrs.User" not-null="true" />
+        <property name="dateCreated" type="java.util.Date" column="date_created"/>
+
 
 
     </class>
