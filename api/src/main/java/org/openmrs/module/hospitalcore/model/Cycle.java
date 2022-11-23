@@ -1,9 +1,8 @@
 package org.openmrs.module.hospitalcore.model;
 
 import org.openmrs.BaseOpenmrsData;
-import org.openmrs.Patient;
-
 import java.io.Serializable;
+import java.util.Set;
 
 public class Cycle extends BaseOpenmrsData implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -14,6 +13,7 @@ public class Cycle extends BaseOpenmrsData implements Serializable {
     private String icon;
     private Regimen regimenId;
     private Boolean active;
+    private Set<PatientRegimen> patientRegimens;
 
 
 
@@ -73,6 +73,14 @@ public class Cycle extends BaseOpenmrsData implements Serializable {
 
     public void setIcon(String icon) {
         this.icon = icon;
+    }
+
+    public Set<PatientRegimen> getPatientRegimens() {
+        return patientRegimens;
+    }
+
+    public void setPatientRegimens(Set<PatientRegimen> patientRegimens) {
+        this.patientRegimens = patientRegimens;
     }
 
     @Override

@@ -8,39 +8,49 @@ import java.util.Set;
 public class PatientRegimen extends BaseOpenmrsData implements Serializable {
     private static final long serialVersionUID = 1L;
     private Integer id;
-    private InventoryDrug drugId;
-    private InventoryDrugUnit unit;
-    private Set<InventoryDrugFormulation> formulations;
-    private Integer dose;
+    private String medication;
+    private String dosingUnit;
+    private String dose;
     private String route;
     private String comment;
     private String tag;
     private Cycle cycleId;
 
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    @Override
     public Integer getId() {
         return id;
     }
+
+    @Override
     public void setId(Integer id) {
         this.id = id;
     }
-    public InventoryDrugUnit getUnit() {
-        return unit;
-    }
-    public void setUnit(InventoryDrugUnit unit) {
-        this.unit = unit;
-    }
-    public Set<InventoryDrugFormulation> getFormulations() {
-        return formulations;
-    }
-    public void setFormulations(Set<InventoryDrugFormulation> formulations) {
-        this.formulations = formulations;
+
+    public String getMedication() {
+        return medication;
     }
 
-    public Integer getDose() {
+    public void setMedication(String medication) {
+        this.medication = medication;
+    }
+
+    public String getDosingUnit() {
+        return dosingUnit;
+    }
+
+    public void setDosingUnit(String dosingUnit) {
+        this.dosingUnit = dosingUnit;
+    }
+
+    public String getDose() {
         return dose;
     }
 
-    public void setDose(Integer dose) {
+    public void setDose(String dose) {
         this.dose = dose;
     }
 
@@ -50,14 +60,6 @@ public class PatientRegimen extends BaseOpenmrsData implements Serializable {
 
     public void setRoute(String route) {
         this.route = route;
-    }
-
-    public InventoryDrug getDrugId() {
-        return drugId;
-    }
-
-    public void setDrugId(InventoryDrug drugId) {
-        this.drugId = drugId;
     }
 
     public String getComment() {

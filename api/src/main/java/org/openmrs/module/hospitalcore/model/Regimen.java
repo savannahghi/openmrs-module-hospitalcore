@@ -3,7 +3,6 @@ package org.openmrs.module.hospitalcore.model;
 import org.openmrs.BaseOpenmrsData;
 import org.openmrs.Patient;
 import java.io.Serializable;
-import java.util.List;
 import java.util.Set;
 
 public class Regimen extends BaseOpenmrsData implements Serializable {
