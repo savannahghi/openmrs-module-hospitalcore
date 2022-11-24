@@ -1613,7 +1613,7 @@
             ADD FOREIGN KEY (`department_id`) REFERENCES `ehr_department` (`id`);
         </sql>
     </changeSet>
-    <changeSet id="81347759-704A-48BF-814C-20845948D727" author="ningosi">
+    <changeSet id="6cc9fba25bb17d51a438ea2ff045cdbc" author="ningosi">
         <preConditions onFail="MARK_RAN" onError="WARN">
             <dbms type="mysql"/>
         </preConditions>
@@ -1673,6 +1673,156 @@
             CONSTRAINT `user_who_retired_patient_waiver` FOREIGN KEY (`retired_by`) REFERENCES `users` (`user_id`),
             CONSTRAINT `patient_changed_waiver` FOREIGN KEY (`changed_by`) REFERENCES `users` (`user_id`)
             ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+    <changeSet id="hospital-core:2022-11-06-05:24" author="stans">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Add table regimen type</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `regimen_type` (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `name` varchar(225) DEFAULT NULL,
+            `cycles` int(11) DEFAULT NULL,
+            `creator` int(11) NOT NULL DEFAULT '0',
+            `date_created` datetime DEFAULT NULL,
+            `changed_by` int(11) DEFAULT NULL,
+            `date_changed` datetime DEFAULT NULL,
+            `voided` tinyint(1) NOT NULL DEFAULT '0',
+            `voided_by` int(11) DEFAULT NULL,
+            `date_voided` datetime DEFAULT NULL,
+            `voided_reason` varchar(255) DEFAULT NULL,
+            PRIMARY KEY (`id`),
+            CONSTRAINT `user_who_created_regimen_type` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`),
+            CONSTRAINT `user_who_changed_regimen_type` FOREIGN KEY (`changed_by`) REFERENCES `users` (`user_id`),
+            CONSTRAINT `user_who_voided_regimen_type` FOREIGN KEY (`voided_by`) REFERENCES `users` (`user_id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+            INSERT INTO regimen_type
+            (name, `cycles`, date_created, creator, changed_by, date_changed, voided, voided_by, date_voided, voided_reason)
+            VALUES('AC/Docetaxel', 6, '2022-11-10 00:00:00', 2, 2, '2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL);
+
+            INSERT INTO regimen_type
+            (name, `cycles`, date_created, creator, changed_by, date_changed, voided, voided_by, date_voided, voided_reason)
+            VALUES('FAC', 6, '2022-11-10 00:00:00', 2, 2, '2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL);
+
+            INSERT INTO regimen_type
+            (name, `cycles`, date_created, creator, changed_by, date_changed, voided, voided_by, date_voided, voided_reason)
+            VALUES('Carboplatin/Docetaxel', 6, '2022-11-10 00:00:00', 2, 2, '2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL);
+
+            INSERT INTO regimen_type
+            (name, `cycles`, date_created, creator, changed_by, date_changed, voided, voided_by, date_voided, voided_reason)
+            VALUES('Docetaxel', 6, '2022-11-10 00:00:00', 2, 2, '2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL);
+
+            INSERT INTO regimen_type
+            (name, `cycles`, date_created, creator, changed_by, date_changed, voided, voided_by, date_voided, voided_reason)
+            VALUES('Doxorubicin/Docetaxel', 6, '2022-11-10 00:00:00', 2, 2, '2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL);
+
+            INSERT INTO regimen_type
+            (name, `cycles`, date_created, creator, changed_by, date_changed, voided, voided_by, date_voided, voided_reason)
+            VALUES('Docetaxel', 6, '2022-11-10 00:00:00', 2, 2, '2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL);
+
+            INSERT INTO regimen_type
+            (name, `cycles`, date_created, creator, changed_by, date_changed, voided, voided_by, date_voided, voided_reason)
+            VALUES('Prednisolone/IT MTX', 6, '2022-11-10 00:00:00', 2, 2, '2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL);
+
+            INSERT INTO regimen_type
+            (name, `cycles`, date_created, creator, changed_by, date_changed, voided, voided_by, date_voided, voided_reason)
+            VALUES('Dexa/Vinc/Doxo/ASPA/Cyclo/Cytarabine/6-MP/IT MTX', 6, '2022-11-10 00:00:00', 2, 2, '2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL);
+
+            INSERT INTO regimen_type
+            (name, `cycles`, date_created, creator, changed_by, date_changed, voided, voided_by, date_voided, voided_reason)
+            VALUES('Filgrastim', 6, '2022-11-10 00:00:00', 2, 2, '2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL);
+        </sql>
+    </changeSet>
+    <changeSet id="hospital-core:2022-11-06-06:24" author="vic">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Add table regimen</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `regimen` (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `patient_id` int(11) DEFAULT NULL,
+            `regimen_type` int(11) DEFAULT NULL,
+            `creator` int(11) NOT NULL DEFAULT '0',
+            `date_created` datetime DEFAULT NULL,
+            `changed_by` int(11) DEFAULT NULL,
+            `date_changed` datetime DEFAULT NULL,
+            `voided` tinyint(1) NOT NULL DEFAULT '0',
+            `voided_by` int(11) DEFAULT NULL,
+            `date_voided` datetime DEFAULT NULL,
+            `voided_reason` varchar(255) DEFAULT NULL,
+            PRIMARY KEY (`id`),
+            CONSTRAINT `regimen_patient` FOREIGN KEY (`patient_id`) REFERENCES `patient`(`patient_id`),
+            CONSTRAINT `regimen_type_ids` FOREIGN KEY (`regimen_type`) REFERENCES `regimen_type`(`id`),
+            CONSTRAINT `user_who_created_regimen` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`),
+            CONSTRAINT `user_who_changed_regimen` FOREIGN KEY (`changed_by`) REFERENCES `users` (`user_id`),
+            CONSTRAINT `user_who_voided_regimen` FOREIGN KEY (`voided_by`) REFERENCES `users` (`user_id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+    <changeSet id="hospital-core:2022-11-07-18:02" author="vic">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Add table cycle</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `cycle` (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `regimen_id` int(11) DEFAULT NULL,
+            `name` varchar(255) DEFAULT NULL,
+            `icon` varchar(255) DEFAULT "icon-stethoscope",
+            `summary_notes` varchar(255) DEFAULT NULL,
+            `active` tinyint(1) NOT NULL DEFAULT '0',
+            `outcome` varchar(225) DEFAULT NULL,
+            `creator` int(11) NOT NULL DEFAULT '0',
+            `date_created` datetime DEFAULT NULL,
+            `changed_by` int(11) DEFAULT NULL,
+            `date_changed` datetime DEFAULT NULL,
+            `voided` tinyint(1) NOT NULL DEFAULT '0',
+            `voided_by` int(11) DEFAULT NULL,
+            `date_voided` datetime DEFAULT NULL,
+            `voided_reason` varchar(255) DEFAULT NULL,
+            PRIMARY KEY (`id`),
+            CONSTRAINT `cycle_regimen` FOREIGN KEY (`regimen_id`) REFERENCES `regimen` (`id`),
+            CONSTRAINT `user_who_created_patient_cycle` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`),
+            CONSTRAINT `user_who_changed_patient_cycle` FOREIGN KEY (`changed_by`) REFERENCES `users` (`user_id`),
+            CONSTRAINT `user_who_voided_patient_cycle` FOREIGN KEY (`voided_by`) REFERENCES `users` (`user_id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
+    <changeSet id="hospital-core:2022-11-21-18:02" author="vic">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Add table patient_regimen</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `patient_regimen` (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `cycle_id` int(11) DEFAULT NULL,
+            `medication` varchar(255) DEFAULT NULL,
+            `dose` varchar(255) DEFAULT NULL,
+            `dosing_unit` varchar(255) DEFAULT NULL,
+            `route` varchar(255) DEFAULT NULL,
+            `tag` varchar(255) DEFAULT NULL,
+            `comment` varchar(225) DEFAULT NULL,
+            `creator` int(11) NOT NULL DEFAULT '0',
+            `date_created` datetime DEFAULT NULL,
+            `changed_by` int(11) DEFAULT NULL,
+            `date_changed` datetime DEFAULT NULL,
+            `voided` tinyint(1) NOT NULL DEFAULT '0',
+            `voided_by` int(11) DEFAULT NULL,
+            `date_voided` datetime DEFAULT NULL,
+            `voided_reason` varchar(255) DEFAULT NULL,
+            PRIMARY KEY (`id`),
+            CONSTRAINT `patient_regimen_cycle` FOREIGN KEY (`cycle_id`) REFERENCES `cycle` (`id`),
+            CONSTRAINT `user_who_created_patient_regimen` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`),
+            CONSTRAINT `user_who_changed_patient_regimen` FOREIGN KEY (`changed_by`) REFERENCES `users` (`user_id`),
+            CONSTRAINT `user_who_voided_patient_regimen` FOREIGN KEY (`voided_by`) REFERENCES `users` (`user_id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
         </sql>
     </changeSet>
 </databaseChangeLog>

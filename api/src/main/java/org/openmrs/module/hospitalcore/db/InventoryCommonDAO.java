@@ -18,29 +18,64 @@ import java.util.List;
 
 import org.openmrs.Concept;
 import org.openmrs.Patient;
+import org.openmrs.api.APIException;
 import org.openmrs.api.db.DAOException;
-import org.openmrs.module.hospitalcore.model.InventoryDrug;
-import org.openmrs.module.hospitalcore.model.InventoryDrugFormulation;
-import org.openmrs.module.hospitalcore.model.InventoryStoreDrugPatient;
-import org.openmrs.module.hospitalcore.model.InventoryStoreDrugPatientDetail;
+import org.openmrs.module.hospitalcore.model.*;
 
 /**
-*
-*/
+ *
+ */
 public interface InventoryCommonDAO {
 
-	public List<InventoryStoreDrugPatient> getAllIssueDateByPatientId(Patient patient) throws DAOException;
-	
-	public List<InventoryStoreDrugPatient> getDeatilOfInventoryStoreDrugPatient(Patient patient,String date) throws DAOException;
-	
-	public List<InventoryStoreDrugPatientDetail> getDrugDetailOfPatient(InventoryStoreDrugPatient isdpd) throws DAOException;
-	
-	//ghanshyam 12-june-2013 New Requirement #1635 User should be able to send pharmacy orders to issue drugs to a patient from dashboard
-	public InventoryDrug getDrugByName(String name) throws DAOException;
-	
-	public List<Concept> getDrugFrequency() throws DAOException;
-	
-	public InventoryDrugFormulation getDrugFormulationById(Integer id) throws DAOException;
+    public List<InventoryStoreDrugPatient> getAllIssueDateByPatientId(Patient patient) throws DAOException;
 
-	List<InventoryStoreDrugPatient> getAllIssueByDateRange(String startDate, String endDate);
+    public List<InventoryStoreDrugPatient> getDeatilOfInventoryStoreDrugPatient(Patient patient, String date) throws DAOException;
+
+    public List<InventoryStoreDrugPatientDetail> getDrugDetailOfPatient(InventoryStoreDrugPatient isdpd) throws DAOException;
+
+    //ghanshyam 12-june-2013 New Requirement #1635 User should be able to send pharmacy orders to issue drugs to a patient from dashboard
+    public InventoryDrug getDrugByName(String name) throws DAOException;
+
+
+    public List<Concept> getDrugFrequency() throws DAOException;
+
+    public InventoryDrugFormulation getDrugFormulationById(Integer id) throws DAOException;
+
+    List<InventoryStoreDrugPatient> getAllIssueByDateRange(String startDate, String endDate);
+
+
+    public List<PatientRegimen> getPatientRegimen(String tag, Cycle cycle, boolean voided);
+
+    PatientRegimen createPatientRegimen(PatientRegimen patientRegimen);
+
+    PatientRegimen updatePatientRegimen(PatientRegimen patientRegimen);
+
+    void voidPatientRegimen(PatientRegimen patientRegimen);
+
+    public List<Regimen> getRegimens(Patient patient, RegimenType regimenType, boolean voided);
+
+    Regimen createRegimen(Regimen regimen);
+
+    Regimen updateRegimen(Regimen regimen);
+
+    void voidRegimen(Regimen regimen);
+
+    List<Cycle> getCycles(boolean voided);
+
+    void voidCycle(Cycle cycle) throws APIException;
+
+    Cycle createCycle(Cycle cycle);
+
+    Cycle updateCycle(Cycle cycle);
+
+    Cycle getCycleById(Integer cycleId);
+
+    //    Regimen Type
+    List<RegimenType> getRegimenTypes(boolean voided);
+
+    void voidRegimenType(RegimenType regimenType) throws APIException;
+
+    RegimenType createRegimenType(RegimenType regimenType);
+
+    RegimenType updateRegimenType(RegimenType regimenType);
 }

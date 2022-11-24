@@ -10,15 +10,6 @@
 	<name>Hospital core module</name>
 	<description>Hospital core module for Hospital wide system - EHR</description>
 
-	<url>https://healthit.uonbi.ac.ke/</url>
-
-	<scm>
-		<connection>scm:git:https://github.com/uonafya/hospitalcoreopenmrs.git</connection>
-		<developerConnection>scm:git:https://github.com/uonafya/hospitalcoreopenmrs.git</developerConnection>
-		<url>https://github.com/uonafya/hospitalcoreopenmrs.git</url>
-		<tag>HEAD</tag>
-	</scm>
-
 	<modules>
 		<module>api</module>
 		<module>omod</module>

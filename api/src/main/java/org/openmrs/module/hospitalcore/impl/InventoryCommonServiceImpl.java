@@ -22,52 +22,141 @@ import org.openmrs.api.APIException;
 import org.openmrs.api.impl.BaseOpenmrsService;
 import org.openmrs.module.hospitalcore.InventoryCommonService;
 import org.openmrs.module.hospitalcore.db.InventoryCommonDAO;
-import org.openmrs.module.hospitalcore.model.InventoryDrug;
-import org.openmrs.module.hospitalcore.model.InventoryDrugFormulation;
-import org.openmrs.module.hospitalcore.model.InventoryStoreDrugPatient;
-import org.openmrs.module.hospitalcore.model.InventoryStoreDrugPatientDetail;
+import org.openmrs.module.hospitalcore.model.*;
 
 /**
-*
-*/
+ *
+ */
 public class InventoryCommonServiceImpl extends BaseOpenmrsService implements InventoryCommonService {
 
-	public InventoryCommonServiceImpl() {
-	}
-	
-	protected InventoryCommonDAO dao;
-	
-	public void setDao(InventoryCommonDAO dao) {
-		this.dao = dao;
-	}
-	
-	public List<InventoryStoreDrugPatient> getAllIssueDateByPatientId(Patient patient) throws APIException {
-		return dao.getAllIssueDateByPatientId(patient);
-	}
-	
-	public List<InventoryStoreDrugPatient> getDeatilOfInventoryStoreDrugPatient(Patient patient,String date) throws APIException {
-		return dao.getDeatilOfInventoryStoreDrugPatient(patient,date);
-	}
-	
-	public List<InventoryStoreDrugPatientDetail> getDrugDetailOfPatient(InventoryStoreDrugPatient isdpd) throws APIException {
-		return dao.getDrugDetailOfPatient(isdpd);
-	}
-	
-	//ghanshyam 12-june-2013 New Requirement #1635 User should be able to send pharmacy orders to issue drugs to a patient from dashboard
-	public InventoryDrug getDrugByName(String name) throws APIException {
-		return dao.getDrugByName(name);
-	}
-	
-	public List<Concept> getDrugFrequency() throws APIException {
-		return dao.getDrugFrequency();
-	}
-	
-	public InventoryDrugFormulation getDrugFormulationById(Integer id) throws APIException {
-		return dao.getDrugFormulationById(id);
-	}
+    public InventoryCommonServiceImpl() {
+    }
 
-	@Override
-	public List<InventoryStoreDrugPatient> getAllIssueByDateRange(String startDate, String endDate) throws APIException {
-		return dao.getAllIssueByDateRange(startDate,endDate);
-	}
+    protected InventoryCommonDAO dao;
+
+    public void setDao(InventoryCommonDAO dao) {
+        this.dao = dao;
+    }
+
+    public List<InventoryStoreDrugPatient> getAllIssueDateByPatientId(Patient patient) throws APIException {
+        return dao.getAllIssueDateByPatientId(patient);
+    }
+
+    public List<InventoryStoreDrugPatient> getDeatilOfInventoryStoreDrugPatient(Patient patient, String date) throws APIException {
+        return dao.getDeatilOfInventoryStoreDrugPatient(patient, date);
+    }
+
+    public List<InventoryStoreDrugPatientDetail> getDrugDetailOfPatient(InventoryStoreDrugPatient isdpd) throws APIException {
+        return dao.getDrugDetailOfPatient(isdpd);
+    }
+
+    //ghanshyam 12-june-2013 New Requirement #1635 User should be able to send pharmacy orders to issue drugs to a patient from dashboard
+    public InventoryDrug getDrugByName(String name) throws APIException {
+        return dao.getDrugByName(name);
+    }
+
+    public List<Concept> getDrugFrequency() throws APIException {
+        return dao.getDrugFrequency();
+    }
+
+    public InventoryDrugFormulation getDrugFormulationById(Integer id) throws APIException {
+        return dao.getDrugFormulationById(id);
+    }
+
+    @Override
+    public PatientRegimen createPatientRegimen(PatientRegimen patientRegimen) throws APIException {
+        return dao.createPatientRegimen(patientRegimen);
+    }
+
+    @Override
+    public PatientRegimen updatePatientRegimen(PatientRegimen patientRegimen) throws APIException {
+        return dao.updatePatientRegimen(patientRegimen);
+    }
+
+    @Override
+    public void voidPatientRegimen(PatientRegimen patientRegimen) throws APIException {
+        dao.voidPatientRegimen(patientRegimen);
+    }
+
+    @Override
+    public List<PatientRegimen> getPatientRegimen(String tag, Cycle cycle, boolean voided) {
+        return dao.getPatientRegimen(tag, cycle, voided);
+    }
+
+    @Override
+    public Regimen createRegimen(Regimen regimen) throws APIException {
+        return dao.createRegimen(regimen);
+    }
+
+    @Override
+    public Regimen updateRegimen(Regimen regimen) throws APIException {
+        return dao.updateRegimen(regimen);
+    }
+
+    @Override
+    public List<Regimen> getRegimens(Patient patient, RegimenType regimenType, boolean voided) {
+
+        return dao.getRegimens(patient, regimenType, voided);
+    }
+
+    @Override
+    public void voidRegimen(Regimen regimen) throws APIException {
+        dao.voidRegimen(regimen);
+
+    }
+
+    @Override
+    public void createCycle(Cycle cycle) throws APIException {
+        dao.createCycle(cycle);
+
+    }
+
+    @Override
+    public void updateCycle(Cycle cycle) throws APIException {
+        dao.updateCycle(cycle);
+
+    }
+
+    @Override
+    public List<Cycle> getCycles(boolean voided) {
+        return dao.getCycles(voided);
+    }
+
+    @Override
+    public void voidCycle(Cycle cycle) throws APIException {
+        dao.voidCycle(cycle);
+    }
+
+    @Override
+    public Cycle getCycleById(Integer cycleId) {
+        return dao.getCycleById(cycleId);
+    }
+
+
+    @Override
+    public List<InventoryStoreDrugPatient> getAllIssueByDateRange(String startDate, String endDate) throws APIException {
+        return dao.getAllIssueByDateRange(startDate, endDate);
+    }
+
+    @Override
+    public List<RegimenType> getRegimenTypes(boolean voided) {
+        return dao.getRegimenTypes(voided);
+    }
+
+    @Override
+    public void voidRegimenType(RegimenType regimenType) throws APIException {
+        dao.voidRegimenType(regimenType);
+    }
+
+    @Override
+    public RegimenType createRegimenType(RegimenType regimenType) {
+        return dao.createRegimenType(regimenType);
+    }
+
+    @Override
+    public RegimenType updateRegimenType(RegimenType regimenType) {
+        return dao.updateRegimenType(regimenType);
+    }
+
+
 }
