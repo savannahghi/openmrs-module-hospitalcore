@@ -154,6 +154,11 @@ public class InventoryCommonServiceImpl extends BaseOpenmrsService implements In
     }
 
     @Override
+    public RegimenType getRegimenTypeById(Integer id) {
+        return dao.getRegimenTypeById(id);
+    }
+
+    @Override
     public RegimenType updateRegimenType(RegimenType regimenType) {
         return dao.updateRegimenType(regimenType);
     }

@@ -223,6 +223,11 @@ public class HibernateInventoryCommonDAO implements InventoryCommonDAO {
     }
 
     @Override
+    public RegimenType getRegimenTypeById(Integer id) {
+        return (RegimenType) sessionFactory.getCurrentSession().get(RegimenType.class, id);
+    }
+
+    @Override
     public void voidRegimenType(RegimenType regimenType) throws APIException {
         regimenType.setVoided(true);
         regimenType.setDateVoided(new Date());

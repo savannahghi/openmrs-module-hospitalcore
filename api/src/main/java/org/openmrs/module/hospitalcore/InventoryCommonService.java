@@ -86,6 +86,7 @@ public interface InventoryCommonService extends OpenmrsService {
     void voidRegimenType(RegimenType regimenType) throws APIException;
 
     RegimenType createRegimenType(RegimenType regimenType);
+    RegimenType getRegimenTypeById(Integer id);
 
     RegimenType updateRegimenType(RegimenType regimenType);
 
