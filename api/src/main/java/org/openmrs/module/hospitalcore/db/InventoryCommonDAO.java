@@ -73,6 +73,8 @@ public interface InventoryCommonDAO {
     //    Regimen Type
     List<RegimenType> getRegimenTypes(boolean voided);
 
+    RegimenType getRegimenTypeById(Integer id);
+
     void voidRegimenType(RegimenType regimenType) throws APIException;
 
     RegimenType createRegimenType(RegimenType regimenType);
