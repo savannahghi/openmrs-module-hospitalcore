@@ -15,6 +15,8 @@ public class PatientRegimen extends BaseOpenmrsData implements Serializable {
     private String comment;
     private String tag;
     private Cycle cycleId;
+    private String status;
+    private String uuid;
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -84,5 +86,23 @@ public class PatientRegimen extends BaseOpenmrsData implements Serializable {
 
     public void setCycleId(Cycle cycleId) {
         this.cycleId = cycleId;
+    }
+
+    @Override
+    public String getUuid() {
+        return uuid;
+    }
+
+    @Override
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
