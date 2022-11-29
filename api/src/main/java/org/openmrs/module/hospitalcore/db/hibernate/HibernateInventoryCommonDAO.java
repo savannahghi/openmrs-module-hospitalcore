@@ -256,7 +256,7 @@ public class HibernateInventoryCommonDAO implements InventoryCommonDAO {
     public List<PatientRegimen> getPatientRegimen(String tag, Cycle cycle, boolean voided) {
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(PatientRegimen.class);
 
-        if (!StringUtils.isBlank("tag")) {
+        if (!StringUtils.isBlank(tag)) {
             criteria.add(Restrictions.eq("tag", tag));
 
         }
@@ -268,6 +268,14 @@ public class HibernateInventoryCommonDAO implements InventoryCommonDAO {
         }
 
         return criteria.list();
+    }
+
+    @Override
+    public PatientRegimen getPatientRegimenById(Integer id) {
+        Criteria criteria = sessionFactory.getCurrentSession()
+                .createCriteria(PatientRegimen.class)
+                .add(Restrictions.eq("id", id));
+        return (PatientRegimen) criteria.uniqueResult();
     }
 
 
