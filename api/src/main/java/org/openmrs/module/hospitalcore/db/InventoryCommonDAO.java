@@ -46,6 +46,8 @@ public interface InventoryCommonDAO {
 
     public List<PatientRegimen> getPatientRegimen(String tag, Cycle cycle, boolean voided);
 
+    PatientRegimen getPatientRegimenById(Integer id);
+
     PatientRegimen createPatientRegimen(PatientRegimen patientRegimen);
 
     PatientRegimen updatePatientRegimen(PatientRegimen patientRegimen);

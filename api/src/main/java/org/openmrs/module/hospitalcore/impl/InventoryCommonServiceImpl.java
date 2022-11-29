@@ -84,6 +84,11 @@ public class InventoryCommonServiceImpl extends BaseOpenmrsService implements In
     }
 
     @Override
+    public PatientRegimen getPatientRegimenById(Integer id) {
+        return dao.getPatientRegimenById(id);
+    }
+
+    @Override
     public Regimen createRegimen(Regimen regimen) throws APIException {
         return dao.createRegimen(regimen);
     }

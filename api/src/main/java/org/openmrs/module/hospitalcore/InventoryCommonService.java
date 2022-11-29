@@ -52,6 +52,8 @@ public interface InventoryCommonService extends OpenmrsService {
 
     List<PatientRegimen> getPatientRegimen(String tag, Cycle cycle, boolean voided);
 
+    PatientRegimen getPatientRegimenById(Integer id);
+
     //regimen
     public Regimen createRegimen(Regimen regimen) throws APIException;
 
