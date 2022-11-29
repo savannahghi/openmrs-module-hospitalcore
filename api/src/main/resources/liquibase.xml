@@ -1825,4 +1825,15 @@
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
         </sql>
     </changeSet>
+    <changeSet id="hospital-core:2022-11-29-07:30" author="vic">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Adding dispensed status to patient_regimen</comment>
+        <sql>
+            ALTER TABLE patient_regimen
+            ADD COLUMN `status` char(34) DEFAULT NULL;
+            ADD COLUMN `uuid` char(34) DEFAULT NULL;
+        </sql>
+    </changeSet>
 </databaseChangeLog>
