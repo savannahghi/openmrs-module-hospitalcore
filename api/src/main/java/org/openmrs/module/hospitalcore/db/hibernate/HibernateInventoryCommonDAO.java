@@ -213,6 +213,14 @@ public class HibernateInventoryCommonDAO implements InventoryCommonDAO {
     }
 
     @Override
+    public Cycle getCycleByUuid(String uuid) {
+        Criteria criteria = sessionFactory.getCurrentSession()
+                .createCriteria(Cycle.class)
+                .add(Restrictions.eq("uuid", uuid));
+        return (Cycle) criteria.uniqueResult();
+    }
+
+    @Override
     public List<RegimenType> getRegimenTypes(boolean voided) {
         Criteria criteria = sessionFactory.getCurrentSession()
                 .createCriteria(RegimenType.class, "regimenType");
@@ -273,6 +281,14 @@ public class HibernateInventoryCommonDAO implements InventoryCommonDAO {
         Criteria criteria = sessionFactory.getCurrentSession()
                 .createCriteria(PatientRegimen.class)
                 .add(Restrictions.eq("id", id));
+        return (PatientRegimen) criteria.uniqueResult();
+    }
+
+    @Override
+    public PatientRegimen getPatientRegimenByUuid(String uuid) {
+        Criteria criteria = sessionFactory.getCurrentSession()
+                .createCriteria(PatientRegimen.class)
+                .add(Restrictions.eq("uuid", uuid));
         return (PatientRegimen) criteria.uniqueResult();
     }
 

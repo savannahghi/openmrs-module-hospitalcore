@@ -1,6 +1,8 @@
 package org.openmrs.module.hospitalcore.model;
 
 import org.openmrs.BaseOpenmrsData;
+import org.openmrs.Concept;
+
 import java.io.Serializable;
 import java.util.Set;
 
@@ -14,6 +16,8 @@ public class Cycle extends BaseOpenmrsData implements Serializable {
     private Regimen regimenId;
     private Boolean active;
     private Set<PatientRegimen> patientRegimens;
+    private Concept dispenseStatus;
+    private String uuid;
 
 
 
@@ -81,6 +85,24 @@ public class Cycle extends BaseOpenmrsData implements Serializable {
 
     public void setPatientRegimens(Set<PatientRegimen> patientRegimens) {
         this.patientRegimens = patientRegimens;
+    }
+
+    public Concept getDispenseStatus() {
+        return dispenseStatus;
+    }
+
+    public void setDispenseStatus(Concept dispenseStatus) {
+        this.dispenseStatus = dispenseStatus;
+    }
+
+    @Override
+    public String getUuid() {
+        return uuid;
+    }
+
+    @Override
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 
     @Override

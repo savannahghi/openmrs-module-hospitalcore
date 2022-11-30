@@ -54,6 +54,8 @@ public interface InventoryCommonService extends OpenmrsService {
 
     PatientRegimen getPatientRegimenById(Integer id);
 
+    PatientRegimen getPatientRegimenByUuid(String  uuid);
+
     //regimen
     public Regimen createRegimen(Regimen regimen) throws APIException;
 
@@ -76,6 +78,8 @@ public interface InventoryCommonService extends OpenmrsService {
     Fetch a given cycle by its ID
      */
     Cycle getCycleById(Integer cycleId);
+
+    Cycle getCycleByUuid(String  uuid);
 
     //get all issueings(orders whose fee has been paid for at cashpoint) on a  given date
     public List<InventoryStoreDrugPatient> getAllIssueByDateRange(String startDate, String endDate) throws APIException;

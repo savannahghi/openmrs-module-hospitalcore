@@ -1832,7 +1832,19 @@
         <comment>Adding dispensed status to patient_regimen</comment>
         <sql>
             ALTER TABLE patient_regimen
-            ADD COLUMN `status` int(11) DEFAULT NULL;
+            ADD COLUMN `dispense_status` int(11) DEFAULT NULL,
+            ADD COLUMN `uuid` char(34) DEFAULT NULL;
+        </sql>
+    </changeSet>
+
+    <changeSet id="hospital-core:2022-11-29-11:32" author="stanslaus">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Adding dispensed status to cycle</comment>
+        <sql>
+            ALTER TABLE cycle
+            ADD COLUMN `dispense_status` int(11) DEFAULT NULL,
             ADD COLUMN `uuid` char(34) DEFAULT NULL;
         </sql>
     </changeSet>

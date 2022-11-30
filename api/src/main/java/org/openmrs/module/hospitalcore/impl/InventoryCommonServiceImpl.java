@@ -89,6 +89,11 @@ public class InventoryCommonServiceImpl extends BaseOpenmrsService implements In
     }
 
     @Override
+    public PatientRegimen getPatientRegimenByUuid(String uuid) {
+        return dao.getPatientRegimenByUuid(uuid);
+    }
+
+    @Override
     public Regimen createRegimen(Regimen regimen) throws APIException {
         return dao.createRegimen(regimen);
     }
@@ -135,6 +140,11 @@ public class InventoryCommonServiceImpl extends BaseOpenmrsService implements In
     @Override
     public Cycle getCycleById(Integer cycleId) {
         return dao.getCycleById(cycleId);
+    }
+
+    @Override
+    public Cycle getCycleByUuid(String uuid) {
+        return dao.getCycleByUuid(uuid);
     }
 
 
