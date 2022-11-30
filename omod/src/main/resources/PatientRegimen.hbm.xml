@@ -26,7 +26,7 @@
         <many-to-one name="voidedBy" column="voided_by" class="org.openmrs.User" />
         <property name="dateVoided" type="java.util.Date" column="date_voided"/>
         <property name="voidReason" column="voided_reason"/>
-        <many-to-one name="status" column="status" class="org.openmrs.Concept"/>
+        <many-to-one name="dispenseStatus" column="dispense_status" class="org.openmrs.Concept"/>
         <property name="uuid" column="uuid"/>
 
     </class>

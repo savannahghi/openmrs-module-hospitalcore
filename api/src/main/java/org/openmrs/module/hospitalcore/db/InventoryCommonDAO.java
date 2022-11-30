@@ -47,6 +47,7 @@ public interface InventoryCommonDAO {
     public List<PatientRegimen> getPatientRegimen(String tag, Cycle cycle, boolean voided);
 
     PatientRegimen getPatientRegimenById(Integer id);
+    PatientRegimen getPatientRegimenByUuid(String uuid);
 
     PatientRegimen createPatientRegimen(PatientRegimen patientRegimen);
 
@@ -71,6 +72,7 @@ public interface InventoryCommonDAO {
     Cycle updateCycle(Cycle cycle);
 
     Cycle getCycleById(Integer cycleId);
+    Cycle getCycleByUuid(String  uuid);
 
     //    Regimen Type
     List<RegimenType> getRegimenTypes(boolean voided);

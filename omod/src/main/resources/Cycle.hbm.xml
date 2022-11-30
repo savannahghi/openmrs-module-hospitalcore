@@ -30,6 +30,8 @@
             <key column="cycle_id"></key>
             <one-to-many class="org.openmrs.module.hospitalcore.model.PatientRegimen" />
         </set>
+        <many-to-one name="dispenseStatus" column="dispense_status" class="org.openmrs.Concept"/>
+        <property name="uuid" column="uuid"/>
 
     </class>
 </hibernate-mapping>
