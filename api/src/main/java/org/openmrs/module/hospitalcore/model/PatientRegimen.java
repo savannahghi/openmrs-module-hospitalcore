@@ -1,9 +1,9 @@
 package org.openmrs.module.hospitalcore.model;
 
 import org.openmrs.BaseOpenmrsData;
+import org.openmrs.Concept;
 
 import java.io.Serializable;
-import java.util.Set;
 
 public class PatientRegimen extends BaseOpenmrsData implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -15,7 +15,7 @@ public class PatientRegimen extends BaseOpenmrsData implements Serializable {
     private String comment;
     private String tag;
     private Cycle cycleId;
-    private String status;
+    private Concept status;
     private String uuid;
 
     public static long getSerialVersionUID() {
@@ -98,11 +98,11 @@ public class PatientRegimen extends BaseOpenmrsData implements Serializable {
         this.uuid = uuid;
     }
 
-    public String getStatus() {
+    public Concept getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Concept status) {
         this.status = status;
     }
 }

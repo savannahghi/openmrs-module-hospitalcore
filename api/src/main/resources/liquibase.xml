@@ -1832,7 +1832,7 @@
         <comment>Adding dispensed status to patient_regimen</comment>
         <sql>
             ALTER TABLE patient_regimen
-            ADD COLUMN `status` char(34) DEFAULT NULL;
+            ADD COLUMN `status` int(11) DEFAULT NULL;
             ADD COLUMN `uuid` char(34) DEFAULT NULL;
         </sql>
     </changeSet>
