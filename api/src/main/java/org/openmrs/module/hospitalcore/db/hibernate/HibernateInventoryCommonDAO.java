@@ -125,6 +125,14 @@ public class HibernateInventoryCommonDAO implements InventoryCommonDAO {
     }
 
     @Override
+    public Regimen getRegimenById(Integer regimenId) {
+        Criteria criteria = sessionFactory.getCurrentSession()
+                .createCriteria(Regimen.class)
+                .add(Restrictions.eq("id", regimenId));
+        return (Regimen) criteria.uniqueResult();
+    }
+
+    @Override
     public PatientRegimen createPatientRegimen(PatientRegimen patientRegimen) {
         if (patientRegimen == null) {
             return null;
