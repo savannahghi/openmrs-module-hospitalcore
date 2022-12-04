@@ -57,6 +57,8 @@ public interface InventoryCommonDAO {
 
     public List<Regimen> getRegimens(Patient patient, RegimenType regimenType, boolean voided);
 
+    Regimen getRegimenById(Integer regimenId);
+
     Regimen createRegimen(Regimen regimen);
 
     Regimen updateRegimen(Regimen regimen);
