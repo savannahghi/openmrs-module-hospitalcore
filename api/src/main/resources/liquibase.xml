@@ -1848,4 +1848,15 @@
             ADD COLUMN `uuid` char(34) DEFAULT NULL;
         </sql>
     </changeSet>
+
+    <changeSet id="hospital-core:2022-12-08-06:32" author="vic">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>modify route column</comment>
+        <sql>
+            ALTER TABLE patient_regimen
+            MODIFY COLUMN `route` int(11) DEFAULT NULL;
+        </sql>
+    </changeSet>
 </databaseChangeLog>

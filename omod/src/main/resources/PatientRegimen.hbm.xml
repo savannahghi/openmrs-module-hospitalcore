@@ -15,7 +15,7 @@
         <property name="medication" column="medication" />
         <property name="dose" column="dose"/>
         <property name="dosingUnit" column="dosing_unit"/>
-        <property name="route" column="route"/>
+        <many-to-one name="route" column="route" class="org.openmrs.Concept"/>
         <property name="tag" column="tag"/>
         <property name="comment" column="comment" />
         <many-to-one name="creator" column="creator" class="org.openmrs.User" not-null="true" />
