@@ -59,6 +59,10 @@ public class InventoryCommonServiceImpl extends BaseOpenmrsService implements In
         return dao.getDrugFrequency();
     }
 
+    public List<Concept> getDrugRoute() throws APIException{
+        return dao.getDrugRoute();
+    }
+
     public InventoryDrugFormulation getDrugFormulationById(Integer id) throws APIException {
         return dao.getDrugFormulationById(id);
     }
