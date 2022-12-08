@@ -42,6 +42,8 @@ public interface InventoryCommonService extends OpenmrsService {
 
     public List<Concept> getDrugFrequency() throws APIException;
 
+    public List<Concept> getDrugRoute() throws APIException;
+
     public InventoryDrugFormulation getDrugFormulationById(Integer id) throws APIException;
     //patientRegimen
     public PatientRegimen createPatientRegimen(PatientRegimen patientRegimen) throws APIException;
