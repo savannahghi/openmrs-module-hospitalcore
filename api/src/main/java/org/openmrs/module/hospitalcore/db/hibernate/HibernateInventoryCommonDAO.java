@@ -312,12 +312,10 @@ public class HibernateInventoryCommonDAO implements InventoryCommonDAO {
 
     @Override
     public List<Concept> getDrugRoute() throws DAOException {
-        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(
-                Concept.class, "con");
+//        TODO Move to a global configuration
         Concept concept = Context.getConceptService()
                 .getConceptByUuid("162394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-        criteria.add(Restrictions.eq("con.conceptClass", concept));
-        return criteria.list();
+        return concept.getSetMembers();
     }
 
     public InventoryDrugFormulation getDrugFormulationById(Integer id) throws DAOException {
