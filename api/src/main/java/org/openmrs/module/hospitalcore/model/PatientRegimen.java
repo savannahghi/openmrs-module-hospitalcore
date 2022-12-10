@@ -11,7 +11,7 @@ public class PatientRegimen extends BaseOpenmrsData implements Serializable {
     private String medication;
     private String dosingUnit;
     private String dose;
-    private String route;
+    private Concept route;
     private String comment;
     private String tag;
     private Cycle cycleId;
@@ -56,11 +56,11 @@ public class PatientRegimen extends BaseOpenmrsData implements Serializable {
         this.dose = dose;
     }
 
-    public String getRoute() {
+    public Concept getRoute() {
         return route;
     }
 
-    public void setRoute(String route) {
+    public void setRoute(Concept route) {
         this.route = route;
     }
 
