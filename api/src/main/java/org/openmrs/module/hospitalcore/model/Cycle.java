@@ -10,7 +10,7 @@ public class Cycle extends BaseOpenmrsData implements Serializable {
     private static final long serialVersionUID = 1L;
     private Integer id;
     private String summaryNotes;
-    private String outcome;
+    private Concept outcome;
     private String name;
     private String icon;
     private Regimen regimenId;
@@ -39,11 +39,11 @@ public class Cycle extends BaseOpenmrsData implements Serializable {
         this.summaryNotes = summaryNotes;
     }
 
-    public String getOutcome() {
+    public Concept getOutcome() {
         return outcome;
     }
 
-    public void setOutcome(String outcome) {
+    public void setOutcome(Concept outcome) {
         this.outcome = outcome;
     }
 

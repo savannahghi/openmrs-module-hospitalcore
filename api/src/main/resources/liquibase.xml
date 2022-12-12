@@ -1859,4 +1859,15 @@
             MODIFY COLUMN `route` int(11) DEFAULT NULL;
         </sql>
     </changeSet>
+
+    <changeSet id="hospital-core:2022-12-12-10:24" author="stanslaus">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>modify outcome column</comment>
+        <sql>
+            ALTER TABLE cycle
+            MODIFY COLUMN `outcome` int(11) DEFAULT NULL;
+        </sql>
+    </changeSet>
 </databaseChangeLog>
