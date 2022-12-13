@@ -1870,4 +1870,157 @@
             MODIFY COLUMN `outcome` int(11) DEFAULT NULL;
         </sql>
     </changeSet>
+
+    <changeSet id="hospital-core:2022-12-13-10:28" author="vic">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Add Regimens_types</comment>
+        <sql>
+            INSERT INTO regimen_type
+            (name, `cycles`, date_created, creator, changed_by, date_changed, voided, voided_by, date_voided, voided_reason)
+            VALUES('cisplatin/etoposide', 6, '2022-11-10 00:00:00', 2, 2, '2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL);
+
+            INSERT INTO regimen_type
+            (name, `cycles`, date_created, creator, changed_by, date_changed, voided, voided_by, date_voided, voided_reason)
+            VALUES('Carboplatin/etoposide', 6, '2022-11-10 00:00:00', 2, 2, '2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL);
+
+            INSERT INTO regimen_type
+            (name, `cycles`, date_created, creator, changed_by, date_changed, voided, voided_by, date_voided, voided_reason)
+            VALUES('Octreotide', 6, '2022-11-10 00:00:00', 2, 2, '2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL);
+
+            INSERT INTO regimen_type
+            (name, `cycles`, date_created, creator, changed_by, date_changed, voided, voided_by, date_voided, voided_reason)
+            VALUES('cisplatin/irinotecan', 6, '2022-11-10 00:00:00', 2, 2, '2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL);
+
+            INSERT INTO regimen_type
+            (name, `cycles`, date_created, creator, changed_by, date_changed, voided, voided_by, date_voided, voided_reason)
+            VALUES('cisplatin/etoposide', 6, '2022-11-10 00:00:00', 2, 2, '2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL);
+
+            INSERT INTO regimen_type
+            (name, `cycles`, date_created, creator, changed_by, date_changed, voided, voided_by, date_voided, voided_reason)
+            VALUES('cisplatin/Permetrexed', 6, '2022-11-10 00:00:00', 2, 2, '2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL);
+
+            INSERT INTO regimen_type
+            (name, `cycles`, date_created, creator, changed_by, date_changed, voided, voided_by, date_voided, voided_reason)
+            VALUES('cisplatin/gemcitabine', 6, '2022-11-10 00:00:00', 2, 2, '2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL);
+
+            INSERT INTO regimen_type
+            (name, `cycles`, date_created, creator, changed_by, date_changed, voided, voided_by, date_voided, voided_reason)
+            VALUES('cisplatin/docetaxel', 6, '2022-11-10 00:00:00', 2, 2, '2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL);
+
+            INSERT INTO regimen_type
+            (name, `cycles`, date_created, creator, changed_by, date_changed, voided, voided_by, date_voided, voided_reason)
+            VALUES('cisplatin/vinorelbine', 6, '2022-11-10 00:00:00', 2, 2, '2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL);
+
+            INSERT INTO regimen_type
+            (name, `cycles`, date_created, creator, changed_by, date_changed, voided, voided_by, date_voided, voided_reason)
+            VALUES('carboplatin/paclitaxel', 6, '2022-11-10 00:00:00', 2, 2, '2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL);
+
+            INSERT INTO regimen_type
+            (name, `cycles`, date_created, creator, changed_by, date_changed, voided, voided_by, date_voided, voided_reason)
+            VALUES('carboplatin/pemetrexed', 6, '2022-11-10 00:00:00', 2, 2, '2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL);
+
+            INSERT INTO regimen_type
+            (name, `cycles`, date_created, creator, changed_by, date_changed, voided, voided_by, date_voided, voided_reason)
+            VALUES('gefitinib', 6, '2022-11-10 00:00:00', 2, 2, '2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL);
+
+            INSERT INTO regimen_type
+            (name, `cycles`, date_created, creator, changed_by, date_changed, voided, voided_by, date_voided, voided_reason)
+            VALUES('ocimatinib', 6, '2022-11-10 00:00:00', 2, 2, '2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL);
+
+            INSERT INTO regimen_type
+            (name, `cycles`, date_created, creator, changed_by, date_changed, voided, voided_by, date_voided, voided_reason)
+            VALUES('bicalutamide/Goserelin', 6, '2022-11-10 00:00:00', 2, 2, '2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL);
+
+            INSERT INTO regimen_type
+            (name, `cycles`, date_created, creator, changed_by, date_changed, voided, voided_by, date_voided, voided_reason)
+            VALUES('Docetaxel/prednisolone', 6, '2022-11-10 00:00:00', 2, 2, '2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL);
+
+            INSERT INTO regimen_type
+            (name, `cycles`, date_created, creator, changed_by, date_changed, voided, voided_by, date_voided, voided_reason)
+            VALUES('Abiraterone/prednisolone', 6, '2022-11-10 00:00:00', 2, 2, '2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL);
+
+            INSERT INTO regimen_type
+            (name, `cycles`, date_created, creator, changed_by, date_changed, voided, voided_by, date_voided, voided_reason)
+            VALUES('Abiraterone/Prednisolone/Goserelin', 6, '2022-11-10 00:00:00', 2, 2, '2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL);
+
+            INSERT INTO regimen_type
+            (name, `cycles`, date_created, creator, changed_by, date_changed, voided, voided_by, date_voided, voided_reason)
+            VALUES('carbazitaxel/prednisolone', 6, '2022-11-10 00:00:00', 2, 2, '2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL);
+
+            INSERT INTO regimen_type
+            (name, `cycles`, date_created, creator, changed_by, date_changed, voided, voided_by, date_voided, voided_reason)
+            VALUES('ddmvac', 6, '2022-11-10 00:00:00', 2, 2, '2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL);
+
+            INSERT INTO regimen_type
+            (name, `cycles`, date_created, creator, changed_by, date_changed, voided, voided_by, date_voided, voided_reason)
+            VALUES('gemcitabine/cisplatin', 6, '2022-11-10 00:00:00', 2, 2, '2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL);
+
+            INSERT INTO regimen_type
+            (name, `cycles`, date_created, creator, changed_by, date_changed, voided, voided_by, date_voided, voided_reason)
+            VALUES('mvac', 6, '2022-11-10 00:00:00', 2, 2, '2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL);
+
+            INSERT INTO regimen_type
+            (name, `cycles`, date_created, creator, changed_by, date_changed, voided, voided_by, date_voided, voided_reason)
+            VALUES('Cisplatin/paclitaxel', 6, '2022-11-10 00:00:00', 2, 2, '2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL);
+
+            INSERT INTO regimen_type
+            (name, `cycles`, date_created, creator, changed_by, date_changed, voided, voided_by, date_voided, voided_reason)
+            VALUES('Carboplatin/Paclitaxel', 6, '2022-11-10 00:00:00', 2, 2, '2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL);
+
+            INSERT INTO regimen_type
+            (name, `cycles`, date_created, creator, changed_by, date_changed, voided, voided_by, date_voided, voided_reason)
+            VALUES('Carboplatin/Paclitaxel/Bevacizumab', 6, '2022-11-10 00:00:00', 2, 2, '2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL);
+
+            INSERT INTO regimen_type
+            (name, `cycles`, date_created, creator, changed_by, date_changed, voided, voided_by, date_voided, voided_reason)
+            VALUES('bevacizumab/paclitaxel/topotecan', 6, '2022-11-10 00:00:00', 2, 2, '2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL);
+
+            INSERT INTO regimen_type
+            (name, `cycles`, date_created, creator, changed_by, date_changed, voided, voided_by, date_voided, voided_reason)
+            VALUES('Topotecan/cisplatin', 6, '2022-11-10 00:00:00', 2, 2, '2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL);
+
+            INSERT INTO regimen_type
+            (name, `cycles`, date_created, creator, changed_by, date_changed, voided, voided_by, date_voided, voided_reason)
+            VALUES('Topotecan/paclitaxel', 6, '2022-11-10 00:00:00', 2, 2, '2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL);
+
+            INSERT INTO regimen_type
+            (name, `cycles`, date_created, creator, changed_by, date_changed, voided, voided_by, date_voided, voided_reason)
+            VALUES('emaco', 6, '2022-11-10 00:00:00', 2, 2, '2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL);
+
+            INSERT INTO regimen_type
+            (name, `cycles`, date_created, creator, changed_by, date_changed, voided, voided_by, date_voided, voided_reason)
+            VALUES('ema-ep', 6, '2022-11-10 00:00:00', 2, 2, '2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL);
+
+            INSERT INTO regimen_type
+            (name, `cycles`, date_created, creator, changed_by, date_changed, voided, voided_by, date_voided, voided_reason)
+            VALUES('tp-et', 6, '2022-11-10 00:00:00', 2, 2, '2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL);
+
+            INSERT INTO regimen_type
+            (name, `cycles`, date_created, creator, changed_by, date_changed, voided, voided_by, date_voided, voided_reason)
+            VALUES('bep', 6, '2022-11-10 00:00:00', 2, 2, '2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL);
+
+            INSERT INTO regimen_type
+            (name, `cycles`, date_created, creator, changed_by, date_changed, voided, voided_by, date_voided, voided_reason)
+            VALUES('tip', 6, '2022-11-10 00:00:00', 2, 2, '2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL);
+
+            INSERT INTO regimen_type
+            (name, `cycles`, date_created, creator, changed_by, date_changed, voided, voided_by, date_voided, voided_reason)
+            VALUES('xelox', 6, '2022-11-10 00:00:00', 2, 2, '2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL);
+
+            INSERT INTO regimen_type
+            (name, `cycles`, date_created, creator, changed_by, date_changed, voided, voided_by, date_voided, voided_reason)
+            VALUES('folfox', 6, '2022-11-10 00:00:00', 2, 2, '2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL);
+
+            INSERT INTO regimen_type
+            (name, `cycles`, date_created, creator, changed_by, date_changed, voided, voided_by, date_voided, voided_reason)
+            VALUES('tp', 6, '2022-11-10 00:00:00', 2, 2, '2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL);
+
+            INSERT INTO regimen_type
+            (name, `cycles`, date_created, creator, changed_by, date_changed, voided, voided_by, date_voided, voided_reason)
+            VALUES('liposomal/doxorubicin', 6, '2022-11-10 00:00:00', 2, 2, '2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL);
+
+        </sql>
+    </changeSet>
 </databaseChangeLog>
