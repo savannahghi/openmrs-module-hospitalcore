@@ -11,6 +11,8 @@ public class Regimen extends BaseOpenmrsData implements Serializable {
     private Patient patient;
     private RegimenType regimenType;
     private Set<Cycle> cycles;
+
+    private String displayString;
     public Integer getId() {
         return id;
     }
@@ -38,6 +40,14 @@ public class Regimen extends BaseOpenmrsData implements Serializable {
 
     public void setRegimenType(RegimenType regimenType) {
         this.regimenType = regimenType;
+    }
+
+    public String getDisplayString() {
+        return displayString;
+    }
+
+    public void setDisplayString(String displayString) {
+        this.displayString = displayString;
     }
 
     @Override
