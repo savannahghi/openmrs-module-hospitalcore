@@ -22,6 +22,7 @@
         <many-to-one name="voidedBy" column="voided_by" class="org.openmrs.User" />
         <property name="dateVoided" type="java.util.Date" column="date_voided"/>
         <property name="voidReason" column="voided_reason"/>
+        <property name="displayString" column="display_string"/>
         <set name="cycles" table="cycle" cascade="all" lazy="false">
             <key column="regimen_id"></key>
             <one-to-many class="org.openmrs.module.hospitalcore.model.Cycle" />

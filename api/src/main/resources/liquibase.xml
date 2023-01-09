@@ -2020,7 +2020,17 @@
             INSERT INTO regimen_type
             (name, `cycles`, date_created, creator, changed_by, date_changed, voided, voided_by, date_voided, voided_reason)
             VALUES('liposomal/doxorubicin', 6, '2022-11-10 00:00:00', 2, 2, '2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL);
+        </sql>
+    </changeSet>
 
+    <changeSet id="hospital-core:2022-12-20-14:16" author="stanslaus">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Adding custom display name to regimen</comment>
+        <sql>
+            ALTER TABLE regimen
+            ADD COLUMN `display_string` varchar(255) DEFAULT NULL;
         </sql>
     </changeSet>
 </databaseChangeLog>
