@@ -5,26 +5,24 @@
 
 <hibernate-mapping package="org.openmrs.module.hospitalcore.model">
 
-    <class name="RegimenType" table="regimen_type" batch-size="500">
-
+    <class name="DefaultRegimenMapping" table="default_regimen_mapping" batch-size="500">
         <id name="id" type="int" column="id"
             unsaved-value="0">
             <generator class="native" />
         </id>
-        <property name="name" column="name" />
-        <property name="cycles" column="cycles"/>
-        <many-to-one name="creator" class="org.openmrs.User" not-null="true" />
+        <many-to-one name="typeId" column="type_id" class="org.openmrs.module.hospitalcore.model.RegimenType" cascade="none" lazy="false"/>
+        <property name="medication" column="medication" />
+        <property name="dose" column="dose"/>
+        <property name="dosingUnit" column="dosing_unit"/>
+        <many-to-one name="route" column="route" class="org.openmrs.Concept"/>
+        <property name="tag" column="tag"/>
+        <many-to-one name="creator" column="creator" class="org.openmrs.User" not-null="true" />
         <property name="dateCreated" type="java.util.Date" column="date_created"/>
         <many-to-one name="changedBy" column="changed_by" class="org.openmrs.User" />
-        <property name="dateChanged" type="java.util.Date" column="date_changed"
-                  not-null="false" length="19" />
+        <property name="dateChanged" type="java.util.Date" column="date_changed" not-null="false" length="19" />
         <property name="voided" column="voided"/>
         <many-to-one name="voidedBy" column="voided_by" class="org.openmrs.User" />
         <property name="dateVoided" type="java.util.Date" column="date_voided"/>
         <property name="voidReason" column="voided_reason"/>
-        <set name="regimenMappings" table="default_regimen_mapping" cascade="all" lazy="false">
-            <key column="type_id"></key>
-            <one-to-many class="org.openmrs.module.hospitalcore.model.DefaultRegimenMapping" />
-        </set>
     </class>
 </hibernate-mapping>

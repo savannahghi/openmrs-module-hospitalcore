@@ -2033,4 +2033,35 @@
             ADD COLUMN `display_string` varchar(255) DEFAULT NULL;
         </sql>
     </changeSet>
+
+    <changeSet id="hospital-core:2023-01-17-08:18" author="stanslaus">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Add table default_regimen_mapping for pre-defined regimen drug mapping</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `default_regimen_mapping` (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `type_id` int(11) DEFAULT NULL,
+            `medication` varchar(255) DEFAULT NULL,
+            `dose` varchar(255) DEFAULT NULL,
+            `dosing_unit` varchar(255) DEFAULT NULL,
+            `route` varchar(255) DEFAULT NULL,
+            `tag` varchar(255) DEFAULT "Chemotherapy",
+            `creator` int(11) NOT NULL DEFAULT '0',
+            `date_created` datetime DEFAULT NULL,
+            `changed_by` int(11) DEFAULT NULL,
+            `date_changed` datetime DEFAULT NULL,
+            `voided` tinyint(1) NOT NULL DEFAULT '0',
+            `voided_by` int(11) DEFAULT NULL,
+            `date_voided` datetime DEFAULT NULL,
+            `voided_reason` varchar(255) DEFAULT NULL,
+            PRIMARY KEY (`id`),
+            CONSTRAINT `regimen_type` FOREIGN KEY (`type_id`) REFERENCES `regimen_type` (`id`),
+            CONSTRAINT `user_who_created_regimen_mapping` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`),
+            CONSTRAINT `user_who_changed_regimen_mapping` FOREIGN KEY (`changed_by`) REFERENCES `users` (`user_id`),
+            CONSTRAINT `user_who_voided_regimen_mapping` FOREIGN KEY (`voided_by`) REFERENCES `users` (`user_id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        </sql>
+    </changeSet>
 </databaseChangeLog>
