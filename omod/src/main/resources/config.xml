@@ -180,8 +180,7 @@
         Cycle.hbm.xml
         Regimen.hbm.xml
         RegimenType.hbm.xml
-
-
+		DefaultRegimenMapping.hbm.xml
     </mappingFiles>
 </module>
 
