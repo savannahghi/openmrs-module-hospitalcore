@@ -57,7 +57,6 @@ import org.openmrs.module.hospitalcore.model.Receipt;
 import org.openmrs.module.hospitalcore.model.Tender;
 import org.openmrs.module.hospitalcore.model.TenderBill;
 import org.openmrs.module.hospitalcore.model.WaiverType;
-import org.openmrs.module.hospitalcore.util.DateUtils;
 import org.openmrs.module.hospitalcore.util.PatientUtils;
 
 /**
