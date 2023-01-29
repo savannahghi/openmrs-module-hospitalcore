@@ -2064,4 +2064,87 @@
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
         </sql>
     </changeSet>
+
+    <changeSet id="hospital-core:2023-01-28-15:03" author="vic">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Add drugs to default_regimen</comment>
+        <sql>
+            INSERT INTO default_regimen_mapping
+            (type_id, `medication`,`dose`,`dosing_unit`,`route`,`tag`,creator,date_created, changed_by, date_changed, voided, voided_by, date_voided, voided_reason)
+            VALUES(10,'Cisplatin','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (10,'Etoposide','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (11,'Carboplatin','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (11,'Etoposide','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (13,'Cisplatin','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (13,'Irinotecan','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (15,'Cisplatin','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (15,'Pemetrexed','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (16,'Cisplatin','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (16,'Gemcitabine','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (17,'Cisplatin','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (17,'Docetaxel','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (18,'Cisplatin','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (18,'Vinorelbine','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (19,'Carboplatin','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (19,'Paclitaxel','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (23,'Bicalutamide','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (23,'Goserelin','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (24,'Docetaxel','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (24,'Prednisolone','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (28,'Methotrexate','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (28,'Vinblastine','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (28,'Doxorubicin','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (28,'Cisplatin','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (29,'Gemcitabine','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (29,'Cisplatin','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (30,'Methotrexate','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (30,'Vinblastine','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (30,'Doxorubicin','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (30,'Cisplatin','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (31,'Cisplatin','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (31,'Paclitaxel','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (32,'Carboplatin','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (32,'Paclitaxel','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (33,'Carboplatin','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (33,'Paclitaxel','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (33,'Bevacizumab','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (34,'Bevacizumab','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (34,'Paclitaxel','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (34,'Topotecan','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (35,'Topotecan','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (35,'Cisplatin','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (36,'Topotecan','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (36,'Paclitaxel','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (37,'Etoposide','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (37,'Dactinomycin','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (37,'Methotrexate','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (37,'Folinic acid/Leucovorin calcium','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (37,'Cyclophosphamide','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (37,'Vincristine','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (38,'Etoposide','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (38,'Dactinomycin','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (38,'Folinic acid/Leucovorin calcium','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (38,'Cisplatin','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (39,'Paclitaxel','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (39,'Cisplatin','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (39,'Etoposide','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (40,'Bleomycin','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (40,'Etoposide','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (40,'Cisplatin','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (41,'Paclitaxel','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (41,'Ifosfamide with mesna','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (41,'Mesna','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (41,'Cisplatin','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (42,'Capecitabine','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (42,'Oxaliplatin','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (43,'Folinic acid /Leucovorin calcium','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (43,'Oxaliplatin','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (44,'Paclitaxel','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (44,'Carboplatin','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL),
+            (45,'Liposomal doxorubicin','mg','Vial',160242,'Chemotherapy',2, '2022-11-10 00:00:00',2,'2022-11-10 00:00:00', 0, NULL, '2022-11-10 00:00:00', NULL);
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>
